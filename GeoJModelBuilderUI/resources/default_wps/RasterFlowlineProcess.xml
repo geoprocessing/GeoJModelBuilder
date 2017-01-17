@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>RasterFlowlineProcess</ows:Identifier>
+	<ows:Title>RasterFlowline</ows:Title>
+	<ows:Abstract>Construction of slope curves (flowlines) from a raster
+		digital elevation model (DEM)</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>InputData</ows:Identifier>
+			<ows:Title>Raster data</ows:Title>
+			<ows:Abstract>Raster data</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Skip</ows:Identifier>
+			<ows:Title>Number of cells between flowlines</ows:Title>
+			<ows:Abstract>Options: 1-360</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:int" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Bound</ows:Identifier>
+			<ows:Title>Maximum number of segments per flowline</ows:Title>
+			<ows:Abstract>Options: 0-1609</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:int" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>Buffer data</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

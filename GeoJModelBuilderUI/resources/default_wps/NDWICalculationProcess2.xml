@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>NDWICalculationProcess2</ows:Identifier>
+	<ows:Title>Mask</ows:Title>
+	<ows:Abstract>The mask is made of 0 and 1 in a binary image. When the
+		application of a mask function, a value of the area to be treated, a
+		value of 0 is masked area is not included in the calculation
+	</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>InputData</ows:Identifier>
+			<ows:Title>binary image</ows:Title>
+			<ows:Abstract>Binary image as mask template</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Threshold</ows:Identifier>
+			<ows:Title />
+			<ows:Abstract />
+			<LiteralData>
+				<ows:DataType ows:reference="xs:float" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>Result Image</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

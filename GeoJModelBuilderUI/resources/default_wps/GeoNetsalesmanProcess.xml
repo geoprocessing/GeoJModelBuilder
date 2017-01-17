@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>GeoNetsalesmanProcess</ows:Identifier>
+	<ows:Title>The Optimal Route</ows:Title>
+	<ows:Abstract>Create a cycle connecting given nodes (Traveling salesman
+		problem)</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>FirstInputData</ows:Identifier>
+			<ows:Title>Vector Points Data</ows:Title>
+			<ows:Abstract>Center nodes on vector network</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>SecondInputData</ows:Identifier>
+			<ows:Title>Vector Network Data</ows:Title>
+			<ows:Abstract>Vector Network Data</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Value</ows:Identifier>
+			<ows:Title>Upload Value</ows:Title>
+			<ows:Abstract>Options:
+				cat,dist,to_x,to_y,to_along,to_angle,to_attr.Default:</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>ColumnName</ows:Identifier>
+			<ows:Title>Column Name</ows:Title>
+			<ows:Abstract>Column name where values will be uploaded
+			</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Option</ows:Identifier>
+			<ows:Title>Option</ows:Title>
+			<ows:Abstract>Options: add,del,chlayer,sum,report,print.Default: add
+			</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>CleaningTool</ows:Identifier>
+			<ows:Title>Cleaning Tool</ows:Title>
+			<ows:Abstract>Options:
+				break,rmdupl,rmdangle,chdangle,rmbridge,chbridge,snap,rmdac,bpol,prune,rmarea,rmsa.
+			</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Threshold</ows:Identifier>
+			<ows:Title>Threshold</ows:Title>
+			<ows:Abstract>Default:0,0</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>NodeLayer</ows:Identifier>
+			<ows:Title>Node Layer</ows:Title>
+			<ows:Abstract>Default:2</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Range</ows:Identifier>
+			<ows:Title>Category Values Range</ows:Title>
+			<ows:Abstract>Category Values Range</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>The Optimal Route</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>application/shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>application/zip</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

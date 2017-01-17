@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>GFAtmosphericCorrectionProcess</ows:Identifier>
+	<ows:Title>AtmosphericCorrection</ows:Title>
+	<ows:Abstract>Atmospheric correction is the process of removing the
+		effects of the atmosphere on the reflectance values of images taken by
+		satellite or airborne sensors
+	</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>OrthInput</ows:Identifier>
+			<ows:Title>Orthorectification File</ows:Title>
+			<ows:Abstract>Image after orthorectification</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>RadiCaliInput</ows:Identifier>
+			<ows:Title>RadiometicCalibration File</ows:Title>
+			<ows:Abstract>Image after radiometric calibration</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Gain</ows:Identifier>
+			<ows:Title />
+			<ows:Abstract />
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Bias</ows:Identifier>
+			<ows:Title />
+			<ows:Abstract />
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>SolarZenithAngle</ows:Identifier>
+			<ows:Title>solar zenith angle</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Year</ows:Identifier>
+			<ows:Title>The year</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Month</ows:Identifier>
+			<ows:Title>The month</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Day</ows:Identifier>
+			<ows:Title>The day</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>Result Image</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

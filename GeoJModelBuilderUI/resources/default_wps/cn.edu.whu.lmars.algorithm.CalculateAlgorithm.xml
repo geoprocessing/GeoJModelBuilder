@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>cn.edu.whu.lmars.algorithm.CalculateAlgorithm
+	</ows:Identifier>
+	<ows:Title>cn.edu.whu.lmars.algorithm.CalculateAlgorithm</ows:Title>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>secondParam</ows:Identifier>
+			<ows:Title>secondParam</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>firstParam</ows:Identifier>
+			<ows:Title>firstParam</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>result</ows:Identifier>
+			<ows:Title>result</ows:Title>
+			<LiteralOutput>
+				<ows:DataType ows:reference="xs:double" />
+			</LiteralOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

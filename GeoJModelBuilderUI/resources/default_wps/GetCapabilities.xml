@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment service="WPS" updateSequence="1" version="1.0.0"
+	xml:lang="en-US" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:ServiceIdentification>
+		<ows:Title>WPS</ows:Title>
+		<ows:Abstract>WPS</ows:Abstract>
+		<ows:Keywords>
+			<ows:Keyword>WPS</ows:Keyword>
+			<ows:Keyword>LIESMARS</ows:Keyword>
+			<ows:Keyword>Processes</ows:Keyword>
+		</ows:Keywords>
+		<ows:ServiceType>WPS</ows:ServiceType>
+		<ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+		<ows:Fees>NONE</ows:Fees>
+		<ows:AccessConstraints>NONE</ows:AccessConstraints>
+	</ows:ServiceIdentification>
+	<ows:ServiceProvider>
+		<ows:ProviderName>LIESMARS, Wuhan University</ows:ProviderName>
+		<ows:ProviderSite xlink:href="http://www.lmars.whu.edu.cn" />
+		<ows:ServiceContact>
+			<ows:IndividualName>LIEMSARS</ows:IndividualName>
+			<ows:PositionName />
+			<ows:ContactInfo>
+				<ows:Phone>
+					<ows:Voice />
+					<ows:Facsimile />
+				</ows:Phone>
+				<ows:Address>
+					<ows:DeliveryPoint />
+					<ows:City />
+					<ows:AdministrativeArea />
+					<ows:PostalCode />
+					<ows:Country />
+					<ows:ElectronicMailAddress />
+				</ows:Address>
+			</ows:ContactInfo>
+		</ows:ServiceContact>
+	</ows:ServiceProvider>
+	<ows:OperationsMetadata>
+		<ows:Operation name="GetCapabilities">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://202.114.118.181:8080/wps10/WebProcessingService?" />
+					<ows:Post xlink:href="http://202.114.118.181:8080/wps10/WebProcessingService" />
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="DescribeProcess">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://202.114.118.181:8080/wps10/WebProcessingService?" />
+					<ows:Post xlink:href="http://202.114.118.181:8080/wps10/WebProcessingService" />
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="Execute">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://202.114.118.181:8080/wps10/WebProcessingService?" />
+					<ows:Post xlink:href="http://202.114.118.181:8080/wps10/WebProcessingService" />
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+	</ows:OperationsMetadata>
+	<wps:ProcessOfferings>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>cn.edu.whu.lmars.algorithm.CalculateAlgorithm
+			</ows:Identifier>
+			<ows:Title>cn.edu.whu.lmars.algorithm.CalculateAlgorithm</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>BuildPolylinesProcess</ows:Identifier>
+			<ows:Title>Polylines</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoTopointProcess</ows:Identifier>
+			<ows:Title>To point</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterCarveProcess</ows:Identifier>
+			<ows:Title>RasterCarve</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>InfoData-getInfoData</ows:Identifier>
+			<ows:Title>DataInfo</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterSumProcess</ows:Identifier>
+			<ows:Title>Sum</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTopidxProcess</ows:Identifier>
+			<ows:Title>RasterTopidx</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRLosProcess</ows:Identifier>
+			<ows:Title>LosProcess</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoOverlayProcess</ows:Identifier>
+			<ows:Title>Overlay</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRCostProcess</ows:Identifier>
+			<ows:Title>GeoCost</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoNetsteinerProcess</ows:Identifier>
+			<ows:Title>Steiner Tree</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRInpolyProcess</ows:Identifier>
+			<ows:Title>Geoinpoly</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterGrowProcess</ows:Identifier>
+			<ows:Title>RasterGrow</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-orientationIndex</ows:Identifier>
+			<ows:Title>orientationIndex</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>SiltInversionProcess</ows:Identifier>
+			<ows:Title>SiltInversionProcess</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterFilldirdProcess</ows:Identifier>
+			<ows:Title>RasterFilldird</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>SpatialAnalysisServices-bufferAnalysis
+			</ows:Identifier>
+			<ows:Title>Buffer</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterRecodeProcess</ows:Identifier>
+			<ows:Title>RasterRecode</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoIIfftProcess</ows:Identifier>
+			<ows:Title>IfftProcess</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterUnivarProcess</ows:Identifier>
+			<ows:Title>RasterUnivar</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRPlaneProcess</ows:Identifier>
+			<ows:Title>plane</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>WaterExtractProcess</ows:Identifier>
+			<ows:Title>WaterExtract</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterSurfcontourProcess</ows:Identifier>
+			<ows:Title>RasterSurfcontour</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoPerturbProcess</ows:Identifier>
+			<ows:Title>Perturb</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterDistanceProcess</ows:Identifier>
+			<ows:Title>RasterDistance</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoNormalProcess</ows:Identifier>
+			<ows:Title>Normal</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterBasinsfillProcess</ows:Identifier>
+			<ows:Title>RasterBasinsfill</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoDelaunayProcess</ows:Identifier>
+			<ows:Title>delaunay triangulation</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRandomProcess</ows:Identifier>
+			<ows:Title>Random</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterParamscaleProcess</ows:Identifier>
+			<ows:Title>RasterParamscale</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-isOnLine</ows:Identifier>
+			<ows:Title>isOnLine</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTransectProcess</ows:Identifier>
+			<ows:Title>RasterTransect</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterRescaleProcess</ows:Identifier>
+			<ows:Title>RasterRescale</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterBinaryProcess</ows:Identifier>
+			<ows:Title>BinaryProcess</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoSampleProcess</ows:Identifier>
+			<ows:Title>Sample</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoTorastProcess</ows:Identifier>
+			<ows:Title>GeoTorast</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterColorsProcess</ows:Identifier>
+			<ows:Title>RasterColors</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-distanceLineLine</ows:Identifier>
+			<ows:Title>distanceLineLine</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterStatsProcess</ows:Identifier>
+			<ows:Title>Stats</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterRescaleeqProcess</ows:Identifier>
+			<ows:Title>RasterRescaleeq</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoCleanProcess</ows:Identifier>
+			<ows:Title>Clean</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoTIFF2PlainProcess</ows:Identifier>
+			<ows:Title>Convert the GeoTIFF format to TEXT format.</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoKernelProcess</ows:Identifier>
+			<ows:Title>Kernel</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoNetallocProcess</ows:Identifier>
+			<ows:Title>Subnets</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-angleBetween</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoBufferProcess</ows:Identifier>
+			<ows:Title>Buffer</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterQuantProcess</ows:Identifier>
+			<ows:Title>RasterQuant</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GFAtmosphericCorrectionProcess</ows:Identifier>
+			<ows:Title>AtmosphericCorrection</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>QueryServices-querybyPoint</ows:Identifier>
+			<ows:Title>Query</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-distancePointLine
+			</ows:Identifier>
+			<ows:Title>distancePointLine</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterSurfidwProcess</ows:Identifier>
+			<ows:Title>RasterSurfidw</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>NDWICalculationProcess</ows:Identifier>
+			<ows:Title>Mask</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoPatchProcess</ows:Identifier>
+			<ows:Title>Patch</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoTypeProcess</ows:Identifier>
+			<ows:Title>type</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterCrossProcess</ows:Identifier>
+			<ows:Title>RasterCross</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RastermedianProcess</ows:Identifier>
+			<ows:Title>Rastermedian</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoDissolveProcess</ows:Identifier>
+			<ows:Title>Dissolve</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>QueryServices-querybyLine</ows:Identifier>
+			<ows:Title>Query</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterLakeProcess</ows:Identifier>
+			<ows:Title>RasterLake</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterBlendProcess</ows:Identifier>
+			<ows:Title>RasterBlend</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoNetsalesmanProcess</ows:Identifier>
+			<ows:Title>The Optimal Route</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-signedArea</ows:Identifier>
+			<ows:Title>signedArea</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoReclassProcess</ows:Identifier>
+			<ows:Title>Reclass</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GDALSlopeCalculateProcess</ows:Identifier>
+			<ows:Title />
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoHullProcess</ows:Identifier>
+			<ows:Title>convex hull</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterModeProcess</ows:Identifier>
+			<ows:Title>RasterMode</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoProjProcess</ows:Identifier>
+			<ows:Title>InputData</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTerraflowdirectionProcess</ows:Identifier>
+			<ows:Title>RasterTerraflowdirection</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GFRadiometicCalibrationProcess</ows:Identifier>
+			<ows:Title>RadiometicCalibration</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoExtractProcess</ows:Identifier>
+			<ows:Title>Extract</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-isObtuse</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>SpatialAnalysisServices-convexHull</ows:Identifier>
+			<ows:Title>convexHull</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>SpatialAnalysisServices-measureLength
+			</ows:Identifier>
+			<ows:Title>measureArea</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoNetpathProcess</ows:Identifier>
+			<ows:Title>The Shortest Path</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterDescribeProcess</ows:Identifier>
+			<ows:Title>RasterDescribe</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>DEM2AspectProcess</ows:Identifier>
+			<ows:Title>DEM2Aspect</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRDrainProcess</ows:Identifier>
+			<ows:Title>GeoDrain</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoTransformationProcess</ows:Identifier>
+			<ows:Title>GeoTransformation</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoParallelProcess</ows:Identifier>
+			<ows:Title>Parallel</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-measureAngle</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RMapcalcProcess</ows:Identifier>
+			<ows:Title>RasterMapcalc</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterResampProcess</ows:Identifier>
+			<ows:Title>RasterResamp</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRMapcalcProcess</ows:Identifier>
+			<ows:Title>RasterMapcalc</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoVoronoiProcess</ows:Identifier>
+			<ows:Title>Voronoi</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterClipProcess</ows:Identifier>
+			<ows:Title>Raster data to be clipped.</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>XlsToShp</ows:Identifier>
+			<ows:Title>ShapeFile</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterFillnullsProcess</ows:Identifier>
+			<ows:Title>RasterFillnulls</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>SiltInversionProcess2</ows:Identifier>
+			<ows:Title>SiltInversionProcess</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>QueryServices-querybyRectange</ows:Identifier>
+			<ows:Title>Query</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterReclassProcess</ows:Identifier>
+			<ows:Title>RasterReclass</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterContourProcess</ows:Identifier>
+			<ows:Title>RasterContour</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTerraflowswatershedProcess</ows:Identifier>
+			<ows:Title>RasterTerraflowswatershed</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoSelectProcess</ows:Identifier>
+			<ows:Title>Select</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterpatchProcess</ows:Identifier>
+			<ows:Title>Rasterpatch</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTransformationProcess</ows:Identifier>
+			<ows:Title>RasterTransformation</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-isCCW</ows:Identifier>
+			<ows:Title>isCCW</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterReportProcess</ows:Identifier>
+			<ows:Title>Report</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoSplitProcess</ows:Identifier>
+			<ows:Title>Split</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoCategoryProcess</ows:Identifier>
+			<ows:Title>Category</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>Feature2Raster-tranFeature2Raset</ows:Identifier>
+			<ows:Title>Transformat</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>QueryServices-querybyPolygon</ows:Identifier>
+			<ows:Title>Query</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterVolumeProcess</ows:Identifier>
+			<ows:Title>RasterVolume</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>SpatialAnalysisServices-measureArea</ows:Identifier>
+			<ows:Title>measureArea</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoVNeighborsProcess</ows:Identifier>
+			<ows:Title>Neighbors</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoKcvProcess</ows:Identifier>
+			<ows:Title>Kcv</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoIZcProcess</ows:Identifier>
+			<ows:Title>Image processing i.zc</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterMapcalcProcess</ows:Identifier>
+			<ows:Title>RasterMapcalc</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoGeneralizeProcess</ows:Identifier>
+			<ows:Title>Generalize</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoQcountProcess</ows:Identifier>
+			<ows:Title>Qcount</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoMkgridProcess</ows:Identifier>
+			<ows:Title>Mkgrid</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterFlowpathProcess</ows:Identifier>
+			<ows:Title>RasterFlowpath</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoDistanceProcess</ows:Identifier>
+			<ows:Title>Distance</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterSurfareaProcess</ows:Identifier>
+			<ows:Title>Surfarea</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-measureAngles</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterRandomProcess</ows:Identifier>
+			<ows:Title>RasterRandom</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>DEM2SlopeProcess</ows:Identifier>
+			<ows:Title>DEM2Slope</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterBufferProcess</ows:Identifier>
+			<ows:Title>RasterBuffer</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-normalize</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTerraflowtciProcess</ows:Identifier>
+			<ows:Title>RasterTerraflowtci</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-interiorAngle</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoUnivarProcess</ows:Identifier>
+			<ows:Title>Univar</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterResampStatsProcess</ows:Identifier>
+			<ows:Title>RasterResampStats</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterCoinProcess</ows:Identifier>
+			<ows:Title>RasterCoin</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterProjProcess</ows:Identifier>
+			<ows:Title />
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-isAcute</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-isPointInRing</ows:Identifier>
+			<ows:Title>isPointInRing</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>ImageOrthorectificationProcess</ows:Identifier>
+			<ows:Title>Orthorectification using gdal</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterClumpProcess</ows:Identifier>
+			<ows:Title>RasterClump</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoR2VProcess</ows:Identifier>
+			<ows:Title>R2V</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-length</ows:Identifier>
+			<ows:Title>length</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRSeriesProcess</ows:Identifier>
+			<ows:Title>GeoRSeries</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTerraflowaccumulationProcess</ows:Identifier>
+			<ows:Title>RasterTerraflowaccumulation</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRMfilterProcess</ows:Identifier>
+			<ows:Title>Geomfilter</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoNetisoProcess</ows:Identifier>
+			<ows:Title>Net Isolines</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterWatershedProcess</ows:Identifier>
+			<ows:Title>RasterWatershed</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterCompositeProcess</ows:Identifier>
+			<ows:Title>RasterComposite</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterTerraflowfilledProcess</ows:Identifier>
+			<ows:Title>RasterTerraflowfilled</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRNeighborsProcess</ows:Identifier>
+			<ows:Title>GeoNeighbors</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-distancePointLinePerpendicular
+			</ows:Identifier>
+			<ows:Title>distancePointLinePerpendicular</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoDbselectProcess</ows:Identifier>
+			<ows:Title>Dbselect</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoEditProcess</ows:Identifier>
+			<ows:Title>Edit</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>AngleService-normalizePositive</ows:Identifier>
+			<ows:Title>Angle</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>GeoRThinProcess</ows:Identifier>
+			<ows:Title>Geothin</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>NDWICalculationProcess2</ows:Identifier>
+			<ows:Title>Mask</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>QueryServices-querybySQL</ows:Identifier>
+			<ows:Title>Query</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterFlowdensityProcess</ows:Identifier>
+			<ows:Title>RasterFlowdensity</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterCovarProcess</ows:Identifier>
+			<ows:Title>RasterCovar</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterFilldirProcess</ows:Identifier>
+			<ows:Title>RasterFilldir</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>RasterFlowlineProcess</ows:Identifier>
+			<ows:Title>RasterFlowline</ows:Title>
+		</wps:Process>
+		<wps:Process wps:processVersion="1.1.0">
+			<ows:Identifier>CGAlgorithmsService-computeOrientation
+			</ows:Identifier>
+			<ows:Title>computeOrientation</ows:Title>
+		</wps:Process>
+	</wps:ProcessOfferings>
+	<wps:Languages>
+		<wps:Default>
+			<ows:Language>en-US</ows:Language>
+		</wps:Default>
+		<wps:Supported>
+			<ows:Language>en-US</ows:Language>
+		</wps:Supported>
+	</wps:Languages>
+</xml-fragment>

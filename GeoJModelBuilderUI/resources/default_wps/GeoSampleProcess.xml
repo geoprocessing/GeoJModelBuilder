@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>GeoSampleProcess</ows:Identifier>
+	<ows:Title>Sample</ows:Title>
+	<ows:Abstract>Samples a raster map at vector point locations
+	</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>FristInputData</ows:Identifier>
+			<ows:Title>Vector points data</ows:Title>
+			<ows:Abstract>Vector map defining sample points</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>SencondInputData</ows:Identifier>
+			<ows:Title>Raster map data</ows:Title>
+			<ows:Abstract>Raster map to be sampled</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Column</ows:Identifier>
+			<ows:Title>Attribute column</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Z</ows:Identifier>
+			<ows:Title>Option scaling factor for values read from raster map
+			</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:double" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Type</ows:Identifier>
+			<ows:Title>OutputData Type</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>Vector map to store differences</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>application/shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>application/zip</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

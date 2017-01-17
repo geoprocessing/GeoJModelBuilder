@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ows:ExceptionReport xmlns:ows="http://www.opengis.net/ows/1.1"
+	version="1.0.0">
+	<ows:Exception exceptionCode="InvalidParameterValue"
+		locator="identifier">
+		<ows:ExceptionText>Algorithm does not exist: ReflectTestProcess
+		</ows:ExceptionText>
+	</ows:Exception>
+	<ows:Exception exceptionCode="JAVA_StackTrace">
+		<ows:ExceptionText>org.n52.wps.server.ExceptionReport: Algorithm does
+			not exist: ReflectTestProcess at
+			org.n52.wps.server.request.DescribeProcessRequest.call(DescribeProcessRequest.java:173)
+			at
+			org.n52.wps.server.handler.RequestHandler.handle(RequestHandler.java:363)
+			at
+			org.n52.wps.server.WebProcessingService.doGet(WebProcessingService.java:241)
+			at javax.servlet.http.HttpServlet.service(HttpServlet.java:620) at
+			org.n52.wps.server.WebProcessingService.service(WebProcessingService.java:348)
+			at javax.servlet.http.HttpServlet.service(HttpServlet.java:727) at
+			org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+			at
+			org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+			at
+			org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+			at
+			org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+			at
+			org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+			at
+			org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+			at
+			org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+			at
+			org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+			at
+			org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:170)
+			at
+			org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:98)
+			at
+			org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+			at
+			org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+			at
+			org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+			at
+			org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1040)
+			at
+			org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:607)
+			at
+			org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:315)
+			at
+			java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+			at
+			java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+			at java.lang.Thread.run(Thread.java:745)</ows:ExceptionText>
+	</ows:Exception>
+	<ows:Exception exceptionCode="JAVA_RootCause" />
+</ows:ExceptionReport>

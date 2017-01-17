@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>SpatialAnalysisServices-measureDistance
+	</ows:Identifier>
+	<ows:Title>measureArea</ows:Title>
+	<ows:Abstract>measure the defualt geometry area</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>GMLData</ows:Identifier>
+			<ows:Title>Geometry data to be measure with</ows:Title>
+			<ows:Abstract>The Geometries to measure</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>measure Result</ows:Title>
+			<LiteralOutput>
+				<ows:DataType ows:reference="xs:double" />
+			</LiteralOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

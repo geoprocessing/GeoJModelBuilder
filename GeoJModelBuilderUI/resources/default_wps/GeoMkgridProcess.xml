@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>GeoMkgridProcess</ows:Identifier>
+	<ows:Title>Mkgrid</ows:Title>
+	<ows:Abstract>Creates a vector map of a user-defined grid
+	</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>Grid</ows:Identifier>
+			<ows:Title>Number of rows and columns in grid</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="0">
+			<ows:Identifier>Position</ows:Identifier>
+			<ows:Title>Where to place the grid</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="0">
+			<ows:Identifier>Coor</ows:Identifier>
+			<ows:Title>Lower left easting and northing coordinates of map
+			</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="0">
+			<ows:Identifier>Box</ows:Identifier>
+			<ows:Title>Width and height of boxes in grid</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>Buffered Polygon</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-zipped-shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>application/shp</MimeType>
+					</Format>
+					<Format>
+						<MimeType>application/zip</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/2.1.2.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.0.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.0</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.1.1</MimeType>
+					</Format>
+					<Format>
+						<MimeType>text/xml; subtype=gml/3.2.1</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

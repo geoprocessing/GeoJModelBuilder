@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>RasterRescaleProcess</ows:Identifier>
+	<ows:Title>RasterRescale</ows:Title>
+	<ows:Abstract>Rescales the range of category values in a raster map
+		layer</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>InputData</ows:Identifier>
+			<ows:Title>Raster data</ows:Title>
+			<ows:Abstract>Raster data</ows:Abstract>
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="0">
+			<ows:Identifier>From</ows:Identifier>
+			<ows:Title>The input data range to be rescaled (default: full range
+				of input map)</ows:Title>
+			<ows:Abstract>The input data range to be rescaled (default: full
+				range of input map)</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>To</ows:Identifier>
+			<ows:Title>The output data range</ows:Title>
+			<ows:Abstract>The output data range</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="0">
+			<ows:Identifier>Title</ows:Identifier>
+			<ows:Title>Title for new raster map</ows:Title>
+			<ows:Abstract>Title for new raster map</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>Reclass data</ows:Title>
+			<ComplexOutput>
+				<Default>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/geotiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-tiff</MimeType>
+					</Format>
+					<Format>
+						<MimeType>image/x-zipped-geotiff</MimeType>
+					</Format>
+				</Supported>
+			</ComplexOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>

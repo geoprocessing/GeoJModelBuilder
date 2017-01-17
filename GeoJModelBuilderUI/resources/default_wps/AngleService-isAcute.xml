@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true" wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ows:Identifier>AngleService-isAcute</ows:Identifier>
+  <ows:Title>Angle</ows:Title>
+  <ows:Abstract>Tests whether the angle between p0-p1-p2 is acute.</ows:Abstract>
+  <DataInputs>
+    <Input maxOccurs="1" minOccurs="1">
+      <ows:Identifier>Point</ows:Identifier>
+      <ows:Title>Feature type(s)</ows:Title>
+      <LiteralData>
+        <ows:DataType ows:reference="xs:string" />
+        <ows:AnyValue />
+      </LiteralData>
+    </Input>
+  </DataInputs>
+  <ProcessOutputs>
+    <Output>
+      <ows:Identifier>OutputData</ows:Identifier>
+      <ows:Title>result</ows:Title>
+      <LiteralOutput>
+        <ows:DataType ows:reference="xs:boolean" />
+      </LiteralOutput>
+    </Output>
+  </ProcessOutputs>
+</xml-fragment>

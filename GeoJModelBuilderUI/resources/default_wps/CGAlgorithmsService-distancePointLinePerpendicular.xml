@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment statusSupported="true" storeSupported="true"
+	wps:processVersion="1.1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ows:Identifier>CGAlgorithmsService-distancePointLinePerpendicular
+	</ows:Identifier>
+	<ows:Title>distancePointLinePerpendicular</ows:Title>
+	<ows:Abstract>Computes the distance from a point P to a line segment AB
+		Note: NON-ROBUST!</ows:Abstract>
+	<DataInputs>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>pointA</ows:Identifier>
+			<ows:Title>one point of the line</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>pointB</ows:Identifier>
+			<ows:Title>another point of the line (must be different to A)
+			</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+		<Input maxOccurs="1" minOccurs="1">
+			<ows:Identifier>pointP</ows:Identifier>
+			<ows:Title>the point to compute the distance for</ows:Title>
+			<LiteralData>
+				<ows:DataType ows:reference="xs:string" />
+				<ows:AnyValue />
+			</LiteralData>
+		</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+			<ows:Identifier>OutputData</ows:Identifier>
+			<ows:Title>orientationIndex</ows:Title>
+			<ows:Abstract>the distance from P to line AB</ows:Abstract>
+			<LiteralOutput>
+				<ows:DataType ows:reference="xs:double" />
+			</LiteralOutput>
+		</Output>
+	</ProcessOutputs>
+</xml-fragment>
