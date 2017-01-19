@@ -30,7 +30,7 @@ import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPService;
 import com.geojmodelbuilder.ui.dialogs.ServiceAddDialog;
 import com.geojmodelbuilder.ui.dialogs.WarningDialog;
-import com.geojmodelbuilder.ui.workspace.cache.WPSCacheThread;
+import com.geojmodelbuilder.ui.workspace.WPSCacheThread;
 
 /**
  * @author Mingda Zhang

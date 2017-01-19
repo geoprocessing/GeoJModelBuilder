@@ -12,14 +12,18 @@
 package com.geojmodelbuilder.ui.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.draw2d.ColorConstants;
 
 import com.geojmodelbuilder.core.ILink;
+import com.geojmodelbuilder.core.plan.IParameter;
 import com.geojmodelbuilder.core.plan.IProcessExec;
 import com.geojmodelbuilder.core.recipe.IInputPort;
 import com.geojmodelbuilder.core.recipe.IOutPutPort;
+import com.geojmodelbuilder.core.recipe.IPort;
 import com.geojmodelbuilder.core.recipe.IProcessRecipe;
 import com.geojmodelbuilder.ui.models.links.DataFlow;
 import com.geojmodelbuilder.ui.models.links.NodeLink;
@@ -36,6 +40,10 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 	private String description;
 	private List<ILink> coreLinks;
 	private List<IProcessExec> processExecs;
+	/**
+	 * Mapping the value of the port to the concrete parameter.
+	 */
+	private Map<IProcessExec, Map<WorkflowArtifact, IParameter>> processMap;
 	
 	public WorkflowProcess() {
 		super();
@@ -44,6 +52,7 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 		outputList = new ArrayList<ProcessOutputArtifact>();
 		coreLinks = new ArrayList<ILink>();
 		processExecs = new ArrayList<IProcessExec>();
+		processMap = new HashMap<IProcessExec, Map<WorkflowArtifact,IParameter>>();
 	}
 
 	public WorkflowProcess(Workflow parent) {
@@ -224,18 +233,26 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 			this.processExecs.add(processExec);
 	}
 	
+	public Map<WorkflowArtifact, IParameter> getProcessExecMap(IProcessExec process){
+		return this.processMap.get(process);
+	}
+	
+	public void addProcessMap(IProcessExec processExec,Map<WorkflowArtifact, IParameter> port2Parameter){
+		this.processMap.put(processExec, port2Parameter);
+	}
+	
 	@Override
 	public List<IProcessExec> getExecCandidates() {
 		return this.processExecs;
 	}
 
 	@Override
-	public List<? extends IInputPort> getInputs() {
+	public List<ProcessInputArtifact> getInputs() {
 		return this.inputList;
 	}
 
 	@Override
-	public List<? extends IOutPutPort> getOutputs() {
+	public List<ProcessOutputArtifact> getOutputs() {
 		return this.outputList;
 	}
 	

@@ -18,7 +18,6 @@ import net.opengis.wps.x100.ProcessDescriptionType;
 import org.apache.xmlbeans.XmlException;
 
 import com.geojmodelbuilder.ui.workspace.Workspace;
-import com.geojmodelbuilder.ui.workspace.cache.WPSCacheFactory;
 
 /**
  * @author Mingda Zhang

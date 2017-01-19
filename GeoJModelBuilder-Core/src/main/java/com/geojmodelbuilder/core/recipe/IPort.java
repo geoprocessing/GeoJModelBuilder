@@ -28,12 +28,6 @@ public interface IPort extends IExchange{
 	 * The data candidates hold by this port.
 	 */
 	List<IData> getDataCandidates();
-
-	/**
-	 * The routes starting or ending with the port. There may be several data
-	 * routes starting with output ports. But there is only one ending with input port.
-	 */
-//	List<IDataFlow> getRoutes();
 	
 	/**
 	 * The owner of the port.

@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.geojmodelbuilder.core.recipe.impl.SpatialMetadata;
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
 import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowArtifact;
@@ -78,6 +79,10 @@ public class ProcessInputDialog extends Dialog implements ModifyListener {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				SpatialMetadata metadata = artifact.getSptialDescription();
+				if(metadata == null)
+					artifact.setSpatialDescription(new SpatialMetadata());
+				
 				SpatialMetadataDialog dialog = new SpatialMetadataDialog(shell,
 						artifact.getSptialDescription());
 				dialog.open();
@@ -157,7 +162,7 @@ public class ProcessInputDialog extends Dialog implements ModifyListener {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(350, 200);
+		return new Point(400, 300);
 	}
 
 	@Override

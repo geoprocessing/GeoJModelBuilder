@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Tree;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.ui.views.tree.ProcessNode;
 import com.geojmodelbuilder.ui.views.tree.WPSNode;
-import com.geojmodelbuilder.ui.workspace.cache.WPSCacheFactory;
+import com.geojmodelbuilder.ui.workspace.WPSCacheFactory;
 /**
  * @author Mingda Zhang
  *

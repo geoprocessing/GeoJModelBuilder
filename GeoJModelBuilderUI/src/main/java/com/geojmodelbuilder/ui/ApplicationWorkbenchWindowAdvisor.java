@@ -31,12 +31,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     
     @Override
    	public void postWindowCreate() {
-   		// TODO Auto-generated method stub
    		try {
    			IWorkbenchPage page = PlatformUI.getWorkbench()
    					.getActiveWorkbenchWindow().getActivePage();
-//   			page.openEditor(new DemoEditorInput(), DemoEditor.ID,false);
    			page.openEditor(new ModelEditorInput("ModelEditorInput"), ModelEditor.ID,false);
+   			
+   			//maximize the window
+   			getWindowConfigurer().getWindow().getShell().setMaximized(true);  
    		} catch (Exception e) {
    			e.printStackTrace();
    		}

@@ -59,4 +59,8 @@ public class ComplexData implements IComplexData{
 	public String getEncoding() {
 		return this.encoding;
 	}
+
+	public void setType(String type) {
+		setMimeType(type);
+	}
 }

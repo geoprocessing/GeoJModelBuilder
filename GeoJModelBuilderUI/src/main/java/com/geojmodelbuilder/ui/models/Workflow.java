@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.geojmodelbuilder.core.IProcess;
 import com.geojmodelbuilder.core.IWorkflow;
+import com.geojmodelbuilder.core.plan.IProcessExec;
 import com.geojmodelbuilder.ui.models.links.DataFlow;
 /**
  * 
@@ -177,6 +178,17 @@ public class Workflow implements IWorkflowElement,IWorkflow {
 		this.listeners.firePropertyChange(CHILD_ADD, null, processOutputArtifact);
 	}
 
+	public WorkflowProcess getProcessByBinding(IProcess processExec){
+		for(WorkflowProcess process:this.getProcessRecipe()){
+			List<IProcessExec> candidates = process.getExecCandidates();
+			if(candidates == null)
+				continue;
+			
+			if(candidates.contains(processExec))
+				return process;
+		}
+		return null;
+	}
 	@Override
 	public List<IProcess> getProcesses() {
 		List<IProcess> processes = new ArrayList<IProcess>();

@@ -21,5 +21,5 @@ public interface IListener {
 	 * Event raised.
 	 * @param event
 	 */
-	public void onEvent(IEvent event);
+	public void onEvent(IProcessEvent event);
 }

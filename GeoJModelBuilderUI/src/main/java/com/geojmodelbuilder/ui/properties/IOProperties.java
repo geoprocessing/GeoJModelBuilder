@@ -31,6 +31,7 @@ public class IOProperties {
 	private IOProperties(){
 		properties = new Properties();
 		URL url = Activator.getDefault().getBundle().getEntry("properties/io.properties");  
+		
 		try {
 			properties.load(url.openStream());
 		} catch (IOException e) {

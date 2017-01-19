@@ -11,29 +11,11 @@
  */
 package com.geojmodelbuilder.engine;
 
-
 /**
  * @author Mingda Zhang
- *
+ * Records the process of execution.
  */
-public interface IPublisher {
-	
-	/**
-	 * Adds a listener to specific event
-	 * @param listener 
-	 * @param eventType 
-	 */
-	void subscribe(IListener listener,IProcessEvent.EventType eventType);
-	
-	/**
-	 * Remove the listener
-	 * @param listener
-	 * @param eventType
-	 */
-	void unSubscribe(IListener listener,IProcessEvent.EventType eventType);
-	
-	/**
-	 * Specific kind of event happened, notify all the listeners.
-	 */
-	void sendEvent(IProcessEvent event);
+public interface IRecorder {
+	void appendMsg(String msg);
+	String getRecord();
 }

@@ -1,5 +1,6 @@
 package com.geojmodelbuilder.ui;
 
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -11,10 +12,12 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
+import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
 import com.geojmodelbuilder.ui.actions.DemoAction;
+import com.geojmodelbuilder.ui.actions.WorkflowExecuteAction;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
@@ -23,6 +26,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private  IWorkbenchAction saveAction = null;
 	private  IWorkbenchAction newWindowAction = null;
 	private  IWorkbenchAction aboutAction = null;
+	private IContributionItem showViewItem = null;
+	private IWorkbenchAction newEditor = null;
+	private WorkflowExecuteAction runAction = null;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -30,12 +36,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	protected void makeActions(IWorkbenchWindow window) {
 		demoAction = new DemoAction(window);
+		runAction = new WorkflowExecuteAction(window);
+		register(runAction);
 		
 		saveAction = ActionFactory.SAVE.create(window);
 		register(saveAction);
 		
 		newWindowAction = ActionFactory.OPEN_NEW_WINDOW.create(window);
 		register(newWindowAction);
+		newWindowAction.setText("New Window");
 		
 		existAction = ActionFactory.QUIT.create(window);
 		register(existAction);
@@ -43,20 +52,36 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		aboutAction = ActionFactory.ABOUT.create(window);
 		register(aboutAction);
 		aboutAction.setText("About");
+		
+		showViewItem = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
+		newEditor = ActionFactory.NEW_EDITOR.create(window);
+		
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {
 		
 		MenuManager fileMenu = new MenuManager("&File",IWorkbenchActionConstants.M_FILE);
-		fileMenu.add(newWindowAction);
+//		fileMenu.add(newWindowAction);
 		fileMenu.add(saveAction);
 		fileMenu.add(new Separator());
 		fileMenu.add(existAction);
 		menuBar.add(fileMenu);
 		
+		MenuManager windowMenu = new MenuManager("&Window",IWorkbenchActionConstants.M_WINDOW);
+		windowMenu.add(newWindowAction);
+		
+		windowMenu.add(newEditor);
+		
+		MenuManager showViewMenuMgr = new MenuManager("Show View", "showView");
+		showViewMenuMgr.add(showViewItem);
+		windowMenu.add(showViewMenuMgr);
+		
+		menuBar.add(windowMenu);
+		
 		MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
 		helpMenu.add(aboutAction);
-		menuBar.add(aboutAction);
+		menuBar.add(helpMenu);
+		
 		
 		/*MenuManager demoMenu = new MenuManager("&Demo", "");
 		demoMenu.add(demoAction);
@@ -64,8 +89,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void fillCoolBar(ICoolBarManager coolBar) {
-		ToolBarManager toolbar = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
+		super.fillCoolBar(coolBar);
+		/*ToolBarManager toolbar = new ToolBarManager(SWT.FLAT | SWT.LEFT);
 		coolBar.add(new ToolBarContributionItem(toolbar, "main"));
+		toolbar.add(runAction);*/
 		//toolbar.add(demoAction);
 	}
 

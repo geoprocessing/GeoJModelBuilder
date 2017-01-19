@@ -17,11 +17,12 @@ package com.geojmodelbuilder.core.data;
  */
 public interface IData{
 	/**
-	 * As for literal data, this means basic data type, such as xs:double,xs:string
-	 * As for complex data, this means the mime type. 
+	 * As for literal data, this returns basic data type, such as xs:double,xs:string
+	 * As for complex data, this returns the mime type. 
 	 */
 	String getType();
 	Object getValue();
 	
+	void setType(String type);
 	void setValue(Object value);
 }

@@ -113,10 +113,10 @@ public class DataFlow extends NodeLink implements IDataFlow{
 
 	@Override
 	public IExchange getSourceExchange() {
-		if(this.sourceArtifact instanceof ProcessInputArtifact)
-			return (ProcessInputArtifact)this.sourceArtifact;
+		/*if(this.sourceArtifact instanceof ProcessInputArtifact)
+			return (ProcessInputArtifact)this.sourceArtifact;*/
 		
-		return null;
+		return this.sourceArtifact;
 	}
 
 	@Override

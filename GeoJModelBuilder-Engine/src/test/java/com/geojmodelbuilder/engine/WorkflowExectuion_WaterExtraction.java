@@ -13,14 +13,16 @@ package com.geojmodelbuilder.engine;
 
 import com.geojmodelbuilder.core.data.impl.LiteralData;
 import com.geojmodelbuilder.core.data.impl.ReferenceData;
-import com.geojmodelbuilder.core.impl.DataFlow;
-import com.geojmodelbuilder.core.impl.Workflow;
+import com.geojmodelbuilder.core.impl.DataFlowImpl;
+import com.geojmodelbuilder.core.impl.WorkflowImpl;
 import com.geojmodelbuilder.core.plan.IInputParameter;
 import com.geojmodelbuilder.core.plan.IOutputParameter;
 import com.geojmodelbuilder.core.plan.IProcessExec;
 import com.geojmodelbuilder.core.plan.impl.InputParameter;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
+import com.geojmodelbuilder.engine.impl.RecorderImpl;
 import com.geojmodelbuilder.engine.impl.WorkflowEngine;
+import com.geojmodelbuilder.engine.impl.WorkflowExecutor;
 /**
  * 
  * @author Mingda Zhang
@@ -134,7 +136,7 @@ public class WorkflowExectuion_WaterExtraction {
 		IProcessExec colorsProcess3 = colorsProcess();
 		
 		//workflow
-		Workflow workflowExec = new Workflow();
+		WorkflowImpl workflowExec = new WorkflowImpl();
 		workflowExec.addProcess(mapcalcProcess1);
 		workflowExec.addProcess(mapcalcProcess2);
 		workflowExec.addProcess(binaryProcess1);
@@ -145,37 +147,41 @@ public class WorkflowExectuion_WaterExtraction {
 		workflowExec.addProcess(colorsProcess3);
 		
 		//data flows between processes
-		DataFlow mapcalcBinaryFlow1 = new DataFlow(mapcalcProcess1, mapcalcProcess1.getOuput("OutputData"), binaryProcess1, binaryProcess1.getInput("InputData"));
+		DataFlowImpl mapcalcBinaryFlow1 = new DataFlowImpl(mapcalcProcess1, mapcalcProcess1.getOuput("OutputData"), binaryProcess1, binaryProcess1.getInput("InputData"));
 		mapcalcProcess1.addLink(mapcalcBinaryFlow1);
 		binaryProcess1.addLink(mapcalcBinaryFlow1);
 		
-		DataFlow mapcalcBinaryFlow2 = new DataFlow(mapcalcProcess2, mapcalcProcess2.getOuput("OutputData"), binaryProcess2, binaryProcess2.getInput("InputData"));
+		DataFlowImpl mapcalcBinaryFlow2 = new DataFlowImpl(mapcalcProcess2, mapcalcProcess2.getOuput("OutputData"), binaryProcess2, binaryProcess2.getInput("InputData"));
 		mapcalcProcess2.addLink(mapcalcBinaryFlow2);
 		binaryProcess2.addLink(mapcalcBinaryFlow2);
 		
-		DataFlow binaryColorLink1 = new DataFlow(binaryProcess1, binaryProcess1.getOuput("OutputData"), colorsProcess1, colorsProcess1.getInput("InputData"));
+		DataFlowImpl binaryColorLink1 = new DataFlowImpl(binaryProcess1, binaryProcess1.getOuput("OutputData"), colorsProcess1, colorsProcess1.getInput("InputData"));
 		binaryProcess1.addLink(binaryColorLink1);
 		colorsProcess1.addLink(binaryColorLink1);
 		
-		DataFlow binaryColorLink2 = new DataFlow(binaryProcess2, binaryProcess2.getOuput("OutputData"), colorsProcess2, colorsProcess2.getInput("InputData"));
+		DataFlowImpl binaryColorLink2 = new DataFlowImpl(binaryProcess2, binaryProcess2.getOuput("OutputData"), colorsProcess2, colorsProcess2.getInput("InputData"));
 		binaryProcess2.addLink(binaryColorLink2);
 		colorsProcess2.addLink(binaryColorLink2);
 		
-		DataFlow colorBlendFlow1 = new DataFlow(colorsProcess1, colorsProcess1.getOuput("OutputData"), blendPorcess, blendPorcess.getInput("FirstInputData"));
+		DataFlowImpl colorBlendFlow1 = new DataFlowImpl(colorsProcess1, colorsProcess1.getOuput("OutputData"), blendPorcess, blendPorcess.getInput("FirstInputData"));
 		colorsProcess1.addLink(colorBlendFlow1);
 		blendPorcess.addLink(colorBlendFlow1);
 		
-		DataFlow colorBlendFlow2 = new DataFlow(colorsProcess2, colorsProcess2.getOuput("OutputData"), blendPorcess, blendPorcess.getInput("SecondInputData"));
+		DataFlowImpl colorBlendFlow2 = new DataFlowImpl(colorsProcess2, colorsProcess2.getOuput("OutputData"), blendPorcess, blendPorcess.getInput("SecondInputData"));
 		colorsProcess2.addLink(colorBlendFlow2);
 		blendPorcess.addLink(colorBlendFlow2);
 		
-		DataFlow blendColorFlow = new DataFlow(blendPorcess, blendPorcess.getOuput("OutputData"), colorsProcess3, colorsProcess3.getInput("InputData"));
+		DataFlowImpl blendColorFlow = new DataFlowImpl(blendPorcess, blendPorcess.getOuput("OutputData"), colorsProcess3, colorsProcess3.getInput("InputData"));
 		blendPorcess.addLink(blendColorFlow);
 		colorsProcess3.addLink(blendColorFlow);
 		
 		//workflow execution
-		WorkflowEngine engine = new WorkflowEngine(workflowExec);
-		engine.execute();
+		/*WorkflowEngine engine = new WorkflowEngine(workflowExec,new RecorderImpl());
+		engine.execute();*/
+		
+		//Using the executor
+		WorkflowExecutor executor = new WorkflowExecutor(workflowExec);
+		executor.run();
 	}
 
 }

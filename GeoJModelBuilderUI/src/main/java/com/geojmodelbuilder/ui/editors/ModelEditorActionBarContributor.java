@@ -19,11 +19,14 @@ import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
+
+import com.geojmodelbuilder.ui.actions.WorkflowExecuteAction;
 
 /**
  * 
@@ -46,9 +49,11 @@ public class ModelEditorActionBarContributor extends ActionBarContributor {
 		
 		//getSelectionActions().add(action.getId());
 		IWorkbenchWindow iww = getPage().getWorkbenchWindow();
-		// ...
 		addRetargetAction((RetargetAction)ActionFactory.COPY.create(iww));
 		addRetargetAction((RetargetAction)ActionFactory.PASTE.create(iww));
+		
+		WorkflowExecuteAction runAction = new WorkflowExecuteAction(iww);
+		getActionRegistry().registerAction(runAction);
 	}
 
 	@Override
@@ -65,8 +70,9 @@ public class ModelEditorActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
 		
-		toolBarManager.add(getAction(ActionFactory.COPY.getId()));
-		toolBarManager.add(getAction(ActionFactory.PASTE.getId()));
+		toolBarManager.add(getAction(WorkflowExecuteAction.ID));
+		/*toolBarManager.add(getAction(ActionFactory.COPY.getId()));
+		toolBarManager.add(getAction(ActionFactory.PASTE.getId()));*/
 	}
 
 	@Override

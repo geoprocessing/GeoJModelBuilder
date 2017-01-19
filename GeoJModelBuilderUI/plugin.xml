@@ -34,12 +34,6 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.geojmodelbuilder.ui.editors.DemoEditor"
-            default="false"
-            id="com.geojmodelbuilder.ui.editor.DemoEditor"
-            name="DemoEditor">
-      </editor>
-      <editor
             class="com.geojmodelbuilder.ui.editors.ModelEditor"
             contributorClass="com.geojmodelbuilder.ui.editors.ModelEditorActionBarContributor"
             default="true"
@@ -50,20 +44,9 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="com.geojmodelbuilder.ui.views.DemoView"
-            fastViewWidthRatio="0.5f"
-            id="com.geojmodelbuilder.ui.view.DemoView"
-            name="DemoView">
-      </view>
-      <view
-            class="com.geojmodelbuilder.ui.views.ResourceTreeView"
-            id="com.geojmodelbuilder.ui.view.resourcetree"
-            name="ResourceTreeView">
-      </view>
-      <view
             class="com.geojmodelbuilder.ui.views.WPSResourceTreeView"
             id="com.geojmodelbuilder.ui.view.wpstree"
-            name="WPSTree">
+            name="Resources">
       </view>
    </extension>
    <extension
