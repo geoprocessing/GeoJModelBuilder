@@ -58,7 +58,7 @@ public class WPSResourceTreeView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+				| SWT.V_SCROLL| SWT.FULL_SELECTION);
 		treeViewer.setContentProvider(new ViewContentProvider());
 		treeViewer.getTree().setHeaderVisible(false);
 		
