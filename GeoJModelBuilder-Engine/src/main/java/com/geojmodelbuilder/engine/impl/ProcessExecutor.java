@@ -27,8 +27,8 @@ import com.geojmodelbuilder.core.impl.Links;
 import com.geojmodelbuilder.core.plan.IParameter;
 import com.geojmodelbuilder.core.trace.IProcessTrace;
 import com.geojmodelbuilder.core.trace.impl.ProcessTrace;
-import com.geojmodelbuilder.engine.IEvent;
-import com.geojmodelbuilder.engine.IEvent.EventType;
+import com.geojmodelbuilder.engine.IProcessEvent;
+import com.geojmodelbuilder.engine.IProcessEvent.EventType;
 import com.geojmodelbuilder.engine.IListener;
 import com.geojmodelbuilder.engine.IPublisher;
 
@@ -37,6 +37,7 @@ import com.geojmodelbuilder.engine.IPublisher;
  * and publisher.
  * Event type: succeeded, failed --> IProcessTrace
  * Event type: ready --> IProcess(IProcessExec)
+ * 
  * @author Mingda Zhang
  *
  */
@@ -53,7 +54,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 	private Links waitingSignals;
 
 	public ProcessExecutor(IProcess process) {
-		this.eventContainer = new HashMap<IEvent.EventType, Listeners>();
+		this.eventContainer = new HashMap<IProcessEvent.EventType, Listeners>();
 		this.process = process;
 		this.waitingSignals = new Links();
 		initialize();
@@ -92,7 +93,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 	}
 
 
-	public synchronized void sendEvent(IEvent event) {
+	public synchronized void sendEvent(IProcessEvent event) {
 		Listeners listeners = eventContainer.get(event.getType());
 		if (listeners == null)
 			return;
@@ -102,7 +103,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 		}
 	
 	}
-	public synchronized void onEvent(IEvent event) {
+	public synchronized void onEvent(IProcessEvent event) {
 		switch (event.getType()) {
 		case Succeeded:
 			handleEvent(event);
@@ -113,7 +114,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 
 		if (canExecute()) {
 //			execute();
-			sendEvent(new Event(EventType.Ready,this.process));
+			sendEvent(new ProcessEvent(EventType.Ready,this.process));
 		}
 	}
 
@@ -153,7 +154,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 	/**
 	 * Handles event according the link type.
 	 */
-	private void handleEvent(IEvent event) {
+	private void handleEvent(IProcessEvent event) {
 		IProcess process = event.getSource();
 		if(process instanceof IProcessTrace)
 			process = ((IProcessTrace)process).getProcess();
@@ -203,7 +204,10 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 	public void run() {
 		ProcessTrace processTrace = new ProcessTrace(this.process);
 		startTime = new Date();
-		boolean flag = process.execute();
+		boolean flag = process.canExecute();
+		if(flag)
+			flag = process.execute();
+		
 		endTime = new Date();
 		processTrace.setStartTime(startTime);
 		processTrace.setEndTime(endTime);
@@ -211,9 +215,9 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 		
 		
 		if (flag) {
-			sendEvent(new Event(EventType.Succeeded,processTrace));
+			sendEvent(new ProcessEvent(EventType.Succeeded,processTrace));
 		}else{
-			sendEvent(new Event(EventType.Failed,processTrace));
+			sendEvent(new ProcessEvent(EventType.Failed,processTrace));
 		}
 	}
 

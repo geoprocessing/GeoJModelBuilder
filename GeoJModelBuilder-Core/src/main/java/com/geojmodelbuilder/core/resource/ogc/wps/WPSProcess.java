@@ -167,6 +167,14 @@ public class WPSProcess extends ProcessExec {
 			return false;
 		}
 
+		List<IInputParameter> inputs = getInputs();
+		for(IInputParameter input:inputs){
+			if(input.getData() == null || input.getData().getValue() == null){
+				appendErr("There is no value for the parameter named "+input.getName()+" in "+getName());
+				return false;
+			}
+				
+		}
 		if (this.processDescription == null) {
 			getProcessDescriptionType();
 		}

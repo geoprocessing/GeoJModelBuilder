@@ -22,7 +22,7 @@ import com.geojmodelbuilder.core.ILink;
  * @author Mingda Zhang
  *
  */
-public class WorkflowCondition implements ICondition {
+public class WorkflowConditionImpl implements ICondition {
 
 	private ControlFlowFalse falseFlow;
 	private ControlFlowTrue trueFlow;
@@ -32,7 +32,7 @@ public class WorkflowCondition implements ICondition {
 	private String description;
 	private boolean satisfied;
 	private List<ILink> links;
-	public WorkflowCondition() {
+	public WorkflowConditionImpl() {
 		inputExchanges = new ArrayList<IExchange>();
 		links = new ArrayList<ILink>();
 	}

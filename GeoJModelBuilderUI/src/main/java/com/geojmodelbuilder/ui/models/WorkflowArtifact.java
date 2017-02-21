@@ -66,6 +66,11 @@ public class WorkflowArtifact extends WorkflowNode implements IWorkflowElement,I
 	public SpatialMetadata getSptialDescription(){
 		return this.spatialMetadata;
 	}
+	
+	public void setSpatialDescription(SpatialMetadata metadata){
+		this.spatialMetadata = metadata;
+	}
+	
 	@Override
 	public List<IData> getDataCandidates() {
 		return null;

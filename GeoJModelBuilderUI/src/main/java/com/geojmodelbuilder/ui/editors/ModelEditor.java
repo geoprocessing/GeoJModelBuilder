@@ -15,13 +15,11 @@ import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
-import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -40,7 +38,6 @@ import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.geojmodelbuilder.ui.actions.NodeCopyAction;
@@ -48,16 +45,12 @@ import com.geojmodelbuilder.ui.actions.NodePasteAction;
 import com.geojmodelbuilder.ui.actions.NodeRenameAction;
 import com.geojmodelbuilder.ui.dnd.NodeTemplateTransferDropTargetListener;
 import com.geojmodelbuilder.ui.editparts.WorkflowEditPartFactory;
-import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
-import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;
 import com.geojmodelbuilder.ui.models.StandaloneArtifact;
 import com.geojmodelbuilder.ui.models.Workflow;
 import com.geojmodelbuilder.ui.models.WorkflowCondition;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
 import com.geojmodelbuilder.ui.models.links.DataFlow;
 import com.geojmodelbuilder.ui.models.links.FalseThenFlow;
-import com.geojmodelbuilder.ui.models.links.NodeLink;
-import com.geojmodelbuilder.ui.models.links.ProcessOutputLink;
 import com.geojmodelbuilder.ui.models.links.TrueThenFlow;
 import com.geojmodelbuilder.ui.requests.AbstractElementCreationFactory;
 /**
@@ -71,18 +64,18 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 	/**
 	 * Every model editor will hold a workflow.
 	 */
-	private Workflow worklfow;
+	private Workflow workflow;
 	public ModelEditor() {
 		setEditDomain(new DefaultEditDomain(this));
 	}
 
 	/**
-	 * test example
+	 * Every editor will hold a workflow
 	 * @return
 	 */
-	private Workflow createWorkflowDemo() {
-		Workflow workflow = new Workflow();
-		workflow.setName("Workflow Demo");
+	private Workflow createWorkflow() {
+		workflow = new Workflow();
+		workflow.setName("Workflow");
 		
 		setWorkflow(workflow);
 
@@ -91,7 +84,8 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 		return workflow;
 	}
 
-	private void modelTest(Workflow workflow){
+	/*
+	 	private void modelTest(Workflow workflow){
 		WorkflowProcess process = new WorkflowProcess(workflow);
 		process.setName("Process \nDemo");
 		process.setLayout(new Rectangle(50, 25, 80, 60));
@@ -138,13 +132,13 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 		inputArtifact.setName("input");
 		process2.addInputArtifact(inputArtifact);
 	}
+	*/
 	
 	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 
-		// set the factory to produce the appropriate edit part according to the
-		// models.
+		// set the factory to produce the appropriate edit part according to the models
 		GraphicalViewer view = getGraphicalViewer();
 		view.setEditPartFactory(new WorkflowEditPartFactory());
 
@@ -184,7 +178,9 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 		
 		keyHandler.put(KeyStroke.getReleased((char) 0x1a, 0x7a, SWT.CTRL),
 				getActionRegistry().getAction(ActionFactory.UNDO.getId()));
-
+	
+		view.setKeyHandler(keyHandler);
+		
 		/*
 		 * zoom using mouse wheel zoom handler
 		 * view.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.NONE),
@@ -210,16 +206,17 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 	@Override
 	protected void initializeGraphicalViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setContents(createWorkflowDemo());
+		viewer.setContents(createWorkflow());
 		viewer.addDropTargetListener(new NodeTemplateTransferDropTargetListener(
 				viewer));
-//		viewer.addDropTargetListener(listener);
-//		viewer.addDropTargetListener(new ProcessDropListener(viewer,TextTransfer.getInstance()));
+		
+		setPartName(this.workflow.getName());
+		//viewer.addDropTargetListener(listener);
+		//viewer.addDropTargetListener(new ProcessDropListener(viewer,TextTransfer.getInstance()));
 	}
 
 	@Override
 	protected void initializePaletteViewer() {
-		// TODO Auto-generated method stub
 		super.initializePaletteViewer();
 		PaletteViewer viewer = getPaletteViewer();
 		viewer.addDragSourceListener(new TemplateTransferDragSourceListener(
@@ -231,13 +228,10 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void createActions() {
-		// TODO Auto-generated method stub
 		super.createActions();
 
 		ActionRegistry registry = getActionRegistry();
@@ -303,10 +297,10 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 	}
 	
 	public void setWorkflow(Workflow workflow){
-		this.worklfow = workflow;
+		this.workflow = workflow;
 	}
 	
 	public Workflow getWorkflow(){
-		return this.worklfow;
+		return this.workflow;
 	}
 }

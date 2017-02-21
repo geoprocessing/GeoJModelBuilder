@@ -11,28 +11,26 @@
  */
 package com.geojmodelbuilder.engine.impl;
 
-import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.engine.IEvent;
+import com.geojmodelbuilder.engine.IRecorder;
 
 /**
  * @author Mingda Zhang
  *
  */
-public class Event implements IEvent {
-	private EventType eventType;
-	private IProcess process;
+public class RecorderImpl implements IRecorder{
+
+	private StringBuffer strBuf;
 	
-	public Event(EventType eventType, IProcess processExec){
-		this.eventType = eventType;
-		this.process = processExec;
+	public RecorderImpl(){
+		strBuf = new StringBuffer();
 	}
 	
-	public IProcess getSource() {
-		return this.process;
+	public void appendMsg(String msg) {
+		this.strBuf.append(msg);
 	}
 
-	public EventType getType() {
-		return this.eventType;
+	public String getRecord() {
+		return this.strBuf.toString();
 	}
 
 }

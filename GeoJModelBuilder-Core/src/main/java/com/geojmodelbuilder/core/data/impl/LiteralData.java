@@ -24,7 +24,7 @@ public class LiteralData implements ILiteralData{
 	 * The value is stored in String type.
 	 */
 	private String value;
-	public void setDataType(String dataType){
+	public void setType(String dataType){
 		this.dataType = dataType;
 	}
 	public String getType() {

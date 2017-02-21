@@ -9,7 +9,7 @@
  * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package com.geojmodelbuilder.ui.workspace.cache;
+package com.geojmodelbuilder.ui.workspace;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +17,6 @@ import java.io.IOException;
 import net.opengis.wps.x100.ProcessDescriptionType;
 
 import org.apache.xmlbeans.XmlException;
-
-import com.geojmodelbuilder.ui.workspace.Workspace;
 
 /**
  * @author Mingda Zhang

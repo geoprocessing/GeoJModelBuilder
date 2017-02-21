@@ -11,26 +11,23 @@
  */
 package com.geojmodelbuilder.ui.views.tree;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.opengis.wps.x100.ProcessDescriptionType;
-
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
-import org.n52.wps.client.WPSClientException;
-import org.n52.wps.client.WPSClientSession;
 
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPService;
 import com.geojmodelbuilder.ui.dialogs.ServiceAddDialog;
-import com.geojmodelbuilder.ui.dialogs.WarningDialog;
-import com.geojmodelbuilder.ui.workspace.cache.WPSCacheThread;
+import com.geojmodelbuilder.ui.dialogs.TreeNodeSearchDialog;
+import com.geojmodelbuilder.ui.workspace.WPSCacheThread;
 
 /**
  * @author Mingda Zhang
@@ -39,9 +36,11 @@ import com.geojmodelbuilder.ui.workspace.cache.WPSCacheThread;
 public class TreeActions {
 	private TreeViewer treeViewer;
 	private Tree tree;
+	private Shell shell;
 	public TreeActions(TreeViewer treeViewer){
 		this.treeViewer = treeViewer;
 		this.tree = treeViewer.getTree();
+		this.shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
 	
 	public Action getAddAction(){
@@ -52,7 +51,7 @@ public class TreeActions {
 				TreeItem treeItem = tree.getSelection()[0];
 				Object selectedObj = treeItem.getData();
 				if(selectedObj instanceof GeoprocessingNode){
-					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+//					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 					ServiceAddDialog dialog = new ServiceAddDialog(shell);
 						
 					if(dialog.open() == Window.OK){
@@ -111,9 +110,50 @@ public class TreeActions {
 			@Override
 			public void run() {
 				System.out.println("Search Action");
+				if(tree.getSelectionCount() == 0)
+					return;
+				
+				TreeNodeSearchDialog dialog = new TreeNodeSearchDialog(shell);
+				if(dialog.open()!=Window.OK)
+					return;
+				
+				String pattern = dialog.getPattern();
+				TreeItem selectedItem= tree.getSelection()[0];
+				Object selectObj = selectedItem.getData();
+				List<TreeItem> targetItems = null;
+				if(selectObj instanceof GeoprocessingNode){
+					targetItems = findInGeoprocessingNode(selectedItem, pattern); 
+				}else if (selectObj instanceof WPSNode) {
+					targetItems = findInWPSNode(selectedItem, pattern);
+				}
+				if(targetItems != null && targetItems.size()>0)
+					tree.setSelection(targetItems.toArray(new TreeItem[targetItems.size()]));
+				
 			}
 		};
 		
 		return searchAction;
+	}
+	
+	private List<TreeItem> findInGeoprocessingNode(TreeItem geoprocessingNodeItem,String pattern){
+		List<TreeItem> items = new ArrayList<TreeItem>();
+		
+		for(TreeItem wpsNodeItem:geoprocessingNodeItem.getItems()){
+			items.addAll(findInWPSNode(wpsNodeItem,pattern));
+		}
+		
+		return items;
+	}
+	
+	private List<TreeItem> findInWPSNode(TreeItem wpsNodeItem, String pattern){
+		List<TreeItem> items = new ArrayList<TreeItem>();
+		
+		for(TreeItem processItem:wpsNodeItem.getItems()){
+			int n = processItem.getText().toLowerCase().indexOf(pattern.toLowerCase());
+			if(n!=-1)
+				items.add(processItem);
+		}
+		
+		return items;
 	}
 }

@@ -19,14 +19,14 @@ import com.geojmodelbuilder.core.IProcess;
  * @author Mingda Zhang
  *
  */
-public class DataFlow implements IDataFlow {
+public class DataFlowImpl implements IDataFlow {
 
 	private IProcess sourceProcess;
 	private IProcess targetProcess;
 	private IExchange sourceExchange;
 	private IExchange targetExchange;
 
-	public DataFlow(IProcess sourceProcess, IExchange sourceExchange,
+	public DataFlowImpl(IProcess sourceProcess, IExchange sourceExchange,
 			IProcess targetProcess, IExchange targetExchange) {
 		this.sourceProcess = sourceProcess;
 		this.sourceExchange = sourceExchange;

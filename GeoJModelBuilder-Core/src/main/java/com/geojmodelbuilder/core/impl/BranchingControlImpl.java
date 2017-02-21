@@ -11,32 +11,36 @@
  */
 package com.geojmodelbuilder.core.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.geojmodelbuilder.core.IBranchControl;
 import com.geojmodelbuilder.core.ICondition;
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.IWorkflow;
 /**
- * 
  * @author Mingda Zhang
  *
  */
-public class Workflow implements IWorkflow {
-	private List<IProcess> processes;
-	public Workflow(){
-		this.processes = new ArrayList<IProcess>();
+public abstract class BranchingControlImpl implements IBranchControl {
+
+	private ICondition condition;
+	private IProcess process;
+	
+	public void setCondition(ICondition condition){
+		this.condition = condition;
 	}
-	public List<IProcess> getProcesses() {
-		return this.processes;
+	public ICondition getCondition() {
+		return this.condition;
 	}
 
-	public void addProcess(IProcess process){
-		if(!this.processes.contains(process))
-			this.processes.add(process);
+	public void setTarget(IProcess process){
+		this.process = process;
+	}
+
+	public ICondition getSourceProcess() {
+		return this.condition;
 	}
 	
-	public void addCondition(ICondition condition){
-		addProcess(condition);
+	public IProcess getTargetProcess() {
+		return this.process;
 	}
+	
+
 }

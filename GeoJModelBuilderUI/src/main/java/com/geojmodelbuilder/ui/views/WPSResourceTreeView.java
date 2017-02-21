@@ -11,8 +11,6 @@
  */
 package com.geojmodelbuilder.ui.views;
 
-import java.net.URL;
-
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -38,7 +36,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
 
-import com.geojmodelbuilder.ui.Activator;
+import com.geojmodelbuilder.ui.utils.ImageDescriptorProvider;
 import com.geojmodelbuilder.ui.views.tree.GeoprocessingNode;
 import com.geojmodelbuilder.ui.views.tree.ITreeNode;
 import com.geojmodelbuilder.ui.views.tree.ProcessNode;
@@ -60,7 +58,7 @@ public class WPSResourceTreeView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+				| SWT.V_SCROLL| SWT.FULL_SELECTION);
 		treeViewer.setContentProvider(new ViewContentProvider());
 		treeViewer.getTree().setHeaderVisible(false);
 		
@@ -174,10 +172,6 @@ public class WPSResourceTreeView extends ViewPart {
 		
 		private ResourceManager resourceManager;
 		
-		private ImageDescriptor getDescriptor(String path){
-			URL url = Activator.getDefault().getBundle().getEntry(path);       
-			return ImageDescriptor.createFromURL(url);
-		}
 		public ViewLabelProvider() {
 		}
 
@@ -203,10 +197,10 @@ public class WPSResourceTreeView extends ViewPart {
 		public Image getImage(Object element) {
 			ImageDescriptor descriptor;
 			if(element instanceof ProcessNode){
-				descriptor = getDescriptor("icons/process.png");
+				descriptor = ImageDescriptorProvider.getInstance().getImageDescriptor(ImageDescriptorProvider.IMG_RESOURCE_TREE_CHILD);
 				return getResourceManager().createImage(descriptor);
 			}else {
-				descriptor = getDescriptor("icons/folder.png");
+				descriptor = ImageDescriptorProvider.getInstance().getImageDescriptor(ImageDescriptorProvider.IMG_RESOURCE_TREE_PARENT);
 				return getResourceManager().createImage(descriptor);
 			}
 		}

@@ -9,31 +9,30 @@
  * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package com.geojmodelbuilder.engine;
+package com.geojmodelbuilder.engine.impl;
 
+import com.geojmodelbuilder.core.IProcess;
+import com.geojmodelbuilder.engine.IProcessEvent;
 
 /**
  * @author Mingda Zhang
  *
  */
-public interface IPublisher {
+public class ProcessEvent implements IProcessEvent {
+	private EventType eventType;
+	private IProcess process;
 	
-	/**
-	 * Adds a listener to specific event
-	 * @param listener 
-	 * @param eventType 
-	 */
-	void subscribe(IListener listener,IProcessEvent.EventType eventType);
+	public ProcessEvent(EventType eventType, IProcess processExec){
+		this.eventType = eventType;
+		this.process = processExec;
+	}
 	
-	/**
-	 * Remove the listener
-	 * @param listener
-	 * @param eventType
-	 */
-	void unSubscribe(IListener listener,IProcessEvent.EventType eventType);
-	
-	/**
-	 * Specific kind of event happened, notify all the listeners.
-	 */
-	void sendEvent(IProcessEvent event);
+	public IProcess getSource() {
+		return this.process;
+	}
+
+	public EventType getType() {
+		return this.eventType;
+	}
+
 }

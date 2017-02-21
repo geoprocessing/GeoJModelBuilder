@@ -15,7 +15,7 @@ package com.geojmodelbuilder.core.impl;
  * @author Mingda Zhang
  *
  */
-public class ControlFlowFalse extends BranchingControl {
+public class ControlFlowFalse extends BranchingControlImpl {
 
 	/*@Override
 	public boolean trueOrFalse() {

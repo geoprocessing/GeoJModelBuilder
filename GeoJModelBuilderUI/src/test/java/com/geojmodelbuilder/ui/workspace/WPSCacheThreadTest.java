@@ -12,7 +12,6 @@
 package com.geojmodelbuilder.ui.workspace;
 
 import com.geojmodelbuilder.ui.workspace.Workspace;
-import com.geojmodelbuilder.ui.workspace.cache.WPSCacheThread;
 
 /**
  * @author Mingda Zhang

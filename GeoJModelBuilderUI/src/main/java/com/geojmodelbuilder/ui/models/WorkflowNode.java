@@ -171,7 +171,8 @@ public class WorkflowNode implements IAdaptable,IWorkflowElement,Cloneable {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		WorkflowNode node = (WorkflowNode)super.clone();
-		node.setLayout(new Rectangle(this.layout.x+10,this.layout.y+10,this.layout.width,this.layout.height));
+		if(this.layout!=null)
+			node.setLayout(new Rectangle(this.layout.x+10,this.layout.y+10,this.layout.width,this.layout.height));
 		node.setInLinks(new ArrayList<NodeLink>());;
 		node.setOutLinks(new ArrayList<NodeLink>());;
 		return node;

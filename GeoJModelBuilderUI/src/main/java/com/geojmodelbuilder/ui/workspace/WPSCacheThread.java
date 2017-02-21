@@ -9,7 +9,7 @@
  * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package com.geojmodelbuilder.ui.workspace.cache;
+package com.geojmodelbuilder.ui.workspace;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPService;
-import com.geojmodelbuilder.ui.workspace.Workspace;
 
 /**
  * OGC WPS 1.0.0

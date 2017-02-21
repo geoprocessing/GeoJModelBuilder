@@ -13,7 +13,7 @@ package com.geojmodelbuilder.engine.impl;
 
 import java.util.ArrayList;
 
-import com.geojmodelbuilder.engine.IEvent;
+import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IListener;
 
 /**
@@ -23,7 +23,7 @@ import com.geojmodelbuilder.engine.IListener;
 public class Listeners extends ArrayList<IListener>{
 	private static final long serialVersionUID = 1L;
 	
-	public void onEvent(IEvent event){
+	public void onEvent(IProcessEvent event){
 		for(IListener listener:this){
 			listener.onEvent(event);
 		}

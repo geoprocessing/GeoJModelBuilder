@@ -11,13 +11,19 @@
  */
 package com.geojmodelbuilder.ui.requests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.gef.requests.CreationFactory;
 
 import com.geojmodelbuilder.core.plan.IInputParameter;
 import com.geojmodelbuilder.core.plan.IOutputParameter;
+import com.geojmodelbuilder.core.plan.IParameter;
+import com.geojmodelbuilder.core.recipe.IPort;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
 import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;
+import com.geojmodelbuilder.ui.models.WorkflowArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
 /**
  * 
@@ -33,16 +39,24 @@ public class WPSProcessCreationFactory implements CreationFactory {
 	public Object getNewObject() {
 		WorkflowProcess process = new WorkflowProcess();
 		process.setName(wpsProcess.getName());
+		
+		Map<WorkflowArtifact, IParameter> port2Parameter = new HashMap<WorkflowArtifact, IParameter>();
 		//add the process
 		for(IInputParameter input:wpsProcess.getInputs()){
-			process.addInputArtifact(new ProcessInputArtifact(input.getName()));
+			ProcessInputArtifact inputArtifact = new ProcessInputArtifact(input.getName());
+			process.addInputArtifact(inputArtifact);
+			port2Parameter.put(inputArtifact, input);
 		}
 		
 		for(IOutputParameter output:wpsProcess.getOutputs()){
 			ProcessOutputArtifact outputArtifact = new ProcessOutputArtifact(process);
 			outputArtifact.setName(output.getName());
+			port2Parameter.put(outputArtifact, output);
 			process.addOutputArtifact(outputArtifact);
 		}
+		
+		process.addExectableProcess(wpsProcess);
+		process.addProcessMap(wpsProcess, port2Parameter);
 		
 		return process;
 	}

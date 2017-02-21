@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import com.geojmodelbuilder.ui.Activator;
 import com.geojmodelbuilder.ui.utils.FileTools;
-import com.geojmodelbuilder.ui.workspace.cache.WPSCacheFactory;
 
 /**
  * @author Mingda Zhang

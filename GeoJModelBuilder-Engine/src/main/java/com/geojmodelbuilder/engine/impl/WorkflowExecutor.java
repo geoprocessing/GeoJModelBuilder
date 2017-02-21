@@ -11,18 +11,48 @@
  */
 package com.geojmodelbuilder.engine.impl;
 
-import com.geojmodelbuilder.engine.IEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.geojmodelbuilder.core.IProcess;
+import com.geojmodelbuilder.core.IWorkflow;
+import com.geojmodelbuilder.core.trace.IProcessTrace;
+import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IListener;
+import com.geojmodelbuilder.engine.IProcessEvent.EventType;
 /**
+ * The executor is used to capture the status of the workflow execution.
  * 
  * @author Mingda Zhang
  *
  */
 public class WorkflowExecutor implements IListener {
 
+	private Logger logger;
+	private WorkflowEngine workflowEngine;
 	
-	public void onEvent(IEvent event) {
+	public WorkflowExecutor(IWorkflow workflowExec){
+		this.logger = LoggerFactory.getLogger(WorkflowExecutor.class);
+		this.workflowEngine = new WorkflowEngine(workflowExec, new RecorderImpl());
+		this.workflowEngine.subscribe(this, EventType.StepPerformed);
+		this.workflowEngine.subscribe(this, EventType.Stopped);
+	}
+	
+	public void run(){
+		this.workflowEngine.execute();
+	}
+	public void onEvent(IProcessEvent event) {
+		IProcess source = event.getSource();
+		EventType eventType = event.getType();
 		
+		if(eventType == EventType.StepPerformed){
+			if(source instanceof IProcessTrace){
+				IProcessTrace processTrace = (IProcessTrace)source;
+				logger.info(processTrace.getName() + " is executed");
+			}
+		}else if (eventType == EventType.Stopped) {
+			logger.info("Workflow engine is stopped");
+		}
 	}
 
 }
