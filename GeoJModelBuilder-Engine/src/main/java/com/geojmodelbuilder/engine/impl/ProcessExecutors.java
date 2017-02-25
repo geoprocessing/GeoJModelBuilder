@@ -27,7 +27,7 @@ public class ProcessExecutors extends ArrayList<ProcessExecutor>{
 		super();
 	}
 	
-	public ProcessExecutors(List<IProcess> processes){
+	public ProcessExecutors(List<? extends IProcess> processes){
 		super();
 		for(IProcess process:processes){
 			this.add(new ProcessExecutor(process));

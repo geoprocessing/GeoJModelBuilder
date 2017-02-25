@@ -16,16 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.geojmodelbuilder.core.IDataFlow;
-import com.geojmodelbuilder.core.IWorkflow;
-import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
 import com.geojmodelbuilder.core.impl.WorkflowImpl;
 import com.geojmodelbuilder.core.plan.IParameter;
 import com.geojmodelbuilder.core.plan.IProcessExec;
-import com.geojmodelbuilder.core.recipe.IInputPort;
-import com.geojmodelbuilder.core.recipe.IOutPutPort;
-import com.geojmodelbuilder.core.recipe.IPort;
 import com.geojmodelbuilder.core.recipe.impl.SpatialMetadata;
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
 import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;

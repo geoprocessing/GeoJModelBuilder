@@ -14,10 +14,10 @@ package com.geojmodelbuilder.engine;
 import com.geojmodelbuilder.core.data.impl.LiteralData;
 import com.geojmodelbuilder.core.data.impl.ReferenceData;
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
-import com.geojmodelbuilder.core.impl.WorkflowImpl;
 import com.geojmodelbuilder.core.plan.IInputParameter;
 import com.geojmodelbuilder.core.plan.IOutputParameter;
 import com.geojmodelbuilder.core.plan.IProcessExec;
+import com.geojmodelbuilder.core.plan.impl.WorkflowExec;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.engine.impl.RecorderImpl;
 import com.geojmodelbuilder.engine.impl.WorkflowEngine;
@@ -79,7 +79,7 @@ public class WorkflowExectuion_BufferOverlay_Error {
 		return process;
 	}
 	public static void main(String[] args) {
-		WorkflowImpl workflowExec = new WorkflowImpl();
+		WorkflowExec workflowExec = new WorkflowExec();
 		IProcessExec bufferProcessExec = bufferProcess();
 		IProcessExec overlayPorcessExec = overlayProcess();
 		DataFlowImpl dataflow = new DataFlowImpl(bufferProcessExec, bufferProcessExec.getOuput("OutputData"), overlayPorcessExec, overlayPorcessExec.getInput("SecondInputData"));

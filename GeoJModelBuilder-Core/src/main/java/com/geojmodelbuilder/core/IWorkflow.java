@@ -17,6 +17,14 @@ import java.util.List;
  * @author Mingda Zhang
  *
  */
-public interface IWorkflow {
-	List<IProcess> getProcesses();
+public interface IWorkflow<T extends IProcess>{
+	/**
+	 * return the processes except the conditions
+	 */
+	List<T> getProcesses();
+	
+	/**
+	 * return the conditions
+	 */
+	List<ICondition> getConditions();
 }

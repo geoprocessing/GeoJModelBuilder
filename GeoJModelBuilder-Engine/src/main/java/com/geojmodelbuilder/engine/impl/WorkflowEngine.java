@@ -26,15 +26,15 @@ import org.slf4j.LoggerFactory;
 
 import com.geojmodelbuilder.core.ILink;
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.IWorkflow;
 import com.geojmodelbuilder.core.plan.IOutputParameter;
 import com.geojmodelbuilder.core.plan.IProcessExec;
+import com.geojmodelbuilder.core.plan.IWorkflowExec;
 import com.geojmodelbuilder.core.trace.IProcessTrace;
 import com.geojmodelbuilder.core.trace.impl.WorkflowTrace;
 import com.geojmodelbuilder.engine.IEngine;
+import com.geojmodelbuilder.engine.IListener;
 import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IProcessEvent.EventType;
-import com.geojmodelbuilder.engine.IListener;
 import com.geojmodelbuilder.engine.IPublisher;
 import com.geojmodelbuilder.engine.IRecorder;
 /**
@@ -45,7 +45,7 @@ import com.geojmodelbuilder.engine.IRecorder;
  */
 public class WorkflowEngine implements IEngine, IListener,IPublisher {
 
-	private IWorkflow workflowExec;
+	private IWorkflowExec workflowExec;
 	// To execute
 	private ProcessExecutors executors;
 	// Executed
@@ -57,7 +57,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 	
 	private Map<EventType, Listeners> eventContainer = null;
 	
-	public WorkflowEngine(IWorkflow workflowExec, IRecorder recorder) {
+	public WorkflowEngine(IWorkflowExec workflowExec, IRecorder recorder) {
 		this.workflowExec = workflowExec;
 		//traceProcesses = new ArrayList<IProcessTrace>();
 		workflowTrace = new WorkflowTrace(workflowExec);
@@ -81,7 +81,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		return links;
 	}
 
-	public IWorkflow getWorkflow() {
+	public IWorkflowExec getWorkflow() {
 		return this.workflowExec;
 	}
 
@@ -131,7 +131,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 						+ " successfully.");
 				IProcess process = ((IProcessTrace) source).getProcess();
 				printOutputs(process);
-				this.workflowTrace.addProcessTrace((IProcessTrace)source);
+				this.workflowTrace.addProcess((IProcessTrace)source);
 				this.executors.remove(process);
 				this.sendEvent(new ProcessEvent(EventType.StepPerformed, source));
 			}
@@ -150,7 +150,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 					recordMsg("Error info:"
 							+ ((IProcessExec) process).getErrInfo());
 				}
-				this.workflowTrace.addProcessTrace((IProcessTrace)source);
+				this.workflowTrace.addProcess((IProcessTrace)source);
 				this.executors.remove(process);
 				
 			}
@@ -182,11 +182,11 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		}
 		String startTime = dateFormat.format(this.workflowTrace.getStartTime());
 		String endTime = dateFormat.format(this.workflowTrace.getEndTime());
-		recordMsg("There are "+this.workflowTrace.getProcessTraces().size()+" processes executed and "+executors.size()+" left.");
+		recordMsg("There are "+this.workflowTrace.getProcesses().size()+" processes executed and "+executors.size()+" left.");
 		recordMsg("The workflow is executed from "+startTime+" to "+endTime);
 		
 		recordMsg("----------------The execution infomation of the processes----------------");
-		for(IProcessTrace trace:this.workflowTrace.getProcessTraces()){
+		for(IProcessTrace trace:this.workflowTrace.getProcesses()){
 			startTime = dateFormat.format(trace.getStartTime());
 			endTime = dateFormat.format(trace.getEndTime());
 			String status ="";

@@ -15,10 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.IWorkflow;
+import com.geojmodelbuilder.core.plan.IWorkflowExec;
 import com.geojmodelbuilder.core.trace.IProcessTrace;
-import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IListener;
+import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IProcessEvent.EventType;
 /**
  * The executor is used to capture the status of the workflow execution.
@@ -31,7 +31,7 @@ public class WorkflowExecutor implements IListener {
 	private Logger logger;
 	private WorkflowEngine workflowEngine;
 	
-	public WorkflowExecutor(IWorkflow workflowExec){
+	public WorkflowExecutor(IWorkflowExec workflowExec){
 		this.logger = LoggerFactory.getLogger(WorkflowExecutor.class);
 		this.workflowEngine = new WorkflowEngine(workflowExec, new RecorderImpl());
 		this.workflowEngine.subscribe(this, EventType.StepPerformed);

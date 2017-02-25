@@ -22,21 +22,28 @@ import com.geojmodelbuilder.core.IWorkflow;
  * @author Mingda Zhang
  *
  */
-public class WorkflowImpl implements IWorkflow {
-	private List<IProcess> processes;
+public abstract class WorkflowImpl<T extends IProcess> implements IWorkflow<T> {
+	private List<T> processes;
+	private List<ICondition> conditions;
 	public WorkflowImpl(){
-		this.processes = new ArrayList<IProcess>();
+		this.processes = new ArrayList<T>();
+		this.conditions = new ArrayList<ICondition>();
 	}
-	public List<IProcess> getProcesses() {
+	public List<T> getProcesses() {
 		return this.processes;
 	}
 
-	public void addProcess(IProcess process){
+	public void addProcess(T process){
 		if(!this.processes.contains(process))
 			this.processes.add(process);
 	}
 	
 	public void addCondition(ICondition condition){
-		addProcess(condition);
+		if(!this.conditions.contains(condition))
+			this.conditions.add(condition);
+	}
+	
+	public List<ICondition> getConditions() {
+		return this.conditions;
 	}
 }

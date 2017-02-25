@@ -1,5 +1,6 @@
 /**
- * Copyright (C) 2013 - 2016 Wuhan University
+ * Copyright (C) 2013 - 2016 Wuhan University,
+ *                           Center for Geographic Analysis, Harvard University
  * 
  * This program is free software; you can redistribute and/or modify it under 
  * the terms of the GNU General Public License version 2 as published by the 
@@ -9,23 +10,15 @@
  * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package com.geojmodelbuilder.engine;
+package com.geojmodelbuilder.core.plan.impl;
 
+import com.geojmodelbuilder.core.impl.WorkflowImpl;
+import com.geojmodelbuilder.core.plan.IProcessExec;
 import com.geojmodelbuilder.core.plan.IWorkflowExec;
-import com.geojmodelbuilder.core.plan.examples.WorkflowWaterExtraction;
-import com.geojmodelbuilder.engine.impl.WorkflowExecutor;
+
 /**
- * 
  * @author Mingda Zhang
  *
  */
-public class WorkflowExectuion_WaterExtraction {
-
-	
-	public static void main(String[] args) {
-		IWorkflowExec workflow = new WorkflowWaterExtraction().getWorkflow();
-		WorkflowExecutor executor2 = new WorkflowExecutor(workflow);
-		executor2.run();
-	}
-
+public class WorkflowExec extends WorkflowImpl<IProcessExec> implements IWorkflowExec{
 }

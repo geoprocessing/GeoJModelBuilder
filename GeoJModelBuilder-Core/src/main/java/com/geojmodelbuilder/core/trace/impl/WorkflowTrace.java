@@ -11,11 +11,10 @@
  */
 package com.geojmodelbuilder.core.trace.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.geojmodelbuilder.core.IWorkflow;
+import com.geojmodelbuilder.core.impl.WorkflowImpl;
+import com.geojmodelbuilder.core.plan.IWorkflowExec;
 import com.geojmodelbuilder.core.trace.IProcessTrace;
 import com.geojmodelbuilder.core.trace.IWorkflowTrace;
 /**
@@ -23,16 +22,14 @@ import com.geojmodelbuilder.core.trace.IWorkflowTrace;
  * @author Mingda Zhang
  *
  */
-public class WorkflowTrace implements IWorkflowTrace {
+public class WorkflowTrace extends WorkflowImpl<IProcessTrace> implements IWorkflowTrace {
 	private Date startTime;
 	private Date endTime;
 	private boolean status;
-	private List<IProcessTrace> processTraces;
-	private IWorkflow workflow;
+	private IWorkflowExec workflow;
 	
-	public WorkflowTrace(IWorkflow workflow){
+	public WorkflowTrace(IWorkflowExec workflow){
 		this.workflow = workflow;
-		processTraces = new ArrayList<IProcessTrace>();
 		status = false;
 	}
 	
@@ -49,11 +46,6 @@ public class WorkflowTrace implements IWorkflowTrace {
 	}
 
 
-	public void addProcessTrace(IProcessTrace trace){
-		if(!this.processTraces.contains(trace))
-			this.processTraces.add(trace);
-	}
-
 	public Date getStartTime() {
 		return this.startTime;
 	}
@@ -66,11 +58,11 @@ public class WorkflowTrace implements IWorkflowTrace {
 		return this.status;
 	}
 
-	public List<IProcessTrace> getProcessTraces() {
+	/*public List<IProcessTrace> getProcesses() {
 		return this.processTraces;
-	}
+	}*/
 
-	public IWorkflow getWorkflow() {
+	public IWorkflowExec getWorkflow() {
 		return this.workflow;
 	}
 
