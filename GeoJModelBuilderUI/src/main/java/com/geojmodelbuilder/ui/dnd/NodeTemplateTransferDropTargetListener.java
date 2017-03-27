@@ -18,7 +18,6 @@ import org.eclipse.gef.requests.CreationFactory;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.ui.requests.AbstractElementCreationFactory;
 import com.geojmodelbuilder.ui.requests.WPSProcessCreationFactory;
-import com.geojmodelbuilder.ui.views.tree.ProcessNode;
 /**
  * 
  * @author Mingda Zhang

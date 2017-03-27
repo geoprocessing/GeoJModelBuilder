@@ -11,7 +11,7 @@
  */
 package com.geojmodelbuilder.ui.workspace;
 
-import com.geojmodelbuilder.ui.views.tree.GeoprocessingNode;
+import com.geojmodelbuilder.ui.views.wps.GeoprocessingNode;
 
 /**
  * @author Mingda Zhang

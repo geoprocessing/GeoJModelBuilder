@@ -20,7 +20,6 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 
-import com.geojmodelbuilder.ui.models.WorkflowProcess;
 import com.geojmodelbuilder.ui.requests.AbstractElementCreationFactory;
 
 /**

@@ -5,9 +5,6 @@ import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.action.ToolBarContributionItem;
-import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
@@ -16,12 +13,13 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-import com.geojmodelbuilder.ui.actions.DemoAction;
+import com.geojmodelbuilder.ui.actions.OpenWorkflowAction;
+import com.geojmodelbuilder.ui.actions.SaveWorkflowAction;
 import com.geojmodelbuilder.ui.actions.WorkflowExecuteAction;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
-	private DemoAction demoAction = null;
+//	private DemoAction demoAction = null;
 	private  IWorkbenchAction existAction = null;
 	private  IWorkbenchAction saveAction = null;
 	private  IWorkbenchAction newWindowAction = null;
@@ -29,13 +27,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IContributionItem showViewItem = null;
 	private IWorkbenchAction newEditor = null;
 	private WorkflowExecuteAction runAction = null;
+	private OpenWorkflowAction openAction = null;
+	private SaveWorkflowAction saveWorkflowAction = null;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
 	}
 
 	protected void makeActions(IWorkbenchWindow window) {
-		demoAction = new DemoAction(window);
+//		demoAction = new DemoAction(window);
 		runAction = new WorkflowExecuteAction(window);
 		register(runAction);
 		
@@ -56,14 +56,18 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		showViewItem = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
 		newEditor = ActionFactory.NEW_EDITOR.create(window);
 		
+		openAction = new OpenWorkflowAction(window);
+		saveWorkflowAction = new SaveWorkflowAction(window);
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {
 		
 		MenuManager fileMenu = new MenuManager("&File",IWorkbenchActionConstants.M_FILE);
 //		fileMenu.add(newWindowAction);
-		fileMenu.add(saveAction);
+//		fileMenu.add(saveAction);
 		fileMenu.add(new Separator());
+		fileMenu.add(openAction);
+		fileMenu.add(saveWorkflowAction);
 		fileMenu.add(existAction);
 		menuBar.add(fileMenu);
 		

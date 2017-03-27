@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.plan.IWorkflowExec;
-import com.geojmodelbuilder.core.trace.IProcessTrace;
+import com.geojmodelbuilder.core.instance.IWorkflowInstance;
+import com.geojmodelbuilder.core.provenance.IProcessProv;
 import com.geojmodelbuilder.engine.IListener;
 import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IProcessEvent.EventType;
@@ -31,7 +31,7 @@ public class WorkflowExecutor implements IListener {
 	private Logger logger;
 	private WorkflowEngine workflowEngine;
 	
-	public WorkflowExecutor(IWorkflowExec workflowExec){
+	public WorkflowExecutor(IWorkflowInstance workflowExec){
 		this.logger = LoggerFactory.getLogger(WorkflowExecutor.class);
 		this.workflowEngine = new WorkflowEngine(workflowExec, new RecorderImpl());
 		this.workflowEngine.subscribe(this, EventType.StepPerformed);
@@ -46,8 +46,8 @@ public class WorkflowExecutor implements IListener {
 		EventType eventType = event.getType();
 		
 		if(eventType == EventType.StepPerformed){
-			if(source instanceof IProcessTrace){
-				IProcessTrace processTrace = (IProcessTrace)source;
+			if(source instanceof IProcessProv){
+				IProcessProv processTrace = (IProcessProv)source;
 				logger.info(processTrace.getName() + " is executed");
 			}
 		}else if (eventType == EventType.Stopped) {

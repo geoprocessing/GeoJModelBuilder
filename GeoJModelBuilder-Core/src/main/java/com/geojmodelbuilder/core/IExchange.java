@@ -17,6 +17,14 @@ package com.geojmodelbuilder.core;
  * @author Mingda Zhang
  *
  */
-public interface IExchange {
-
+public interface IExchange extends IIdentifiable{
+	/**
+	 * The name 
+	 */
+	String getName();
+	
+	/**
+	 * The owner of this exchange
+	 */
+	IProcess getOwner();
 }

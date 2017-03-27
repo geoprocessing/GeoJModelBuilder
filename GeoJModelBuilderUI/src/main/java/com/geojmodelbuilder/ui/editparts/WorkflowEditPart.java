@@ -71,8 +71,8 @@ public class WorkflowEditPart extends AbstractGraphicalEditPart implements
 		List<IWorkflowElement> childrenList = new ArrayList<IWorkflowElement>();
 		
 		Workflow model = (Workflow) getModel();
-		childrenList.addAll(model.getProcessRecipe());
-		for(WorkflowProcess process:model.getProcessRecipe()){
+		childrenList.addAll(model.getAllProcess());
+		for(WorkflowProcess process:model.getAllProcess()){
 			childrenList.addAll(process.getOutputArtifacts());
 		}
 		childrenList.addAll(model.getArtifacts());

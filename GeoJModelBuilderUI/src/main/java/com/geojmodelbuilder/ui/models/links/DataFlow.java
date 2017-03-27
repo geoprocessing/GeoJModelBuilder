@@ -13,7 +13,9 @@ package com.geojmodelbuilder.ui.models.links;
 
 import com.geojmodelbuilder.core.IDataFlow;
 import com.geojmodelbuilder.core.IExchange;
+import com.geojmodelbuilder.core.INamespaceDefault;
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
+import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;
 import com.geojmodelbuilder.ui.models.Workflow;
 import com.geojmodelbuilder.ui.models.WorkflowArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
@@ -34,6 +36,9 @@ public class DataFlow extends NodeLink implements IDataFlow{
 	private WorkflowArtifact sourceArtifact;
 	private ProcessInputArtifact targetArtifact;
 	private Workflow parent;
+	
+	private String id,namespace;
+	
 	public WorkflowProcess getSourceProcess() {
 		return sourceProcess;
 	}
@@ -76,13 +81,13 @@ public class DataFlow extends NodeLink implements IDataFlow{
 	 * Determine whether the Dataflow is a 'real' IDataflow.
 	 */
 	private boolean isValidCoreIDataflow(){
-		return this.sourceProcess != null && this.sourceArtifact instanceof ProcessInputArtifact;
+		return this.sourceProcess != null && this.sourceArtifact instanceof ProcessOutputArtifact;
 	}
 	
 	@Override
 	public void connect() {
 		super.connect();
-		parent = getSourceNode().getWorkflow();
+		parent = getSourceProcess().getWorkflow();
 		if (parent!=null) {
 			this.parent.addDataFlow(this);
 		}
@@ -122,5 +127,26 @@ public class DataFlow extends NodeLink implements IDataFlow{
 	@Override
 	public IExchange getTargetExchange() {
 		return this.targetArtifact;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String getID() {
+		return this.id;
+	}
+
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+	
+	@Override
+	public String getNamespace() {
+		if(this.namespace == null){
+			this.namespace = INamespaceDefault.INOUTPORT;
+		}
+		return this.namespace;
 	}
 }

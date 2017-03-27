@@ -32,7 +32,7 @@ public class WorkflowCondition extends WorkflowProcess implements ICondition {
 	
 	public WorkflowCondition() {
 		super();
-		setColor(ColorConstants.lightGray);
+		setColor(ColorConstants.lightBlue);
 	}
 
 	public WorkflowCondition(Workflow parent) {
@@ -94,7 +94,6 @@ public class WorkflowCondition extends WorkflowProcess implements ICondition {
 
 	@Override
 	public boolean isSatisfied() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

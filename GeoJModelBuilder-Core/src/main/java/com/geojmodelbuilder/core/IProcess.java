@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mingda Zhang
  *
  */
-public interface IProcess {
+public interface IProcess extends IIdentifiable{
 	
 	List<ILink> getLinks();
 	/**
@@ -55,6 +55,16 @@ public interface IProcess {
 	 * Object name
 	 */
 	String getName();
+	
+	/**
+	 * Get input by name.
+	 */
+	IExchange getInput(String name);
+	
+	/**
+	 * Get output by name.
+	 */
+	IExchange getOutput(String name);
 	
 	void addLink(ILink link);
 	

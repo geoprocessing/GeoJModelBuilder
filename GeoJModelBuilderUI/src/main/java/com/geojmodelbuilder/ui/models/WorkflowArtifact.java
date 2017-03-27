@@ -15,10 +15,12 @@ import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 
-import com.geojmodelbuilder.core.IProcess;
+import com.geojmodelbuilder.core.INamespaceDefault;
 import com.geojmodelbuilder.core.data.IData;
-import com.geojmodelbuilder.core.recipe.IPort;
-import com.geojmodelbuilder.core.recipe.impl.SpatialMetadata;
+import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.template.IPort;
+import com.geojmodelbuilder.core.template.impl.SpatialMetadata;
+import com.geojmodelbuilder.core.utils.ValidateUtil;
 
 /**
  * This is a superclass of all kinds of artifact, including the input and output
@@ -29,13 +31,12 @@ import com.geojmodelbuilder.core.recipe.impl.SpatialMetadata;
  */
 public class WorkflowArtifact extends WorkflowNode implements IWorkflowElement,IPort {
 	private String value;
-	private IProcess owner;
+	private WorkflowProcess owner;
 	private SpatialMetadata spatialMetadata;
-
 	public WorkflowArtifact() {
 		super();
 		spatialMetadata = new SpatialMetadata();
-		setColor(ColorConstants.lightGreen);
+		setColor(ColorConstants.lightGray);
 	}
 
 	public WorkflowArtifact(String name){
@@ -55,12 +56,8 @@ public class WorkflowArtifact extends WorkflowNode implements IWorkflowElement,I
 		return this.value;
 	}
 	
-	public void setOwner(IProcess owner){
+	public void setOwner(WorkflowProcess owner){
 		this.owner = owner;
-	}
-	
-	public IProcess getOwner() {
-		return this.owner;
 	}
 
 	public SpatialMetadata getSptialDescription(){
@@ -74,5 +71,29 @@ public class WorkflowArtifact extends WorkflowNode implements IWorkflowElement,I
 	@Override
 	public List<IData> getDataCandidates() {
 		return null;
+	}
+
+	@Override
+	public WorkflowProcess getOwner() {
+		return this.owner;
+	}
+
+	
+	@Override
+	public List<? extends IParameter> getInstances() {
+		//do nothing
+		if(this.owner == null)
+			return null;
+		
+		return this.owner.getPortInstances(this);
+	}
+
+	
+	@Override
+	public String getNamespace() {
+		if(ValidateUtil.isStrEmpty(this.namespace))
+			this.namespace = INamespaceDefault.TEMPLATE_ARTIFACT;
+		
+		return this.namespace;
 	}
 }

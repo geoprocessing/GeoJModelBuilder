@@ -19,12 +19,12 @@ import java.util.Map;
 import org.eclipse.draw2d.ColorConstants;
 
 import com.geojmodelbuilder.core.ILink;
-import com.geojmodelbuilder.core.plan.IParameter;
-import com.geojmodelbuilder.core.plan.IProcessExec;
-import com.geojmodelbuilder.core.recipe.IInputPort;
-import com.geojmodelbuilder.core.recipe.IOutPutPort;
-import com.geojmodelbuilder.core.recipe.IPort;
-import com.geojmodelbuilder.core.recipe.IProcessRecipe;
+import com.geojmodelbuilder.core.INamespaceDefault;
+import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.instance.IProcessInstance;
+import com.geojmodelbuilder.core.template.IPort;
+import com.geojmodelbuilder.core.template.IProcessTemplate;
+import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.models.links.DataFlow;
 import com.geojmodelbuilder.ui.models.links.NodeLink;
 import com.geojmodelbuilder.ui.models.links.ProcessOutputLink;
@@ -33,17 +33,16 @@ import com.geojmodelbuilder.ui.models.links.ProcessOutputLink;
  * @author Mingda Zhang
  *
  */
-public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
+public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 	private List<ProcessInputArtifact> inputList;
 	private List<ProcessOutputArtifact> outputList;
-	private String id;
 	private String description;
 	private List<ILink> coreLinks;
-	private List<IProcessExec> processExecs;
+	private List<IProcessInstance> processExecs;
 	/**
 	 * Mapping the value of the port to the concrete parameter.
 	 */
-	private Map<IProcessExec, Map<WorkflowArtifact, IParameter>> processMap;
+	private Map<IProcessInstance, Map<IPort, IParameter>> processMap;
 	
 	public WorkflowProcess() {
 		super();
@@ -51,8 +50,8 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 		inputList = new ArrayList<ProcessInputArtifact>();
 		outputList = new ArrayList<ProcessOutputArtifact>();
 		coreLinks = new ArrayList<ILink>();
-		processExecs = new ArrayList<IProcessExec>();
-		processMap = new HashMap<IProcessExec, Map<WorkflowArtifact,IParameter>>();
+		processExecs = new ArrayList<IProcessInstance>();
+		processMap = new HashMap<IProcessInstance, Map<IPort,IParameter>>();
 	}
 
 	public WorkflowProcess(Workflow parent) {
@@ -189,8 +188,10 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 	
 	@Override
 	public void addLink(ILink link) {
-		if(!this.coreLinks.contains(link))
+		if(!this.coreLinks.contains(link)){
 			this.coreLinks.add(link);
+		}
+		
 	}
 
 	@Override
@@ -213,39 +214,37 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 		return this.description;
 	}
 
-	public void setId(String id){
-		this.id = id;
-	}
-	
-	@Override
-	public String getID() {
-		return this.id;
-	}
-
 	@Override
 	public List<ILink> getLinks() {
 		return this.coreLinks;
 	}
 
 	
-	public void addExectableProcess(IProcessExec processExec){
+	public void addExectableProcess(IProcessInstance processExec){
 		if(!this.processExecs.contains(processExec))
 			this.processExecs.add(processExec);
 	}
 	
-	public Map<WorkflowArtifact, IParameter> getProcessExecMap(IProcessExec process){
+	public Map<IPort, IParameter> getProcessExecMap(IProcessInstance process){
 		return this.processMap.get(process);
 	}
 	
-	public void addProcessMap(IProcessExec processExec,Map<WorkflowArtifact, IParameter> port2Parameter){
+	public List<IParameter> getPortInstances(IPort port){
+		List<IParameter> parameters = new ArrayList<IParameter>();
+		for(Map<IPort, IParameter> portParamMap : processMap.values()){
+			IParameter parameter = portParamMap.get(port);
+			if (parameter != null) {
+				parameters.add(parameter);
+			}
+		}
+		
+		return parameters;
+	}
+	
+	public void addProcessMap(IProcessInstance processExec,Map<IPort, IParameter> port2Parameter){
 		this.processMap.put(processExec, port2Parameter);
 	}
 	
-	@Override
-	public List<IProcessExec> getExecCandidates() {
-		return this.processExecs;
-	}
-
 	@Override
 	public List<ProcessInputArtifact> getInputs() {
 		return this.inputList;
@@ -260,5 +259,38 @@ public class WorkflowProcess extends WorkflowNode implements IProcessRecipe{
 	public void removeLink(ILink link) {
 		if(this.coreLinks.contains(link))
 			this.coreLinks.remove(link);
+	}
+
+	@Override
+	public List<IProcessInstance> getInstances() {
+		return this.processExecs;
+	}
+
+	@Override
+	public ProcessInputArtifact getInput(String name) {
+		for(ProcessInputArtifact artifact:this.inputList){
+			if(artifact.getName().equals(name))
+				return artifact;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public ProcessOutputArtifact getOutput(String name) {
+		for(ProcessOutputArtifact artifact:this.outputList){
+			if(artifact.getName().equals(name))
+				return artifact;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public String getNamespace() {
+		if(ValidateUtil.isStrEmpty(this.namespace))
+			this.namespace = INamespaceDefault.TEMPLATE_PROCESS;
+		
+		return this.namespace;
 	}
 }

@@ -14,6 +14,7 @@ package com.geojmodelbuilder.ui.dialogs;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -30,7 +31,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.geojmodelbuilder.core.recipe.impl.SpatialMetadata;
+import com.geojmodelbuilder.core.template.impl.SpatialMetadata;
+import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
 import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowArtifact;
@@ -121,7 +123,14 @@ public class ProcessInputDialog extends Dialog implements ModifyListener {
 			}
 
 		} else if (artifact instanceof ProcessOutputArtifact) {
-			text.setEnabled(false);
+			text.setEditable(false);
+			
+			if (process.getColor() == ColorConstants.lightGreen) {
+				String result = ((ProcessOutputArtifact)artifact).getExecutedResult();
+				if(!ValidateUtil.isStrEmpty(result))
+					text.setText(result);
+			}
+			
 		}
 
 	}

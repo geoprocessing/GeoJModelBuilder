@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.geojmodelbuilder.core.recipe.impl.SpatialMetadata;
+import com.geojmodelbuilder.core.template.impl.SpatialMetadata;
 import com.geojmodelbuilder.ui.properties.IOProperties;
 
 /**

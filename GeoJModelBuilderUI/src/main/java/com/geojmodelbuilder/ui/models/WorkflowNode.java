@@ -29,7 +29,7 @@ import com.geojmodelbuilder.ui.properties.NodePropertySource;
  * @author Mingda Zhang
  *
  */
-public class WorkflowNode implements IAdaptable,IWorkflowElement,Cloneable {
+public class WorkflowNode extends AbstractWorkflowElement implements IAdaptable,Cloneable {
 	private String name;
 	private Rectangle layout;
 	

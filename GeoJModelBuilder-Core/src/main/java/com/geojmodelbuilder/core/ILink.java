@@ -15,7 +15,7 @@ package com.geojmodelbuilder.core;
  * @author Mingda Zhang
  *
  */
-public interface ILink{
+public interface ILink extends IIdentifiable{
 
 	/**
 	 * Link source

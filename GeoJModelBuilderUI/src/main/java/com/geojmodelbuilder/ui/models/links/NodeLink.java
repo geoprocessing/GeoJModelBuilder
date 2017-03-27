@@ -11,14 +11,14 @@
  */
 package com.geojmodelbuilder.ui.models.links;
 
-import com.geojmodelbuilder.ui.models.IWorkflowElement;
+import com.geojmodelbuilder.ui.models.AbstractWorkflowElement;
 import com.geojmodelbuilder.ui.models.WorkflowNode;
 
 /**
  * @author Mingda Zhang
  *
  */
-public class NodeLink implements IWorkflowElement {
+public class NodeLink extends AbstractWorkflowElement{
 	private WorkflowNode sourceNode;
 	private WorkflowNode targetNode;
 

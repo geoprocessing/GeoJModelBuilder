@@ -41,12 +41,25 @@ public class ControlFlow extends NodeLink implements IBranchControl{
 		return (WorkflowProcess)getTargetNode();
 	}
 	
-	public WorkflowProcess getSourceProcess(){
-		return (WorkflowProcess)getSourceNode();
+	public WorkflowCondition getSourceProcess(){
+		return (WorkflowCondition)getSourceNode();
 	}
 
 	@Override
 	public boolean isTrue() {
 		return false;
 	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNamespace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

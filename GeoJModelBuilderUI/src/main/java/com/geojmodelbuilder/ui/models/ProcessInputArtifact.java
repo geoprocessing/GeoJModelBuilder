@@ -11,7 +11,13 @@
  */
 package com.geojmodelbuilder.ui.models;
 
-import com.geojmodelbuilder.core.recipe.IInputPort;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.template.IInputPort;
+
 
 /**
  * 
@@ -34,4 +40,19 @@ public class ProcessInputArtifact extends WorkflowArtifact implements IInputPort
 		super(name);
 	}
 
+	
+	@Override
+	public List<IInputParameter> getInstances() {
+		List<? extends IParameter> instances =  super.getInstances();
+		if(instances == null || instances.size() == 0)
+			return null;
+		
+		List<IInputParameter> inputParameters = new ArrayList<IInputParameter>();
+		for(IParameter parameter:instances){
+			if(parameter instanceof IInputParameter)
+				inputParameters.add((IInputParameter)parameter);
+		}
+		
+		return inputParameters;
+	}
 }

@@ -11,34 +11,22 @@
  */
 package com.geojmodelbuilder.core.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.geojmodelbuilder.core.IBranchControl;
 import com.geojmodelbuilder.core.ICondition;
 import com.geojmodelbuilder.core.IExchange;
-import com.geojmodelbuilder.core.ILink;
 /**
  * @author Mingda Zhang
  *
  */
-public class WorkflowConditionImpl implements ICondition {
+public class WorkflowConditionImpl extends AbstractProcessImpl<IExchange, IExchange> implements ICondition {
 
 	private ControlFlowFalse falseFlow;
 	private ControlFlowTrue trueFlow;
-	private List<IExchange> inputExchanges;
-	private String id;
-	private String name;
-	private String description;
 	private boolean satisfied;
-	private List<ILink> links;
 	public WorkflowConditionImpl() {
-		inputExchanges = new ArrayList<IExchange>();
-		links = new ArrayList<ILink>();
-	}
-
-	public List<IExchange> getInputs() {
-		return this.inputExchanges;
+		super();
 	}
 
 	public boolean execute() {
@@ -51,30 +39,6 @@ public class WorkflowConditionImpl implements ICondition {
 	 */
 	public List<IExchange> getOutputs() {
 		return null;
-	}
-
-	public void setID(String id) {
-		this.id = id;
-	}
-
-	public String getID() {
-		return this.id;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
 	}
 
 	public String getExpression() {
@@ -109,16 +73,4 @@ public class WorkflowConditionImpl implements ICondition {
 		return this.satisfied;
 	}
 	
-	public void addLink(ILink link){
-		this.links.add(link);
-	}
-	
-	public void removeLink(ILink link){
-		if(this.links.contains(link))
-			this.links.remove(link);
-	}
-	
-	public List<ILink> getLinks() {
-		return this.links;
-	}
 }

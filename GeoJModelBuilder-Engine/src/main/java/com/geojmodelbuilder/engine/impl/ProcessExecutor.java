@@ -24,9 +24,9 @@ import com.geojmodelbuilder.core.IProcess;
 import com.geojmodelbuilder.core.data.IComplexData;
 import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.impl.Links;
-import com.geojmodelbuilder.core.plan.IParameter;
-import com.geojmodelbuilder.core.trace.IProcessTrace;
-import com.geojmodelbuilder.core.trace.impl.ProcessTrace;
+import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.provenance.IProcessProv;
+import com.geojmodelbuilder.core.provenance.impl.ProcessProv;
 import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IProcessEvent.EventType;
 import com.geojmodelbuilder.engine.IListener;
@@ -35,8 +35,8 @@ import com.geojmodelbuilder.engine.IPublisher;
 /**
  * Be responsible for invoking executable process. Play roles of both listener
  * and publisher.
- * Event type: succeeded, failed --> IProcessTrace
- * Event type: ready --> IProcess(IProcessExec)
+ * Event type: succeeded, failed --> IProcessProv
+ * Event type: ready --> IProcess(IProcessInstance)
  * 
  * @author Mingda Zhang
  *
@@ -156,8 +156,8 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 	 */
 	private void handleEvent(IProcessEvent event) {
 		IProcess process = event.getSource();
-		if(process instanceof IProcessTrace)
-			process = ((IProcessTrace)process).getProcess();
+		if(process instanceof IProcessProv)
+			process = ((IProcessProv)process).getProcess();
 		Links targetLinks = this.waitingSignals.getLinksWithSource(process);
 		Links deleteLinks = new Links();
 
@@ -167,7 +167,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 				deleteLinks.add(link);
 			} else if (link instanceof IBranchControl) {
 				IBranchControl branchControl = (IBranchControl) link;
-				ICondition condition = branchControl.getCondition();
+				ICondition condition = branchControl.getSourceProcess();
 				if (condition.isSatisfied() == branchControl.isTrue())
 					deleteLinks.add(link);
 			}
@@ -202,7 +202,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 	}
 
 	public void run() {
-		ProcessTrace processTrace = new ProcessTrace(this.process);
+		ProcessProv processTrace = new ProcessProv(this.process);
 		startTime = new Date();
 		boolean flag = process.canExecute();
 		if(flag)

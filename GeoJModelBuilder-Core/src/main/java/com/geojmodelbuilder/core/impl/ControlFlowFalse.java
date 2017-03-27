@@ -17,11 +17,6 @@ package com.geojmodelbuilder.core.impl;
  */
 public class ControlFlowFalse extends BranchingControlImpl {
 
-	/*@Override
-	public boolean trueOrFalse() {
-		return false;
-	}*/
-	
 	public boolean isTrue() {
 		return false;
 	}

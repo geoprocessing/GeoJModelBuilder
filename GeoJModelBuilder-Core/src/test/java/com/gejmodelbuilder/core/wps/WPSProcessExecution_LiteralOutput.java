@@ -13,8 +13,8 @@ package com.gejmodelbuilder.core.wps;
 
 import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.data.impl.LiteralData;
-import com.geojmodelbuilder.core.plan.IInputParameter;
-import com.geojmodelbuilder.core.plan.IOutputParameter;
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IOutputParameter;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 /**
  * 
@@ -45,7 +45,7 @@ public class WPSProcessExecution_LiteralOutput {
 			System.out.println(errInfo);
 			return;
 		}
-		IOutputParameter output = lengthProcess.getOuput("OutputData");
+		IOutputParameter output = lengthProcess.getOutput("OutputData");
 		IData data = output.getData();
 		System.out.println("output:"+data.getValue());
 	}

@@ -16,14 +16,13 @@ import java.util.Map;
 
 import org.eclipse.gef.requests.CreationFactory;
 
-import com.geojmodelbuilder.core.plan.IInputParameter;
-import com.geojmodelbuilder.core.plan.IOutputParameter;
-import com.geojmodelbuilder.core.plan.IParameter;
-import com.geojmodelbuilder.core.recipe.IPort;
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IOutputParameter;
+import com.geojmodelbuilder.core.instance.IParameter;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
+import com.geojmodelbuilder.core.template.IPort;
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
 import com.geojmodelbuilder.ui.models.ProcessOutputArtifact;
-import com.geojmodelbuilder.ui.models.WorkflowArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
 /**
  * 
@@ -40,10 +39,11 @@ public class WPSProcessCreationFactory implements CreationFactory {
 		WorkflowProcess process = new WorkflowProcess();
 		process.setName(wpsProcess.getName());
 		
-		Map<WorkflowArtifact, IParameter> port2Parameter = new HashMap<WorkflowArtifact, IParameter>();
+		Map<IPort, IParameter> port2Parameter = new HashMap<IPort, IParameter>();
 		//add the process
 		for(IInputParameter input:wpsProcess.getInputs()){
 			ProcessInputArtifact inputArtifact = new ProcessInputArtifact(input.getName());
+			inputArtifact.setOwner(process);
 			process.addInputArtifact(inputArtifact);
 			port2Parameter.put(inputArtifact, input);
 		}

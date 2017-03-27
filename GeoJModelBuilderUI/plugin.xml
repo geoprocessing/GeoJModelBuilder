@@ -44,9 +44,15 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="com.geojmodelbuilder.ui.views.WPSResourceTreeView"
+            class="com.geojmodelbuilder.ui.views.wps.WPSResourceTreeView"
             id="com.geojmodelbuilder.ui.view.wpstree"
             name="Resources">
+      </view>
+      <view
+            class="com.geojmodelbuilder.ui.views.workflow.WorkflowTreeView"
+            id="com.geojmodelbuilder.ui.view.workflowtree"
+            name="Workflows"
+            restorable="true">
       </view>
    </extension>
    <extension

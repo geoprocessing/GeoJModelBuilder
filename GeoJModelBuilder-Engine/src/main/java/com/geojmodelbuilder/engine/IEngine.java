@@ -11,13 +11,13 @@
  */
 package com.geojmodelbuilder.engine;
 
-import com.geojmodelbuilder.core.plan.IWorkflowExec;
+import com.geojmodelbuilder.core.instance.IWorkflowInstance;
 /**
  * 
  * @author Mingda Zhang
  *
  */
 public interface IEngine {
-	IWorkflowExec getWorkflow();
+	IWorkflowInstance getWorkflow();
 	boolean execute();
 }

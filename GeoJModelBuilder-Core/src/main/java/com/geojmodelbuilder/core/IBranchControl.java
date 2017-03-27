@@ -17,10 +17,16 @@ package com.geojmodelbuilder.core;
  */
 public interface IBranchControl extends IControlFlow {
 	
-	public ICondition getCondition();
+//	public ICondition getCondition();
+	/**
+	 * Restricts the process as condition.
+	 */
+	public ICondition getSourceProcess();
+	
 	/**
 	 * There are only two kinds of branch controls: true or false.
 	 * @return
 	 */
+	
 	boolean isTrue();
 }

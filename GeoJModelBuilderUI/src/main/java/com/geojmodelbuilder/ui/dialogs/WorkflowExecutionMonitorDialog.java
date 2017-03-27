@@ -24,10 +24,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.IWorkflow;
-import com.geojmodelbuilder.core.trace.IProcessTrace;
+import com.geojmodelbuilder.core.instance.IWorkflowInstance;
+import com.geojmodelbuilder.core.provenance.IProcessProv;
+import com.geojmodelbuilder.core.provenance.IWorkflowProv;
 import com.geojmodelbuilder.engine.IListener;
 import com.geojmodelbuilder.engine.IProcessEvent;
 import com.geojmodelbuilder.engine.IProcessEvent.EventType;
@@ -35,7 +38,7 @@ import com.geojmodelbuilder.engine.IRecorder;
 import com.geojmodelbuilder.engine.impl.WorkflowEngine;
 import com.geojmodelbuilder.ui.models.Workflow;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
-import com.geojmodelbuilder.ui.run.Recipe2Plan;
+import com.geojmodelbuilder.ui.run.UIModles2Instance;
 
 /**
  * @author Mingda Zhang
@@ -45,9 +48,12 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 	private Workflow workflow;
 	private Text text;
 	private Button okButton;
+	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+	private WorkflowEngine workflowEngine = null;
 	
 	public WorkflowExecutionMonitorDialog(Shell parentShell, Workflow workflow){
 		super(parentShell);
+		setShellStyle(SWT.CLOSE);
 		this.workflow = workflow;
 //		setBlockOnOpen(false);
 //		setShellStyle(SWT.CLOSE | SWT.TITLE |SWT.MODELESS |SWT.ON_TOP);
@@ -114,7 +120,7 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 
 		setOKButtonEnabled(false);
 		
-		Recipe2Plan recipe2Plan = new Recipe2Plan(this.workflow);
+		UIModles2Instance recipe2Plan = new UIModles2Instance(this.workflow);
 		if(!recipe2Plan.transfer()){
 			this.appendMsg("Failed to generate the executable workflow");
 			this.appendMsg(recipe2Plan.getErrInfo());
@@ -122,8 +128,8 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 			return;
 		}
 		
-		IWorkflow workflow = recipe2Plan.getExecutableWorkflow();
-		WorkflowEngine workflowEngine = new WorkflowEngine(workflow, this);
+		IWorkflowInstance workflow = recipe2Plan.getExecutableWorkflow();
+		workflowEngine = new WorkflowEngine(workflow, this);
 		workflowEngine.subscribe(this, EventType.StepPerformed);
 		workflowEngine.subscribe(this, EventType.Stopped);
 		workflowEngine.execute();
@@ -142,17 +148,21 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 		IProcess source = event.getSource();
 		if(eventType == EventType.Stopped){
 			this.appendMsg("engine stopped.");
+			IWorkflowProv workflowProv = workflowEngine.getWorkflowTrace();
+			if(workflowProv != null)
+				workflow.addWorkflowProv(workflowProv);
+			
 			setOKButtonEnabled(true);
 		}else if (eventType == EventType.StepPerformed) {
 			this.appendMsg(source.getName() + "executed.");
-			if(source instanceof IProcessTrace){
-				IProcessTrace processTrace = (IProcessTrace)source;
-				IProcess processExec = processTrace.getProcess();
+			if(source instanceof IProcessProv){
+				IProcessProv processProv = (IProcessProv)source;
+				IProcess processExec = processProv.getProcess();
 				WorkflowProcess workflowProcess = this.workflow.getProcessByBinding(processExec);
 				
 				Display.getDefault().syncExec(new Runnable() {
 				    public void run() {
-				    	if(processTrace.getStatus()){
+				    	if(processProv.getStatus()){
 							workflowProcess.setColor(ColorConstants.lightGreen);
 						}else {
 							workflowProcess.setColor(ColorConstants.red);

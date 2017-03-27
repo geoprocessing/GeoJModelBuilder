@@ -16,16 +16,21 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.geojmodelbuilder.core.INamespaceDefault;
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.IWorkflow;
-import com.geojmodelbuilder.core.plan.IProcessExec;
+import com.geojmodelbuilder.core.instance.IProcessInstance;
+import com.geojmodelbuilder.core.instance.IWorkflowInstance;
+import com.geojmodelbuilder.core.provenance.IWorkflowProv;
+import com.geojmodelbuilder.core.template.IProcessTemplate;
+import com.geojmodelbuilder.core.template.IWorkflowTemplate;
+import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.models.links.DataFlow;
 /**
  * 
  * @author Mingda Zhang
  *
  */
-public class Workflow implements IWorkflowElement,IWorkflow {
+public class Workflow extends AbstractWorkflowElement implements IWorkflowElement,IWorkflowTemplate {
 	private String name;
 	/**
 	 * independent artifacts
@@ -42,12 +47,19 @@ public class Workflow implements IWorkflowElement,IWorkflow {
 	public static final String CHILD_ADD = "child_add";
 	private List<DataFlow> dataFlows;
 
+	private String description;
+	
+	private List<IWorkflowInstance> workflowInstances;
+	private List<IWorkflowProv> workflowProvs;
+	
 	public Workflow() {
 		artifactList = new ArrayList<StandaloneArtifact>();
 		processList = new ArrayList<WorkflowProcess>();
 		conditionList = new ArrayList<WorkflowCondition>();
 		listeners = new PropertyChangeSupport(this);
 		dataFlows = new ArrayList<DataFlow>();
+		workflowProvs = new ArrayList<IWorkflowProv>();
+		workflowInstances = new ArrayList<IWorkflowInstance>();
 	}
 
 	public void setName(String name) {
@@ -81,7 +93,7 @@ public class Workflow implements IWorkflowElement,IWorkflow {
 		}
 	}
 
-	public List<WorkflowProcess> getProcessRecipe() {
+	public List<WorkflowProcess> getAllProcess() {
 		return this.processList;
 	}
 
@@ -179,8 +191,8 @@ public class Workflow implements IWorkflowElement,IWorkflow {
 	}
 
 	public WorkflowProcess getProcessByBinding(IProcess processExec){
-		for(WorkflowProcess process:this.getProcessRecipe()){
-			List<IProcessExec> candidates = process.getExecCandidates();
+		for(WorkflowProcess process:this.getAllProcess()){
+			List<? extends IProcessInstance> candidates = process.getInstances();
 			if(candidates == null)
 				continue;
 			
@@ -190,10 +202,40 @@ public class Workflow implements IWorkflowElement,IWorkflow {
 		return null;
 	}
 	@Override
-	public List<IProcess> getProcesses() {
-		List<IProcess> processes = new ArrayList<IProcess>();
-		processes.addAll(getProcessRecipe());
+	public List<IProcessTemplate> getProcesses() {
+		List<IProcessTemplate> processes = new ArrayList<IProcessTemplate>();
+		processes.addAll(getAllProcess());
 		processes.addAll(getConditions());
 		return processes;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	@Override
+	public String getDescription() {
+		return this.description;
+	}
+	
+	@Override
+	public String getNamespace() {
+		if(ValidateUtil.isStrEmpty(this.namespace))
+			this.namespace = INamespaceDefault.TEMPLATE_WORKFLOW;
+		
+		return this.namespace;
+	}
+
+	@Override
+	public List<IWorkflowInstance> getInstances() {
+		return this.workflowInstances;
+	}
+	
+	public void addWorkflowProv(IWorkflowProv workflowProv){
+		if(!this.workflowProvs.contains(workflowProv))
+			this.workflowProvs.add(workflowProv);
+	}
+	
+	public List<IWorkflowProv> getWorkflowProvs(){
+		return this.workflowProvs;
 	}
 }

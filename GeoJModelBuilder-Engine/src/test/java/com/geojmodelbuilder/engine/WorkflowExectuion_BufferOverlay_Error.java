@@ -14,10 +14,10 @@ package com.geojmodelbuilder.engine;
 import com.geojmodelbuilder.core.data.impl.LiteralData;
 import com.geojmodelbuilder.core.data.impl.ReferenceData;
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
-import com.geojmodelbuilder.core.plan.IInputParameter;
-import com.geojmodelbuilder.core.plan.IOutputParameter;
-import com.geojmodelbuilder.core.plan.IProcessExec;
-import com.geojmodelbuilder.core.plan.impl.WorkflowExec;
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IOutputParameter;
+import com.geojmodelbuilder.core.instance.IProcessInstance;
+import com.geojmodelbuilder.core.instance.impl.WorkflowInstance;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.engine.impl.RecorderImpl;
 import com.geojmodelbuilder.engine.impl.WorkflowEngine;
@@ -28,7 +28,7 @@ import com.geojmodelbuilder.engine.impl.WorkflowEngine;
  */
 public class WorkflowExectuion_BufferOverlay_Error {
 
-	private static IProcessExec bufferProcess(){
+	private static IProcessInstance bufferProcess(){
 		WPSProcess bufferProcess = new WPSProcess("GeoBufferProcess");
 		bufferProcess.setWPSUrl("http://geos.whu.edu.cn:8080/wps10/WebProcessingService");
 //		bufferProcess.parseProcessDescriptionType();
@@ -44,14 +44,14 @@ public class WorkflowExectuion_BufferOverlay_Error {
 		referenceData.setMimeType("application/x-zipped-shp");
 		fileInput.setData(referenceData);
 		
-		IOutputParameter output = bufferProcess.getOuput("OutputData");
+		IOutputParameter output = bufferProcess.getOutput("OutputData");
 		ReferenceData outputRef = new ReferenceData();
 		outputRef.setMimeType("application/x-zipped-shp");
 		output.setData(outputRef);
 		return bufferProcess;
 	}
 	
-	private static IProcessExec overlayProcess(){
+	private static IProcessInstance overlayProcess(){
 		WPSProcess process = new WPSProcess("GeoOverlayProcess");
 		process.setWPSUrl("http://geos.whu.edu.cn:8080/wps10/WebProcessingService");
 //		process.parseProcessDescriptionType();
@@ -72,21 +72,21 @@ public class WorkflowExectuion_BufferOverlay_Error {
 		secondRefData.setMimeType("application/x-zipped-shp");
 		secondInput.setData(secondRefData);
 		
-		IOutputParameter output = process.getOuput("OutputData");
+		IOutputParameter output = process.getOutput("OutputData");
 		ReferenceData outputRef = new ReferenceData();
 		outputRef.setMimeType("application/x-zipped-shp");
 		output.setData(outputRef);
 		return process;
 	}
 	public static void main(String[] args) {
-		WorkflowExec workflowExec = new WorkflowExec();
-		IProcessExec bufferProcessExec = bufferProcess();
-		IProcessExec overlayPorcessExec = overlayProcess();
-		DataFlowImpl dataflow = new DataFlowImpl(bufferProcessExec, bufferProcessExec.getOuput("OutputData"), overlayPorcessExec, overlayPorcessExec.getInput("SecondInputData"));
-		bufferProcessExec.addLink(dataflow);
+		WorkflowInstance workflowExec = new WorkflowInstance();
+		IProcessInstance bufferInstance = bufferProcess();
+		IProcessInstance overlayPorcessExec = overlayProcess();
+		DataFlowImpl dataflow = new DataFlowImpl(bufferInstance, bufferInstance.getOutput("OutputData"), overlayPorcessExec, overlayPorcessExec.getInput("SecondInputData"));
+		bufferInstance.addLink(dataflow);
 		overlayPorcessExec.addLink(dataflow);
 		
-		workflowExec.addProcess(bufferProcessExec);
+		workflowExec.addProcess(bufferInstance);
 		workflowExec.addProcess(overlayPorcessExec);
 		
 		WorkflowEngine engine = new WorkflowEngine(workflowExec, new RecorderImpl());

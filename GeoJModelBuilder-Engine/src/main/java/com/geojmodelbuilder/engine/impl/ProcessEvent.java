@@ -22,9 +22,9 @@ public class ProcessEvent implements IProcessEvent {
 	private EventType eventType;
 	private IProcess process;
 	
-	public ProcessEvent(EventType eventType, IProcess processExec){
+	public ProcessEvent(EventType eventType, IProcess process){
 		this.eventType = eventType;
-		this.process = processExec;
+		this.process = process;
 	}
 	
 	public IProcess getSource() {

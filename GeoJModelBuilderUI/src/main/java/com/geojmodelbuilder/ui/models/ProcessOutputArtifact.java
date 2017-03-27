@@ -11,7 +11,16 @@
  */
 package com.geojmodelbuilder.ui.models;
 
-import com.geojmodelbuilder.core.recipe.IOutPutPort;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.geojmodelbuilder.core.instance.IOutputParameter;
+import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.instance.IProcessInstance;
+import com.geojmodelbuilder.core.template.IOutPutPort;
+import com.geojmodelbuilder.core.template.IPort;
+
 
 /**
  * 
@@ -24,6 +33,7 @@ public class ProcessOutputArtifact extends WorkflowArtifact implements IOutPutPo
 	public ProcessOutputArtifact(){}
 	public ProcessOutputArtifact(WorkflowProcess parent) {
 		super();
+		setOwner(parent);
 		this.parent = parent;
 	}
 	
@@ -57,4 +67,43 @@ public class ProcessOutputArtifact extends WorkflowArtifact implements IOutPutPo
 		return output;
 	}
 	
+	@Override
+	public List<IOutputParameter> getInstances() {
+
+		List<? extends IParameter> instances =  super.getInstances();
+		if(instances == null || instances.size() == 0)
+			return null;
+		
+		List<IOutputParameter> outputParameters = new ArrayList<IOutputParameter>();
+		for(IParameter parameter:instances){
+			if(parameter instanceof IOutputParameter)
+				outputParameters.add((IOutputParameter)parameter);
+		}
+		
+		return outputParameters;
+	}
+	
+	public String getExecutedResult(){
+		String result = null;
+		if (this.parent == null) 
+			return result;
+
+		List<IProcessInstance> instances = this.parent.getInstances();
+		if(instances == null || instances.size() == 0)
+			return result;
+		
+		Map<IPort, IParameter> portParamMap = this.parent.getProcessExecMap(instances.get(0));
+		if(portParamMap == null)
+			return result;
+		
+		IParameter iParameter = portParamMap.get(this);
+		if(iParameter == null || iParameter.getData() == null)
+			return result;
+		
+		Object obj = iParameter.getData().getValue();
+		if(obj == null)
+			return result;
+		
+		return obj.toString();
+	}
 }

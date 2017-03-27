@@ -298,9 +298,11 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 	
 	public void setWorkflow(Workflow workflow){
 		this.workflow = workflow;
+		getGraphicalViewer().setContents(workflow);
 	}
 	
 	public Workflow getWorkflow(){
 		return this.workflow;
 	}
+	
 }

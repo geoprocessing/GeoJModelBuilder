@@ -9,6 +9,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.geojmodelbuilder.ui.dialogs.WarningDialog;
 import com.geojmodelbuilder.ui.dialogs.WorkspaceLauncherDialog;
+import com.geojmodelbuilder.ui.workspace.StartInitThread;
 import com.geojmodelbuilder.ui.workspace.Workspace;
 
 /**
@@ -34,6 +35,10 @@ public class Application implements IApplication {
 			
 			Workspace.getInstance().setWorkspace(path);
 			Workspace.getInstance().validate();
+			
+			//initilize the environment
+			StartInitThread initThread = new StartInitThread();
+			initThread.start();
 			
 		}else {
 			return EXIT_OK;

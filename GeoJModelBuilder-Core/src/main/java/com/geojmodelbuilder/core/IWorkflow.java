@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mingda Zhang
  *
  */
-public interface IWorkflow<T extends IProcess>{
+public interface IWorkflow<T extends IProcess> extends IIdentifiable{
 	/**
 	 * return the processes except the conditions
 	 */
@@ -26,5 +26,20 @@ public interface IWorkflow<T extends IProcess>{
 	/**
 	 * return the conditions
 	 */
-	List<ICondition> getConditions();
+	List<? extends ICondition> getConditions();
+	
+	/**
+	 * Identification string
+	 */
+	String getID();
+	
+	/**
+	 * Descriptive information
+	 */
+	String getDescription();
+	
+	/**
+	 * Object name
+	 */
+	String getName();
 }

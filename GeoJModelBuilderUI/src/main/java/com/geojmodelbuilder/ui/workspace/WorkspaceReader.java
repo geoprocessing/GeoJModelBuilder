@@ -26,9 +26,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.geojmodelbuilder.ui.views.tree.GeoprocessingNode;
-import com.geojmodelbuilder.ui.views.tree.ProcessNode;
-import com.geojmodelbuilder.ui.views.tree.WPSNode;
+import com.geojmodelbuilder.ui.views.wps.GeoprocessingNode;
+import com.geojmodelbuilder.ui.views.wps.ProcessNode;
+import com.geojmodelbuilder.ui.views.wps.WPSNode;
 
 /**
  * @author Mingda Zhang

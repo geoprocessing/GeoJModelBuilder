@@ -41,24 +41,27 @@ import com.geojmodelbuilder.core.data.ILiteralData;
 import com.geojmodelbuilder.core.data.impl.ComplexData;
 import com.geojmodelbuilder.core.data.impl.LiteralData;
 import com.geojmodelbuilder.core.data.impl.ReferenceData;
-import com.geojmodelbuilder.core.plan.IInputParameter;
-import com.geojmodelbuilder.core.plan.IOutputParameter;
-import com.geojmodelbuilder.core.plan.IParameter;
-import com.geojmodelbuilder.core.plan.impl.InputParameter;
-import com.geojmodelbuilder.core.plan.impl.OutputParameter;
-import com.geojmodelbuilder.core.plan.impl.ProcessExec;
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IOutputParameter;
+import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.instance.impl.InputParameter;
+import com.geojmodelbuilder.core.instance.impl.OutputParameter;
+import com.geojmodelbuilder.core.instance.impl.ProcessInstance;
+import com.geojmodelbuilder.core.utils.IDGenerator;
+import com.geojmodelbuilder.core.utils.ValidateUtil;
 
 /**
  * 
  * @author Mingda Zhang
  *
  */
-public class WPSProcess extends ProcessExec {
+public class WPSProcess extends ProcessInstance {
 	/**
 	 * The GetCapabilities request URL.
 	 */
 	private String wpsUrl;
 	private ProcessDescriptionType processDescription;
+	private WPSClientSession wpsClient;
 
 	public void setProcessDescriptionType(ProcessDescriptionType processDescription) {
 		this.processDescription = processDescription;
@@ -68,7 +71,8 @@ public class WPSProcess extends ProcessExec {
 	public WPSProcess(String name) {
 		super();
 		setName(name);
-		setID(name);
+		setID(name + IDGenerator.dateID());
+		wpsClient = WPSClientSession.getInstance();
 	}
 
 	
@@ -94,6 +98,7 @@ public class WPSProcess extends ProcessExec {
 				return false;
 		}
 
+		
 		getInputs().clear();
 		getOutputs().clear();
 		
@@ -103,6 +108,7 @@ public class WPSProcess extends ProcessExec {
 		for (InputDescriptionType input : inputDescriptionTypes) {
 			InputParameter inputParameter = new InputParameter(this);
 			inputParameter.setName(input.getIdentifier().getStringValue().trim());
+			
 			Node node = input.getDomNode();
 			IData dataType;
 			if (isLiteralNode(node)) {
@@ -139,10 +145,10 @@ public class WPSProcess extends ProcessExec {
 		if (this.processDescription != null)
 			return this.processDescription;
 
-		WPSClientSession wpsClient = WPSClientSession.getInstance();
+		wpsClient = WPSClientSession.getInstance();
 		try {
 			this.processDescription = wpsClient.getProcessDescription(wpsUrl,
-					getID());
+					getName());
 		} catch (IOException e) {
 			e.printStackTrace();
 			appendErr(e.getMessage());
@@ -162,7 +168,7 @@ public class WPSProcess extends ProcessExec {
 			return false;
 		}
 
-		if (getID() == null || getID().equals("")) {
+		if (ValidateUtil.isStrEmpty(getName())) {
 			appendErr("Process identifier is missing.");
 			return false;
 		}
@@ -173,8 +179,21 @@ public class WPSProcess extends ProcessExec {
 				appendErr("There is no value for the parameter named "+input.getName()+" in "+getName());
 				return false;
 			}
-				
 		}
+		
+		try {
+			if (!wpsClient.serviceAlreadyRegistered(this.wpsUrl)) {
+				if(!wpsClient.connect(this.wpsUrl)){
+					appendErr("Failed to connect " + this.wpsUrl);
+					return false;
+				}
+			}
+		} catch (WPSClientException e) {
+			e.printStackTrace();
+			appendErr("Failed to connect " + this.wpsUrl);
+			appendErr(e.getMessage());
+		}
+		
 		if (this.processDescription == null) {
 			getProcessDescriptionType();
 		}
@@ -184,7 +203,7 @@ public class WPSProcess extends ProcessExec {
 
 	@Override
 	public boolean execute() {
-		WPSClientSession wpsClient = WPSClientSession.getInstance();
+		wpsClient = WPSClientSession.getInstance();
 
 		if (this.processDescription == null) {
 			getProcessDescriptionType();
@@ -287,7 +306,7 @@ public class WPSProcess extends ProcessExec {
 		for (int i = 0; i < outputs.sizeOfOutputArray(); i++) {
 			OutputDataType outputType = outputs.getOutputArray(i);
 			String identifer = outputType.getIdentifier().getStringValue();
-			IOutputParameter outputParameter = getOuput(identifer);
+			IOutputParameter outputParameter = getOutput(identifer);
 			OutputReferenceType referenceType = outputType.getReference();
 			if (referenceType != null) {
 				ReferenceData referenceData = new ReferenceData();
@@ -315,35 +334,50 @@ public class WPSProcess extends ProcessExec {
 		return true;
 	}
 
-	@Override
-	public IInputParameter getInput(String name) {
+	private void checkParameters(){
+		if (super.getInputs().size() > 0) 
+			return;
+		
 		if (this.processDescription == null)
 			parseProcessDescriptionType();
-
+	}
+	@Override
+	public IInputParameter getInput(String name) {
+		/*if (this.processDescription == null)
+			parseProcessDescriptionType();*/
+		checkParameters();
+		
 		return super.getInput(name);
 	}
 
 	@Override
 	public List<IInputParameter> getInputs() {
-		if (this.processDescription == null)
-			parseProcessDescriptionType();
+		/*if (this.processDescription == null)
+			parseProcessDescriptionType();*/
+		checkParameters();
 
 		return super.getInputs();
 	}
 
 	@Override
-	public IOutputParameter getOuput(String name) {
-		if (this.processDescription == null)
-			parseProcessDescriptionType();
-
-		return super.getOuput(name);
+	public IOutputParameter getOutput(String name) {
+		/*if (this.processDescription == null)
+			parseProcessDescriptionType();*/
+		checkParameters();
+		
+		return super.getOutput(name);
 	}
 
 	@Override
 	public List<IOutputParameter> getOutputs() {
-		if (this.processDescription == null)
-			parseProcessDescriptionType();
+		/*if (this.processDescription == null)
+			parseProcessDescriptionType();*/
 
+		checkParameters();
 		return super.getOutputs();
+	}
+	
+	public String getWPSUrl(){
+		return this.wpsUrl;
 	}
 }

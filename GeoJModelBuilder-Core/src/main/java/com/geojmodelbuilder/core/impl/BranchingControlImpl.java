@@ -18,29 +18,10 @@ import com.geojmodelbuilder.core.IProcess;
  * @author Mingda Zhang
  *
  */
-public abstract class BranchingControlImpl implements IBranchControl {
+public class BranchingControlImpl extends AbstractLinkImpl<ICondition,IProcess> implements IBranchControl {
 
-	private ICondition condition;
-	private IProcess process;
-	
-	public void setCondition(ICondition condition){
-		this.condition = condition;
+	public boolean isTrue() {
+		return false;
 	}
-	public ICondition getCondition() {
-		return this.condition;
-	}
-
-	public void setTarget(IProcess process){
-		this.process = process;
-	}
-
-	public ICondition getSourceProcess() {
-		return this.condition;
-	}
-	
-	public IProcess getTargetProcess() {
-		return this.process;
-	}
-	
 
 }
