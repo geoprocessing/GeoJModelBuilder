@@ -18,10 +18,15 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.geojmodelbuilder.ui.dialogs.RenameDialog;
 import com.geojmodelbuilder.ui.editparts.WorkflowNodeEditPart;
+import com.geojmodelbuilder.ui.models.WorkflowNode;
 /**
  * 
  * @author Mingda Zhang
@@ -60,12 +65,18 @@ public class NodeRenameAction extends SelectionAction {
 	public void run() {
 		super.run();
 		
-		//To modify
-		String newName = "NewName";
+		WorkflowNodeEditPart nodeEditPart = getSelectedEditPart();
+		String oldName = ((WorkflowNode)nodeEditPart.getModel()).getName();
 		
-		Command cmd = createRenameCommand(newName);
-		
-		execute(cmd);
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		RenameDialog dialog = new RenameDialog(shell, oldName);
+		if(dialog.open() == Window.OK){
+			String newName = dialog.getNewName();
+			if(!newName.equals(oldName)){
+				Command cmd = createRenameCommand(newName);
+				execute(cmd);
+			}
+		}
 	}
 
 	private Command createRenameCommand(String name) {
