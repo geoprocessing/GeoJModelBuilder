@@ -5,6 +5,7 @@ import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
@@ -14,6 +15,8 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
 import com.geojmodelbuilder.ui.actions.OpenWorkflowAction;
+import com.geojmodelbuilder.ui.actions.ProcessAddAction;
+import com.geojmodelbuilder.ui.actions.ProcessEditAction;
 import com.geojmodelbuilder.ui.actions.SaveWorkflowAction;
 import com.geojmodelbuilder.ui.actions.WorkflowExecuteAction;
 
@@ -29,6 +32,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private WorkflowExecuteAction runAction = null;
 	private OpenWorkflowAction openAction = null;
 	private SaveWorkflowAction saveWorkflowAction = null;
+	private ProcessAddAction addProcessAction = null;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -38,6 +42,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 //		demoAction = new DemoAction(window);
 		runAction = new WorkflowExecuteAction(window);
 		register(runAction);
+		
+		addProcessAction = new ProcessAddAction(window);
+		register(addProcessAction);
 		
 		saveAction = ActionFactory.SAVE.create(window);
 		register(saveAction);
@@ -71,6 +78,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(existAction);
 		menuBar.add(fileMenu);
 		
+		MenuManager editMenu = new MenuManager("&Edit",IWorkbenchActionConstants.M_EDIT);
+		editMenu.add(addProcessAction);
+		menuBar.add(editMenu);
+		
 		MenuManager windowMenu = new MenuManager("&Window",IWorkbenchActionConstants.M_WINDOW);
 		windowMenu.add(newWindowAction);
 		
@@ -85,6 +96,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
 		helpMenu.add(aboutAction);
 		menuBar.add(helpMenu);
+		
 		
 		
 		/*MenuManager demoMenu = new MenuManager("&Demo", "");
