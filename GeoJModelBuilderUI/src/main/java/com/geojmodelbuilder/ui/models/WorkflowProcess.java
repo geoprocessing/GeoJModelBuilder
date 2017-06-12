@@ -39,6 +39,9 @@ public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 	private String description;
 	private List<ILink> coreLinks;
 	private List<IProcessInstance> processExecs;
+	
+	private IProcessInstance activeInstance;
+	
 	/**
 	 * Mapping the value of the port to the concrete parameter.
 	 */
@@ -183,8 +186,6 @@ public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 		}
 		return process;
 	}
-
-	
 	
 	@Override
 	public void addLink(ILink link) {
@@ -284,6 +285,23 @@ public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 		}
 		
 		return null;
+	}
+	
+	public IProcessInstance getActiveInstance(){
+		if(this.activeInstance == null){
+			return this.processExecs.size()==0 ? null:this.processExecs.get(0);
+		}
+		
+		return this.activeInstance;
+	}
+	
+	public boolean setActiveInstance(IProcessInstance activeInstance) {
+		if(this.processExecs.contains(activeInstance)){
+			this.activeInstance = activeInstance;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

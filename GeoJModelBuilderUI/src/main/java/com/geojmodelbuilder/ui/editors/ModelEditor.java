@@ -43,6 +43,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import com.geojmodelbuilder.ui.actions.NodeCopyAction;
 import com.geojmodelbuilder.ui.actions.NodePasteAction;
 import com.geojmodelbuilder.ui.actions.NodeRenameAction;
+import com.geojmodelbuilder.ui.actions.ProcessEditAction;
 import com.geojmodelbuilder.ui.dnd.NodeTemplateTransferDropTargetListener;
 import com.geojmodelbuilder.ui.editparts.WorkflowEditPartFactory;
 import com.geojmodelbuilder.ui.models.StandaloneArtifact;
@@ -235,11 +236,15 @@ public class ModelEditor extends GraphicalEditorWithPalette {
 		super.createActions();
 
 		ActionRegistry registry = getActionRegistry();
-		IAction action = new NodeRenameAction(this);
-		registry.registerAction(action);
+		IAction renameAction = new NodeRenameAction(this);
+		registry.registerAction(renameAction);
+		
+		IAction processEditAction = new ProcessEditAction(this);
+		registry.registerAction(processEditAction);
 		
 		//pop menu
-		getSelectionActions().add(action.getId());
+		getSelectionActions().add(renameAction.getId());
+		getSelectionActions().add(processEditAction.getId());
 
 		IAction copyAction = new NodeCopyAction(this);
 		registry.registerAction(copyAction);
