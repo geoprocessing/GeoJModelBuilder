@@ -19,6 +19,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.geojmodelbuilder.ui.actions.InstanceBindAction;
 import com.geojmodelbuilder.ui.actions.ProcessEditAction;
 /**
  * 
@@ -51,6 +52,9 @@ public class ModelEditorContextMenuProvider extends ContextMenuProvider {
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 		
 		action = this.actionRegistry.getAction(ProcessEditAction.ID);
+		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = this.actionRegistry.getAction(InstanceBindAction.ID);
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 	}
 	

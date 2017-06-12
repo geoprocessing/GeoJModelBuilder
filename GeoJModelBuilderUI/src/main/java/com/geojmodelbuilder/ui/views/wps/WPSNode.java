@@ -64,4 +64,12 @@ public class WPSNode implements ITreeNode{
 	public Object[] getChildren() {
 		return processes.toArray();
 	}
+	
+	public ProcessNode getProcessByName(String name){
+		for(ProcessNode process:this.processes){
+			if(process.getName().equals(name))
+				return process;
+		}
+		return null;
+	}
 }

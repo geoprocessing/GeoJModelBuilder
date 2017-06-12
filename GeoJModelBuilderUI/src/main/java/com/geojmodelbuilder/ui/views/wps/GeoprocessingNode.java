@@ -68,4 +68,12 @@ public class GeoprocessingNode implements ITreeNode{
 	public void setParent(WPSResourceRoot root){
 		this.parent = root;
 	}
+	
+	public WPSNode getWPSByName(String name){
+		for(WPSNode wps:wpsList){
+			if(wps.getName().equals(name))
+				return wps;
+		}
+		return null;
+	}
 }
