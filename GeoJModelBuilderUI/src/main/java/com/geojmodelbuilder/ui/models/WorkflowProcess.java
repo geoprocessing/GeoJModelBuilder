@@ -267,6 +267,15 @@ public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 		return this.processExecs;
 	}
 
+	public IProcessInstance getInstance(String name){
+		for(IProcessInstance instance:this.processExecs){
+			if(instance.getName().equals(name))
+				return instance;
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public ProcessInputArtifact getInput(String name) {
 		for(ProcessInputArtifact artifact:this.inputList){
@@ -302,6 +311,24 @@ public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 		}
 		
 		return false;
+	}
+	
+	public boolean setActiveInstance(String name){
+		for(IProcessInstance instance:this.processExecs){
+			if(instance.getName().equals(name)){
+				this.activeInstance = instance;
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	public WorkflowArtifact getArtifact(String name){
+		ProcessInputArtifact input = getInput(name);
+		if(input !=null)
+			return input;
+		
+		return getOutput(name);
 	}
 	
 	@Override
