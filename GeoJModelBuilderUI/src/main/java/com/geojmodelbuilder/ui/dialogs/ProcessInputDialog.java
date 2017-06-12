@@ -64,7 +64,6 @@ public class ProcessInputDialog extends Dialog implements ModifyListener {
 		WorkflowCondition condition = new WorkflowCondition();
 		condition.setName("name");
 		System.out.println(condition.getName());
-
 	}
 
 	private void createTextComposite(Composite container,
