@@ -25,7 +25,7 @@ public class Provenance2RdfTest {
 	public static void main(String[] args){
 		IWorkflowProv workflowTrace = new WaterExtractionProv().getWorkflow();
 		Provenance2RDF trace2rdf = new Provenance2RDF(workflowTrace);
-		trace2rdf.save("E:/Workspace/opmw-g-v5/flood_analysis_workflow_trace.rdf");
+		trace2rdf.save("C:/Users/MingdaZhang/Desktop/flood_analysis_workflow_trace.rdf");
 		System.out.println("end");
 	}
 }

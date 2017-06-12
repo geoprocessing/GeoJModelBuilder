@@ -225,6 +225,11 @@ public class Workflow extends AbstractWorkflowElement implements IWorkflowElemen
 		return this.namespace;
 	}
 
+	public void addInstance(IWorkflowInstance instance){
+		if(!this.workflowInstances.contains(instance))
+			this.workflowInstances.add(instance);
+	}
+	
 	@Override
 	public List<IWorkflowInstance> getInstances() {
 		return this.workflowInstances;

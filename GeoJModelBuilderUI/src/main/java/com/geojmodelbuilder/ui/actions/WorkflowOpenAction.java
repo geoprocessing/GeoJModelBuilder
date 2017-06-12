@@ -32,11 +32,11 @@ import com.geojmodelbuilder.ui.models.Workflow;
  * @author Mingda Zhang
  *
  */
-public class OpenWorkflowAction extends Action{
+public class WorkflowOpenAction extends Action{
 
 	public static final String ID = "custom.file.open";
 	private IWorkbenchWindow window;
-	public OpenWorkflowAction(IWorkbenchWindow window){
+	public WorkflowOpenAction(IWorkbenchWindow window){
 		this.window = window;
 		this.setText("Open");
 		this.setId(ID);

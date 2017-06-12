@@ -44,10 +44,11 @@ public class ProcessInputArtifact extends WorkflowArtifact implements IInputPort
 	@Override
 	public List<IInputParameter> getInstances() {
 		List<? extends IParameter> instances =  super.getInstances();
-		if(instances == null || instances.size() == 0)
-			return null;
-		
 		List<IInputParameter> inputParameters = new ArrayList<IInputParameter>();
+		
+		if(instances == null || instances.size() == 0)
+			return inputParameters;
+		
 		for(IParameter parameter:instances){
 			if(parameter instanceof IInputParameter)
 				inputParameters.add((IInputParameter)parameter);

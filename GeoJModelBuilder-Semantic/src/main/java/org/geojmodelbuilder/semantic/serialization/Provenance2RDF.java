@@ -50,6 +50,7 @@ public class Provenance2RDF {
 	private IWorkflowProv workflowTrace;
 	private WorkflowOntModel workflowOntModel;
 	private OntModel individualOntModel;
+	private boolean transfered = false;
 	
 	private Individual workflowIdl;
 	
@@ -64,8 +65,22 @@ public class Provenance2RDF {
 		this.individualOntModel.setNsPrefixes(workflowOntModel.getNsPrefixes());
 	}
 	
+	public OntModel getOntModel(){
+		if(!transfered)
+			transfer();
+		
+		return this.individualOntModel;
+	}
+	
 	public boolean save(String path){
+		if(!transfered)
+			transfer();
 		System.out.println("save the workflow trace to "+ path);
+		
+		return OntModelUtil.getInstance().save(this.individualOntModel, path);
+	}
+	
+	public boolean transfer(){
 		
 		OntClass workflowCls = this.workflowOntModel.getClass(WorkflowOntModel.EXECUTION_WORKFLOW);
 		workflowIdl = this.individualOntModel.createIndividual(IDGenerator.uri(this.workflowTrace),workflowCls);
@@ -186,7 +201,8 @@ public class Provenance2RDF {
 			}
 		}
 		
-		return OntModelUtil.getInstance().save(this.individualOntModel, path);
+		transfered = true;
+		return true;
 	}
 	
 	private Individual artifactCreator(IParameter parameter){

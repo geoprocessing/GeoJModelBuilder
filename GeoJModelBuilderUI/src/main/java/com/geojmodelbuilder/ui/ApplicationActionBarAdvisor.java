@@ -14,11 +14,14 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-import com.geojmodelbuilder.ui.actions.OpenWorkflowAction;
+import com.geojmodelbuilder.ui.actions.WorkflowInstanceSaveAction;
+import com.geojmodelbuilder.ui.actions.WorkflowOpenAction;
 import com.geojmodelbuilder.ui.actions.ProcessAddAction;
 import com.geojmodelbuilder.ui.actions.ProcessEditAction;
-import com.geojmodelbuilder.ui.actions.SaveWorkflowAction;
+import com.geojmodelbuilder.ui.actions.WorkflowProvenanceSaveAction;
+import com.geojmodelbuilder.ui.actions.WorkflowSaveAction;
 import com.geojmodelbuilder.ui.actions.WorkflowExecuteAction;
+import com.geojmodelbuilder.ui.actions.WorkflowTemplateSaveAction;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
@@ -30,9 +33,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IContributionItem showViewItem = null;
 	private IWorkbenchAction newEditor = null;
 	private WorkflowExecuteAction runAction = null;
-	private OpenWorkflowAction openAction = null;
-	private SaveWorkflowAction saveWorkflowAction = null;
+	private WorkflowOpenAction openAction = null;
+	private WorkflowSaveAction saveWorkflowAction = null;
 	private ProcessAddAction addProcessAction = null;
+	private WorkflowInstanceSaveAction saveInstanceAction = null;
+	private WorkflowTemplateSaveAction saveTemplateAction = null;
+	private WorkflowProvenanceSaveAction saveProvenanceAction = null;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -45,6 +51,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		addProcessAction = new ProcessAddAction(window);
 		register(addProcessAction);
+		
+		saveInstanceAction = new WorkflowInstanceSaveAction(window);
+		register(saveInstanceAction);
+		
+		saveTemplateAction = new WorkflowTemplateSaveAction(window);
+		register(saveTemplateAction);
+		
+		saveProvenanceAction = new WorkflowProvenanceSaveAction(window);
+		register(saveProvenanceAction);
 		
 		saveAction = ActionFactory.SAVE.create(window);
 		register(saveAction);
@@ -63,8 +78,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		showViewItem = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
 		newEditor = ActionFactory.NEW_EDITOR.create(window);
 		
-		openAction = new OpenWorkflowAction(window);
-		saveWorkflowAction = new SaveWorkflowAction(window);
+		openAction = new WorkflowOpenAction(window);
+		saveWorkflowAction = new WorkflowSaveAction(window);
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {
@@ -78,8 +93,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(existAction);
 		menuBar.add(fileMenu);
 		
-		MenuManager editMenu = new MenuManager("&Edit",IWorkbenchActionConstants.M_EDIT);
+		MenuManager editMenu = new MenuManager("&Workflow",IWorkbenchActionConstants.M_EDIT);
 		editMenu.add(addProcessAction);
+		editMenu.add(saveTemplateAction);
+		editMenu.add(saveInstanceAction);
+		editMenu.add(saveProvenanceAction);
 		menuBar.add(editMenu);
 		
 		MenuManager windowMenu = new MenuManager("&Window",IWorkbenchActionConstants.M_WINDOW);
