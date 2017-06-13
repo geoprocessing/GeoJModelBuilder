@@ -46,7 +46,10 @@ public abstract class WorkflowAspectSaveAction extends Action{
 		this.aspect = aspect;
 	}
 	
+	//save 
 	abstract boolean saveAspect();
+	//check whether it is ready to save
+	abstract boolean isReady();
 	
 	@Override
 	public void run() {
@@ -63,6 +66,9 @@ public abstract class WorkflowAspectSaveAction extends Action{
 					"There is no process.");
 			return;
 		}
+		
+		if(!isReady())
+			return;
 		
 		FileDialog dialog = new FileDialog(window.getShell(), SWT.SAVE);
 		dialog.setFilterExtensions(new String [] {"*.rdf"});

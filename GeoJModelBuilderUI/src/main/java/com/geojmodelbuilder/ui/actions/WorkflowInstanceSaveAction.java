@@ -11,19 +11,25 @@ import com.geojmodelbuilder.ui.run.UIModles2Instance;
 public class WorkflowInstanceSaveAction extends WorkflowAspectSaveAction {
 
 	public static final String ID = "workflow.instance.save";
+	private IWorkflowInstance workflowInstance = null; 
 	public WorkflowInstanceSaveAction(IWorkbenchWindow window) {
 		super(window,WorkflowAspect.Instance);
 	}
 	
 	@Override
-	boolean saveAspect() {
+	boolean isReady() {
 		UIModles2Instance uiModles2Instance = new UIModles2Instance(workflow);
-		IWorkflowInstance workflowInstance = uiModles2Instance.getExecutableWorkflow();
+		workflowInstance = uiModles2Instance.getExecutableWorkflow();
 		if (workflowInstance == null) {
 			String err = uiModles2Instance.getErrInfo();
 			MessageDialog.openInformation(window.getShell(), "Message", "Failed to get the workflow instance. "+err);
 			return false;
 		}
+		return true;
+	}
+	
+	@Override
+	boolean saveAspect() {
 		workflow.addInstance(workflowInstance);
 		Instance2RDF instance2rdf = new Instance2RDF(workflowInstance);
 		return instance2rdf.save(this.filePath);
