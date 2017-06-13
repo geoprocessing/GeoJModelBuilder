@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.draw2d.ColorConstants;
 
+import com.geojmodelbuilder.core.IDataFlow;
 import com.geojmodelbuilder.core.ILink;
 import com.geojmodelbuilder.core.INamespaceDefault;
 import com.geojmodelbuilder.core.instance.IParameter;

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.geojmodelbuilder.core.ILink;
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
 import com.geojmodelbuilder.core.instance.IParameter;
 import com.geojmodelbuilder.core.instance.IProcessInstance;
@@ -35,12 +36,12 @@ import com.geojmodelbuilder.ui.models.links.NodeLink;
  * Condition is not considered.
  */
 public class UIModles2Instance {
-	private Workflow workflowRecipe;
-	private WorkflowInstance workflowPlan;
+	private Workflow workflowTemplate;
+	private WorkflowInstance workflowInstance;
 	private StringBuffer errBuf;
 	
-	public UIModles2Instance(Workflow workflowRecipe){
-		this.workflowRecipe = workflowRecipe;
+	public UIModles2Instance(Workflow workflowTemplate){
+		this.workflowTemplate = workflowTemplate;
 		this.errBuf = new StringBuffer();
 	}
 	
@@ -100,7 +101,6 @@ public class UIModles2Instance {
 		return true;
 	}
 	
-	
 	public boolean transfer(){
 		//There must be executable process candidates for all abstract processes
 		if(!allHasCandidate())
@@ -109,11 +109,16 @@ public class UIModles2Instance {
 		Map<WorkflowProcess, IProcessInstance> temporalProcessMap = new HashMap<WorkflowProcess, IProcessInstance>();
 		Map<IPort, IParameter> temporalParameterMap = new HashMap<IPort,IParameter>();
 		
-		workflowPlan= new WorkflowInstance();
+		workflowInstance= new WorkflowInstance();
 		
 		//Map inputs to executable process
-		for(WorkflowProcess process:workflowRecipe.getAllProcess()){
+		for(WorkflowProcess process:workflowTemplate.getAllProcess()){
 			IProcessInstance processExec = process.getInstances().get(0);
+			
+			//Remove all links in instance. 
+			//Otherwise, there will be multiple links when invoking this method more than one time.
+			processExec.getLinks().clear();
+			
 			Map<IPort, IParameter> valueMap = process.getProcessExecMap(processExec);
 			if(valueMap == null){
 				this.errBuf.append("There is no mapping information from abstract process to executable one.");
@@ -131,13 +136,13 @@ public class UIModles2Instance {
 				}
 			}
 			
-			workflowPlan.addProcess(processExec);
+			workflowInstance.addProcess(processExec);
 			temporalProcessMap.put(process, processExec);
 			temporalParameterMap.putAll(valueMap);
 		}
 		
 		//parse the data flow
-		for(WorkflowProcess process:workflowRecipe.getAllProcess()){
+		for(WorkflowProcess process:workflowTemplate.getAllProcess()){
 			
 			//ignore the worklow condition temporally
 			if(process instanceof WorkflowCondition)
@@ -170,14 +175,14 @@ public class UIModles2Instance {
 	}
 
 	public WorkflowInstance getExecutableWorkflow(){
-		if(this.workflowPlan == null)
+		if(this.workflowInstance == null)
 			transfer();
 		
-		return this.workflowPlan;
+		return this.workflowInstance;
 	}
 	
 	private boolean allHasCandidate(){
-		for(WorkflowProcess process:workflowRecipe.getAllProcess()){
+		for(WorkflowProcess process:workflowTemplate.getAllProcess()){
 			List<? extends IProcessInstance> processExecs = process.getInstances();
 			if (processExecs == null || processExecs.size() == 0) {
 				this.errBuf.append( "There is no executable candidate for "+ process.getName() + "\n");
