@@ -14,13 +14,15 @@ import com.geojmodelbuilder.ui.models.WorkflowAspect;
 public class WorkflowProvenanceSaveAction extends WorkflowAspectSaveAction {
 
 	public static final String ID = "workflow.provenance.save";
+	private int index;
+	private List<IWorkflowProv> provs;
 	public WorkflowProvenanceSaveAction(IWorkbenchWindow window) {
 		super(window,WorkflowAspect.Provenance);
 	}
 	
 	@Override
-	boolean saveAspect() {
-		List<IWorkflowProv> provs = this.workflow.getWorkflowProvs();
+	boolean isReady() {
+		provs = this.workflow.getWorkflowProvs();
 		
 		if(provs.size() == 0){
 			MessageDialog.openInformation(window.getShell(),"Message", "There is no executions.");
@@ -31,7 +33,12 @@ public class WorkflowProvenanceSaveAction extends WorkflowAspectSaveAction {
 		if(dialog.open() != Window.OK)
 			return false;
 		
-		int index = dialog.getIndex();
+		index = dialog.getIndex();
+		return true;
+	}
+	
+	@Override
+	boolean saveAspect() {
 		IWorkflowProv prov = provs.get(index);
 		Provenance2RDF provenance2rdf = new Provenance2RDF(prov);
 		return provenance2rdf.save(this.filePath);

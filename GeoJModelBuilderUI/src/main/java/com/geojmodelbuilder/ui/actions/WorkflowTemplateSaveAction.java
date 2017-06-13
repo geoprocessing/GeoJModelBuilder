@@ -13,6 +13,10 @@ public class WorkflowTemplateSaveAction extends WorkflowAspectSaveAction {
 	}
 	
 	@Override
+	boolean isReady() {
+		return true;
+	}
+	@Override
 	boolean saveAspect() {
 		Template2RDF template2rdf = new Template2RDF(this.workflow, true);
 		return template2rdf.save(this.filePath);
