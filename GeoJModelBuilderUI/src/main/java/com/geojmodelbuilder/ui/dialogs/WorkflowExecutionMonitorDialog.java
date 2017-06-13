@@ -111,13 +111,19 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 		return this.text.getText();
 	}
 
+	private void restoreWorkflow(){
+		for(WorkflowProcess process:this.workflow.getAllProcess()){
+			process.setColor(ColorConstants.lightBlue);
+		}
+	}
 	@Override
 	protected void okPressed() {
 		if(this.workflow == null){
 			this.appendMsg("There is no target workflow.");
 			return;
 		}
-
+		
+		restoreWorkflow();
 		setOKButtonEnabled(false);
 		
 		UIModles2Instance recipe2Plan = new UIModles2Instance(this.workflow);

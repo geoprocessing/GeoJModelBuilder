@@ -32,7 +32,7 @@ public class WorkflowProvenanceSaveAction extends WorkflowAspectSaveAction {
 			return false;
 		
 		int index = dialog.getIndex();
-		IWorkflowProv prov = provs.get(index-1);
+		IWorkflowProv prov = provs.get(index);
 		Provenance2RDF provenance2rdf = new Provenance2RDF(prov);
 		return provenance2rdf.save(this.filePath);
 	}
