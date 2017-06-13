@@ -188,13 +188,15 @@ public class Template2RDF {
 			if(!ValidateUtil.isStrEmpty(metadata.getMimeType()))
 				resArtifact.addLiteral(DP_hasMimeType, metadata.getMimeType());
 		}
-		
-		for(IParameter parameter:port.getInstances()){
-			if(this.saveInstance){
-				this.instance2rdf.artifactCreator(parameter, ontModel);
+		if (port.getInstances() != null) {
+			for(IParameter parameter:port.getInstances()){
+				if(this.saveInstance){
+					this.instance2rdf.artifactCreator(parameter, ontModel);
+				}
+				resArtifact.addProperty(op_tem_hasInstance_artifact, IDGenerator.uri(parameter));
 			}
-			resArtifact.addProperty(op_tem_hasInstance_artifact, IDGenerator.uri(parameter));
 		}
+		
 		return resArtifact;
 	}
 }

@@ -27,16 +27,17 @@ import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.editors.ModelEditor;
 import com.geojmodelbuilder.ui.models.ModelFactory;
 import com.geojmodelbuilder.ui.models.Workflow;
+import com.geojmodelbuilder.ui.workspace.Workspace;
 
 /**
  * @author Mingda Zhang
  *
  */
-public class OpenWorkflowAction extends Action{
+public class WorkflowOpenAction extends Action{
 
 	public static final String ID = "custom.file.open";
 	private IWorkbenchWindow window;
-	public OpenWorkflowAction(IWorkbenchWindow window){
+	public WorkflowOpenAction(IWorkbenchWindow window){
 		this.window = window;
 		this.setText("Open");
 		this.setId(ID);
@@ -48,7 +49,8 @@ public class OpenWorkflowAction extends Action{
 		
 		FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
 		dialog.setFilterExtensions(new String [] {"*.rdf"});
-		dialog.setFilterPath("c:/");
+		String defaultPath = Workspace.getInstance().getModelDir();
+		dialog.setFilterPath(defaultPath);
 		String filePath = dialog.open();
 		
 		if(ValidateUtil.isStrEmpty(filePath))
