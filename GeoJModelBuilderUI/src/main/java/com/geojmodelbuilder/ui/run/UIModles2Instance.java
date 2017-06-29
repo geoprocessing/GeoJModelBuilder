@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.geojmodelbuilder.core.ILink;
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
 import com.geojmodelbuilder.core.instance.IParameter;
 import com.geojmodelbuilder.core.instance.IProcessInstance;
