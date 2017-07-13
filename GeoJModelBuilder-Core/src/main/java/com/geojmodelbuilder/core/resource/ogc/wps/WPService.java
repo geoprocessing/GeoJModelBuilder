@@ -53,6 +53,12 @@ public class WPService {
 	public WPSCapabilitiesType getCapabilitiesType(){
 		return this.capabilitiesType;
 	}
+	
+	public boolean reparseService(){
+		WPSClientSession clientSession = WPSClientSession.getInstance();
+		clientSession.disconnect(url);
+		return parseService();
+	}
 	/**
 	 * Parse using the service address.
 	 * Retrieve the processes hold by this service.

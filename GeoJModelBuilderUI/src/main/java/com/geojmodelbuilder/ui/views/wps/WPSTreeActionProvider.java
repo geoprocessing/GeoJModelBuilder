@@ -84,6 +84,49 @@ public class WPSTreeActionProvider {
 		return addAction;
 	}
 	
+	public Action getUpdateAction(){
+		Action updateAction = new Action("Update") {
+			@Override
+			public void run() {
+				System.out.println("Update Action");
+				if(tree.getSelectionCount()==0)
+					return;
+				
+				TreeItem treeItem = tree.getSelection()[0];
+				Object selectedObj = treeItem.getData();
+				if(selectedObj instanceof WPSNode){
+					WPSNode wpsNode = (WPSNode)selectedObj;
+					WPService wpsService = new WPService();
+					wpsService.setName(wpsNode.getName());
+					wpsService.setUrl(wpsNode.getUrl());
+					
+					if(!wpsService.reparseService()){
+						MessageDialog.openWarning(shell, "Warnning", "Failed to parse the service");
+						return;
+					}
+					
+					WPSNode wpsNode2 = new WPSNode(wpsService.getName(), wpsNode.getParent());
+					wpsNode2.setUrl(wpsService.getUrl());
+					
+					for(WPSProcess process:wpsService.getProcesses()){
+						ProcessNode processNode = new ProcessNode(process.getName(), wpsNode);
+						wpsNode2.addProcess(processNode);
+					}
+			
+					wpsNode.getParent().addWPS(wpsNode2);
+					wpsNode.getParent().removeChild(wpsNode);
+					
+					treeViewer.refresh();
+					
+					WPSCacheThread wpsCacheThread = new WPSCacheThread(wpsService.getUrl(),true);
+					wpsCacheThread.start();
+				}
+			}
+		};
+		
+		return updateAction;
+	}
+	
 	public Action getDeleteAction(){
 		Action deleteAction = new Action("Delete") {
 			@Override
