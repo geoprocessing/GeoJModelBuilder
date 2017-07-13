@@ -90,6 +90,7 @@ public class WPSResourceTreeView extends ViewPart {
 		}else if (selectedObj instanceof WPSNode) {
 			mgr.add(this.treeActions.getSearchAction());
 			mgr.add(this.treeActions.getDeleteAction());
+			mgr.add(this.treeActions.getUpdateAction());
 		}
 		
 		Menu menu = mgr.createContextMenu(tree);

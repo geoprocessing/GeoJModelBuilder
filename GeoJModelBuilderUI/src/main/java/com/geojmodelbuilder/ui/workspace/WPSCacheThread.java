@@ -36,7 +36,7 @@ public class WPSCacheThread extends Thread{
 	private Logger logger;
 
 	public WPSCacheThread(String url) {
-		this(url, true);
+		this(url, false);
 	}
 	
 	public WPSCacheThread(String url, boolean refresh) {
@@ -63,7 +63,14 @@ public class WPSCacheThread extends Thread{
 		wpsService.setUrl(this.serviceURL);
 		wpsService.setVersion(SUPPORTED_VERSION);
 		
-		if(!wpsService.parseService()){
+		boolean parsed = true;
+		if(refresh){
+			parsed = wpsService.reparseService();
+		}else {
+			parsed = wpsService.parseService();
+		}
+		
+		if(!parsed){
 			logger.error("Failed to retrieve service: "+serviceURL);
 			return;
 		}
