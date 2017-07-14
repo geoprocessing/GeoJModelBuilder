@@ -48,6 +48,7 @@ import com.geojmodelbuilder.core.instance.impl.InputParameter;
 import com.geojmodelbuilder.core.instance.impl.OutputParameter;
 import com.geojmodelbuilder.core.instance.impl.ProcessInstance;
 import com.geojmodelbuilder.core.utils.IDGenerator;
+import com.geojmodelbuilder.core.utils.SuffixMimeType;
 import com.geojmodelbuilder.core.utils.ValidateUtil;
 
 /**
@@ -62,7 +63,7 @@ public class WPSProcess extends ProcessInstance {
 	private String wpsUrl;
 	private ProcessDescriptionType processDescription;
 	private WPSClientSession wpsClient;
-
+	
 	public void setProcessDescriptionType(ProcessDescriptionType processDescription) {
 		this.processDescription = processDescription;
 		parseProcessDescriptionType();
@@ -255,12 +256,15 @@ public class WPSProcess extends ProcessInstance {
 				executeBuilder.addLiteralData(identifier,
 						String.valueOf(data.getValue()));
 			} else {
-				IComplexData complexDataData = ((IComplexData) data);
+				IComplexData complexData = ((IComplexData) data);
+				
+				generateInputMimeType(complexData);
+				
 				executeBuilder.addComplexDataReference(identifier,
-						complexDataData.getValue().toString(),
-						complexDataData.getSchema(),
-						complexDataData.getEncoding(),
-						complexDataData.getMimeType());
+						complexData.getValue().toString(),
+						complexData.getSchema(),
+						complexData.getEncoding(),
+						complexData.getMimeType());
 			}
 		}
 
@@ -268,6 +272,8 @@ public class WPSProcess extends ProcessInstance {
 			String identifier = parameter.getName();
 			IData data = parameter.getData();
 			if (data instanceof IComplexData) {
+				generateOutputMimeType((IComplexData)data);
+				
 				executeBuilder.setResponseDocument(identifier, null, "UTF-8",
 						data.getType());
 				executeBuilder.setAsReference(identifier, true);
@@ -285,6 +291,59 @@ public class WPSProcess extends ProcessInstance {
 		return executeBuilder.getExecute();
 	}
 
+	/**
+	 * If the ComplexData doesn't have a mimetype, generate one.
+	 */
+	private void generateInputMimeType(IComplexData complexData){
+		if(!ValidateUtil.isStrEmpty(complexData.getMimeType()))
+			return;
+			
+		String value = complexData.getValue().toString();
+		SuffixMimeType suffixMimeType = SuffixMimeType.getInstance();
+		String suffix = suffixMimeType.getSuffix(value);
+		if(ValidateUtil.isStrEmpty(suffix))
+			return;
+		
+		String mimeType = suffixMimeType.getMimeType(suffix);
+		if(ValidateUtil.isStrEmpty(mimeType))
+			return;
+		
+		complexData.setMimeType(mimeType);
+	}
+	
+	/**
+	 * Generates a mimetype for output according the inputs.
+	 * Sets the default to application/geotiff
+	 */
+	private void generateOutputMimeType(IComplexData complexData){
+		String mimeType = complexData.getMimeType();
+		String inputMimeType;
+		
+		if(!ValidateUtil.isStrEmpty(mimeType))
+			return;
+		
+		for(IInputParameter input:getInputs()){
+			if(!(input.getData() instanceof IComplexData))
+				continue;
+			IComplexData inputComplexData = (IComplexData)input.getData();	
+			inputMimeType = inputComplexData.getMimeType();
+			
+			if(ValidateUtil.isStrEmpty(inputMimeType))
+				continue;
+			
+			mimeType = inputMimeType;
+			
+			if(inputMimeType.contains("tif")){
+				break;
+			}
+		}
+		
+		if(ValidateUtil.isStrEmpty(mimeType))
+			mimeType = "application/geotiff";
+		
+		complexData.setMimeType(mimeType);
+	}
+	
 	private boolean parseResponse(ExecuteResponseDocument responseDoc) {
 
 		ExecuteResponse response = responseDoc.getExecuteResponse();
