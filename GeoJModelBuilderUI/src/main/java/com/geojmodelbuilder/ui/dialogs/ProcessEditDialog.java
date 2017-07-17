@@ -303,6 +303,8 @@ public class ProcessEditDialog extends Dialog implements SelectionListener {
 					"Name field is required.");
 			return;
 		}
+		
+		/* check the number of inputs and outputs
 		int inputCount = this.tableInput.getItemCount();
 		int outputCount = this.tableOutput.getItemCount();
 
@@ -311,6 +313,8 @@ public class ProcessEditDialog extends Dialog implements SelectionListener {
 					"There is at least one input and one output.");
 			return;
 		}
+		*/
+		
 		saveInput();
 		super.okPressed();
 	}
