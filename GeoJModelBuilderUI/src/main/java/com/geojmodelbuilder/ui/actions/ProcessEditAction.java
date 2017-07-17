@@ -21,7 +21,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import com.geojmodelbuilder.ui.dialogs.ProcessEditDialog;
+import com.geojmodelbuilder.ui.editparts.WorkflowConditionEditPart;
 import com.geojmodelbuilder.ui.editparts.WorkflowProcessEditPart;
+import com.geojmodelbuilder.ui.models.WorkflowCondition;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
 /**
  * 
@@ -82,11 +84,13 @@ public class ProcessEditAction extends SelectionAction {
 
 		EditPart editPart = (EditPart) objects.get(0);
 
-		if (!(editPart instanceof WorkflowProcessEditPart))
-			return null;
+		if (editPart instanceof WorkflowProcessEditPart)
+			return (WorkflowProcess)((WorkflowProcessEditPart) editPart).getModel();
 
-		
-		return (WorkflowProcess)((WorkflowProcessEditPart) editPart).getModel();
+		if(editPart instanceof WorkflowConditionEditPart)
+			return (WorkflowCondition)((WorkflowConditionEditPart) editPart).getModel();
+					
+		return null;
 	}
 	
 	@Override
