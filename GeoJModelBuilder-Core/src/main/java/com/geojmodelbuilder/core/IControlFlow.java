@@ -15,5 +15,5 @@ package com.geojmodelbuilder.core;
  * @author Mingda Zhang
  *
  */
-public interface IControlFlow extends ILink{
+public interface IControlFlow extends IDataFlow{
 }

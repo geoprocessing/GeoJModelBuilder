@@ -65,6 +65,7 @@ public class WorkflowNode extends AbstractWorkflowElement implements IAdaptable,
 	}
 
 	public WorkflowNode(String name){
+		this();
 		this.name = name;
 	}
 	public WorkflowNode(Workflow parent){

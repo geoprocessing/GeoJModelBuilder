@@ -13,15 +13,26 @@ package com.geojmodelbuilder.core.impl;
 
 import com.geojmodelbuilder.core.IBranchControl;
 import com.geojmodelbuilder.core.ICondition;
+import com.geojmodelbuilder.core.IExchange;
 import com.geojmodelbuilder.core.IProcess;
 /**
  * @author Mingda Zhang
  *
  */
 public class BranchingControlImpl extends AbstractLinkImpl<ICondition,IProcess> implements IBranchControl {
-
+	private IExchange sourceExchange;
+	private IExchange targetExchange;
+	
 	public boolean isTrue() {
 		return false;
+	}
+
+	public IExchange getSourceExchange() {
+		return this.sourceExchange;
+	}
+
+	public IExchange getTargetExchange() {
+		return this.targetExchange;
 	}
 
 }
