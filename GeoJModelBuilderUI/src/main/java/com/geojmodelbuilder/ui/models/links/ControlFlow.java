@@ -12,6 +12,7 @@
 package com.geojmodelbuilder.ui.models.links;
 
 import com.geojmodelbuilder.core.IBranchControl;
+import com.geojmodelbuilder.ui.models.WorkflowArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowCondition;
 import com.geojmodelbuilder.ui.models.WorkflowProcess;
 /**
@@ -19,32 +20,27 @@ import com.geojmodelbuilder.ui.models.WorkflowProcess;
  * @author Mingda Zhang
  *
  */
-public class ControlFlow extends NodeLink implements IBranchControl{
-
-	@Override
-	public void connect() {
-		super.connect();
-		getTargetProcess().addLink(this);
-	}
-	
-	@Override
-	public void disconnect() {
-		super.disconnect();
-		getTargetProcess().removeLink(this);
-	}
+public class ControlFlow extends DataFlow implements IBranchControl{
 	
 	public WorkflowCondition getCondition() {
 		return (WorkflowCondition)getSourceNode();
 	}
 
-	public WorkflowProcess getTargetProcess() {
-		return (WorkflowProcess)getTargetNode();
-	}
-	
 	public WorkflowCondition getSourceProcess(){
 		return (WorkflowCondition)getSourceNode();
 	}
 
+	@Override
+	public void setSourceProcess(WorkflowProcess sourceProcess) {
+		this.sourceProcess = sourceProcess;
+		setSourceNode(sourceProcess);
+	}
+	
+	@Override
+	public void setSourceArtifact(WorkflowArtifact sourceArtifact) {
+		this.sourceArtifact = sourceArtifact;
+	}
+	
 	@Override
 	public boolean isTrue() {
 		return false;
@@ -52,13 +48,11 @@ public class ControlFlow extends NodeLink implements IBranchControl{
 
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getNamespace() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

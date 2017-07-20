@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
+import com.geojmodelbuilder.ui.models.WorkflowArtifact;
 /**
  * 
  * @author Mingda Zhang
@@ -37,49 +38,71 @@ public class TargetArtifactSelectorDialog extends TitleAreaDialog {
 
 	private List<ProcessInputArtifact> inputPorts;
 	private ProcessInputArtifact targetInputPort;
-	private Combo comboInputPort;
+	private WorkflowArtifact sourceArtifact;
+	private List<WorkflowArtifact> sourceArtifacts;
+	private Combo comboTargetItem,comboSourceItem;
 	private Map<Integer, ProcessInputArtifact> mapInputPort = new HashMap<Integer, ProcessInputArtifact>();
+	private Map<Integer, WorkflowArtifact> mapSourceArtifact = new HashMap<Integer, WorkflowArtifact>();
+	private Composite container_1;
 
-	public TargetArtifactSelectorDialog(Shell parentShell,List<ProcessInputArtifact> inputPorts) {
+	public TargetArtifactSelectorDialog(Shell parentShell,List<WorkflowArtifact> sourceArtifacts, List<ProcessInputArtifact> inputPorts) {
 		super(parentShell);
 		this.inputPorts = inputPorts;
+		this.sourceArtifacts = sourceArtifacts;
 	}
 
 	@Override
 	public void create() {
 		super.create();
 		setTitle("Dataflow construction");
-		setMessage("Please choose an available input port.",
+		setMessage("Please choose available source item and target item.",
 				IMessageProvider.INFORMATION);
 	}
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
-		Composite container = new Composite(area, SWT.NONE);
-		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		GridLayout layout = new GridLayout(2, false);
-		container.setLayout(layout);
+		container_1 = new Composite(area, SWT.NONE);
+		container_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridLayout gl_container_1 = new GridLayout(2, false);
+		container_1.setLayout(gl_container_1);
 
-		createCombo(container);
+		createCombo(container_1);
 		return area;
 	}
 
 	private void createCombo(Composite container){
-		Label lblInputPort = new Label(container, SWT.NONE);
-		lblInputPort.setText("Input Port");
+		Label lblSourceItem = new Label(container_1, SWT.NONE);
+		lblSourceItem.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSourceItem.setText("Source Item:");
 		
-		GridData dataInputPort = new GridData();
-		dataInputPort.grabExcessHorizontalSpace = true;
-		dataInputPort.horizontalAlignment = GridData.FILL;
-		comboInputPort = new Combo(container, SWT.BORDER);
-		comboInputPort.setLayoutData(dataInputPort);
+		comboSourceItem = new Combo(container_1, SWT.NONE);
+		comboSourceItem.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		int i = 0;
+		for(WorkflowArtifact sourceArtifact:this.sourceArtifacts){
+			comboSourceItem.add(sourceArtifact.getName(),i);
+			mapSourceArtifact.put(i, sourceArtifact);
+			i++;
+		}
+		if(i>0)
+			comboSourceItem.select(0);
+		
+		Label lblTargetItem = new Label(container, SWT.NONE);
+		lblTargetItem.setText("Target Item:");
+		
+		GridData gd_comboTargetItem = new GridData();
+		gd_comboTargetItem.grabExcessHorizontalSpace = true;
+		gd_comboTargetItem.horizontalAlignment = GridData.FILL;
+		comboTargetItem = new Combo(container, SWT.BORDER);
+		comboTargetItem.setLayoutData(gd_comboTargetItem);
+		i = 0;
 		for(ProcessInputArtifact inputPort:this.inputPorts){
-			comboInputPort.add(inputPort.getName(), i);
+			comboTargetItem.add(inputPort.getName(), i);
 			mapInputPort.put(i, inputPort);
 			i++;
 		}
+		if(i>0)
+			comboTargetItem.select(0);
 	}
 	
 	//reference
@@ -97,7 +120,7 @@ public class TargetArtifactSelectorDialog extends TitleAreaDialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(450, 200);
+		return new Point(450, 236);
 	}
 
 	@Override
@@ -113,8 +136,11 @@ public class TargetArtifactSelectorDialog extends TitleAreaDialog {
 	// save content of the combo fields because they get disposed
 	// as soon as the Dialog closes
 	private void saveSelection() {
-		int index = comboInputPort.getSelectionIndex();
+		int index = comboTargetItem.getSelectionIndex();
 		this.targetInputPort =  mapInputPort.get(index);
+		
+		index = comboSourceItem.getSelectionIndex();
+		this.sourceArtifact = mapSourceArtifact.get(index);
 	}
 
 	@Override
@@ -126,5 +152,9 @@ public class TargetArtifactSelectorDialog extends TitleAreaDialog {
 
 	public ProcessInputArtifact getTargetInputPort(){
 		return this.targetInputPort;
+	}
+	
+	public WorkflowArtifact getSourceArtifact(){
+		return this.sourceArtifact;
 	}
 }

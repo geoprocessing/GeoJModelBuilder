@@ -11,6 +11,7 @@
  */
 package com.geojmodelbuilder.ui.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.window.Window;
@@ -32,6 +33,8 @@ import com.geojmodelbuilder.ui.models.links.DataFlow;
  */
 public class DataFlowCreateCommand extends LinkCreateCommand {
 
+	private ProcessInputArtifact targetArtifact;
+	private WorkflowArtifact sourceArtifact;
 	@Override
 	public boolean canExecute() {
 		if (!super.canExecute())
@@ -56,26 +59,24 @@ public class DataFlowCreateCommand extends LinkCreateCommand {
 
 	@Override
 	public void execute() {
-		ProcessInputArtifact targetArtifact = getTargetArtifact();
-		if (targetArtifact == null)
+		if(!getSourceAndTargetArtifact())
 			return;
-
+		
 		DataFlow dataFlow = (DataFlow) getLink();
 		
-		WorkflowArtifact sourceArtifact = (WorkflowArtifact)getSourceNode();
-		if (sourceArtifact instanceof ProcessOutputArtifact) {
-			dataFlow.setSourceProcess(((ProcessOutputArtifact)sourceArtifact).getProcess());
+		if (this.sourceArtifact instanceof ProcessOutputArtifact) {
+			dataFlow.setSourceProcess(((ProcessOutputArtifact)this.sourceArtifact).getProcess());
 		}
 		
 		dataFlow.setSourceArtifact(sourceArtifact);
 		dataFlow.setTargetProcess((WorkflowProcess) getTargetNode());
-		dataFlow.setTargetArtifact(targetArtifact);
+		dataFlow.setTargetArtifact(this.targetArtifact);
 		dataFlow.connect();
 	}
 
-	private ProcessInputArtifact getTargetArtifact() {
+	private boolean getSourceAndTargetArtifact() {
 		WorkflowProcess process = (WorkflowProcess) getTargetNode();
-		ProcessInputArtifact inputArtifact = null;
+//		ProcessInputArtifact inputArtifact = null;
 		List<ProcessInputArtifact> inputPorts = process.getInputArtifacts();
 
 		IWorkbenchWindow window = PlatformUI.getWorkbench()
@@ -91,34 +92,45 @@ public class DataFlowCreateCommand extends LinkCreateCommand {
 			// open dialog and await user selection
 			int returnCode = dialog.open();
 			if (returnCode == SWT.CANCEL)
-				return null;
+				return false;
 
-			inputArtifact = new ProcessInputArtifact(
+			ProcessInputArtifact inputArtifact = new ProcessInputArtifact(
 					(WorkflowArtifact) getSourceNode());
 			process.addInputArtifact(inputArtifact);
-
-		} else {
+			inputPorts = process.getInputArtifacts();
+		}
+		
+			WorkflowArtifact artifact = (WorkflowArtifact)getSourceNode();
+			List<WorkflowArtifact> sourceItems = new ArrayList<WorkflowArtifact>();
+			if (artifact instanceof ProcessOutputArtifact) {
+				WorkflowProcess sourceProcess = ((ProcessOutputArtifact)artifact).getProcess();
+				sourceItems.addAll(sourceProcess.getOutputArtifacts());
+			}else {
+				sourceItems.add(artifact);
+			}
+			
 			TargetArtifactSelectorDialog selectDialog = new TargetArtifactSelectorDialog(
-					window.getShell(), inputPorts);
-			if (selectDialog.open() == Window.OK)
-				inputArtifact = selectDialog.getTargetInputPort();
+					window.getShell(), sourceItems,inputPorts);
+			if (selectDialog.open() == Window.OK){
+				this.targetArtifact = selectDialog.getTargetInputPort();
+				this.sourceArtifact = selectDialog.getSourceArtifact();
+			}
 
-			if (process.isInputPortBound(inputArtifact)) {
+			if (process.isInputPortBound(this.targetArtifact)) {
 				MessageBox dialog = new MessageBox(window.getShell(),
 						SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				dialog.setText(inputArtifact.getName() + " is already used");
+				dialog.setText(this.targetArtifact.getName() + " is already used");
 				dialog.setMessage("The input port is already bound to an artifact.\nWould you like to add a new one to the process?");
 
 				// open dialog and await user operation
 				if (dialog.open() == SWT.NO)
-					return null;
+					return false;
 
-				inputArtifact = new ProcessInputArtifact(
+				this.targetArtifact = new ProcessInputArtifact(
 						(WorkflowArtifact) getSourceNode());
-				process.addInputArtifact(inputArtifact);
+				process.addInputArtifact(this.targetArtifact);
 			}
-		}
-
-		return inputArtifact;
+			
+		return true;
 	}
 }

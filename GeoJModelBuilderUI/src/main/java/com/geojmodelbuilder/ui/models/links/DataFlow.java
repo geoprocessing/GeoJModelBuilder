@@ -31,9 +31,9 @@ import com.geojmodelbuilder.ui.models.WorkflowProcess;
  */
 public class DataFlow extends NodeLink implements IDataFlow{
 	/** this may be null if artifact is independent. */
-	private WorkflowProcess sourceProcess;
+	protected WorkflowProcess sourceProcess;
 	private WorkflowProcess targetProcess;
-	private WorkflowArtifact sourceArtifact;
+	protected WorkflowArtifact sourceArtifact;
 	private ProcessInputArtifact targetArtifact;
 	private Workflow parent;
 	

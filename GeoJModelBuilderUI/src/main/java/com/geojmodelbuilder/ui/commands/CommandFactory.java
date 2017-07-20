@@ -21,12 +21,12 @@ import com.geojmodelbuilder.ui.models.links.NodeLink;
  */
 public class CommandFactory {
 	public static LinkCreateCommand getLinkCreateCommand(NodeLink link) {
+		// the control flow is subclass of data flow
+		if(link instanceof ControlFlow)
+			return new ControlFlowCreateCommand();
 		
 		if(link instanceof DataFlow)
 			return new DataFlowCreateCommand();
-		
-		if(link instanceof ControlFlow)
-			return new ControlFlowCreateCommand();
 		
 		return new LinkCreateCommand();
 		

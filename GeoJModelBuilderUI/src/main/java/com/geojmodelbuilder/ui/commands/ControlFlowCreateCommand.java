@@ -11,8 +11,19 @@
  */
 package com.geojmodelbuilder.ui.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.window.Window;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+
+import com.geojmodelbuilder.ui.dialogs.TargetArtifactSelectorDialog;
+import com.geojmodelbuilder.ui.models.ProcessInputArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowArtifact;
 import com.geojmodelbuilder.ui.models.WorkflowCondition;
+import com.geojmodelbuilder.ui.models.WorkflowProcess;
+import com.geojmodelbuilder.ui.models.links.ControlFlow;
 import com.geojmodelbuilder.ui.models.links.FalseThenFlow;
 import com.geojmodelbuilder.ui.models.links.TrueThenFlow;
 /**
@@ -30,11 +41,15 @@ public class ControlFlowCreateCommand extends LinkCreateCommand {
 		if (!(getSourceNode() instanceof WorkflowCondition))
 			return false;
 
-		// The target must not be a conditon or artifact
+		/*// The target must not be a conditon or artifact
 		if (getTargetNode() instanceof WorkflowCondition
 				|| getTargetNode() instanceof WorkflowArtifact)
-			return false;
+			return false;*/
 
+		//The target must be a workflow process, including WorkflowCondition
+		if(!(getTargetNode() instanceof WorkflowProcess))
+			return false;
+		
 		WorkflowCondition condition = (WorkflowCondition)getSourceNode();
 		
 		//There is only one FalseThenFlow
@@ -49,5 +64,41 @@ public class ControlFlowCreateCommand extends LinkCreateCommand {
 		
 		
 		return true;
+	}
+	
+	@Override
+	public void execute() {
+		WorkflowCondition sourceCondition = (WorkflowCondition)getSourceNode();
+		WorkflowProcess targetProcess = (WorkflowProcess)getTargetNode();
+		
+		//if there is no data item to bind, just create the control flow
+		if (sourceCondition.getInputArtifacts().size()==0||targetProcess.getInputArtifacts().size()==0) {
+			super.execute();
+			return;
+		}
+		
+		List<WorkflowArtifact> sourceArtifacts = new ArrayList<WorkflowArtifact>();
+		sourceArtifacts.addAll(sourceCondition.getInputArtifacts());
+		IWorkbenchWindow window = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow();
+		TargetArtifactSelectorDialog selectDialog = new TargetArtifactSelectorDialog(
+				window.getShell(), sourceArtifacts,targetProcess.getInputArtifacts());
+		
+		if(selectDialog.open() != Window.OK)
+			return;
+		
+		WorkflowArtifact targetArtifact = selectDialog.getTargetInputPort();
+		WorkflowArtifact sourceArtifact = selectDialog.getSourceArtifact();
+		if(targetArtifact == null || sourceArtifact == null){
+			super.execute();
+			return;
+		}
+		
+		ControlFlow controlFlow = (ControlFlow)getLink();
+		controlFlow.setSourceProcess(sourceCondition);
+		controlFlow.setSourceArtifact(sourceArtifact);
+		controlFlow.setTargetProcess((WorkflowProcess) getTargetNode());
+		controlFlow.setTargetArtifact((ProcessInputArtifact)targetArtifact);
+		getLink().connect();
 	}
 }
