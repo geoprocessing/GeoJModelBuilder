@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:WorkflowInstance
+	xmlns:ows="http://www.opengis.net/ows/2.0"
+	xmlns:wps="http://www.opengis.net/wps/2.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:wls="http://geos.whu.edu.cn/wls/1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<ows:Title>Water Extraction Workflow</ows:Title>
+	<ows:Identifier>http://geos.whu.edu.cn/workflow/instance/water_extraction</ows:Identifier>
+	<ows:Metadata xlink:role="http://geos.whu.edu.cn/workflow/description/documentation" xlink:href="http://geos.whu.edu.cn/workflow/description/water_extraction.html"/>
+	
+	<wls:ProcessInstance execType="OGC_WPS" >
+		<ows:Identifier>http://geos.whu.edu.cn/wps10/RasterMapcalcProcess/843f0661-3661-11e7-b6bc-3417ebce41fe</ows:Identifier>
+		<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/wps10/config/processes/RasterMapcalcProcess.xml"/>
+		<wls:Name>RasterMapcalcProcess</wls:Name>
+		<wls:WPSEnv id="fa98ce70-3663-11e7-a821-3417ebce41fe" version="1.0.0" mode="sync">
+			<URL>http://geos.whu.edu.cn/wps10/WebProcessingService</URL>
+		</wls:WPSEnv>
+		
+		<wls:Input id="FirstInputData">
+			<wps:Reference mimeType="application/geotiff" xlink:href="http://202.114.118.181:8080/wps10/datas/image1.tif"/>
+		</wls:Input>
+		<wls:Input id="SencondInputData">
+			<wps:Reference mimeType="application/geotiff" xlink:href="http://202.114.118.181:8080/wps10/datas/image2.tif"/>
+		</wls:Input>	
+		<wls:Output id="OutputData"/>
+	</wls:ProcessInstance>
+
+	<wls:ProcessInstance execType="OGC_WPS">
+		<ows:Identifier>http://geos.whu.edu.cn/wps10/RasterBinaryProcess/3995f2c0-3663-11e7-9d44-3417ebce41fe</ows:Identifier>
+		<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/wps10/config/processes/RasterBinaryProcess.xml"/>
+		<wls:Name>RasterBinaryProcess</wls:Name>
+		<wls:WPSEnv id="fa98ce70-3663-11e7-a821-3417ebce41fe" mode="sync"/>	
+		<wls:Input id="InputData">
+			<wps:Reference mimeType="application/geotiff" xlink:href="843f0661-3661-11e7-b6bc-3417ebce41fe#OutputData"/>
+		</wls:Input>		
+		<wls:Output id="OutputData"/>
+	</wls:ProcessInstance>
+	
+	<wls:Link sourceProcess ="http://geos.whu.edu.cn/wps10/RasterMapcalcProcess/843f0661-3661-11e7-b6bc-3417ebce41fe" 
+			  sourceVariable="OutputData"
+			  targetProcess="http://geos.whu.edu.cn/wps10/RasterBinaryProcess/3995f2c0-3663-11e7-9d44-3417ebce41fe"
+			  targetVariable="InputData"/>
+</wls:WorkflowInstance>
