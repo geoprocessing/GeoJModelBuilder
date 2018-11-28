@@ -28,5 +28,15 @@
    		 	<artifactId>xmlbeans</artifactId>
    			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+		<groupId>geoprocessing</groupId>
+		<artifactId>GeoJModelBuilder-Core</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+ 	<dependency>
+		<groupId>geoprocessing</groupId>
+		<artifactId>GeoJModelBuilder-Engine</artifactId>
+		<version>${project.version}</version>
+	</dependency> 
 	</dependencies>
 </project>
