@@ -1,6 +1,5 @@
 package com.geojmodelbuilder.xml.deserialization;
 
-import java.awt.image.TileObserver;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,11 +32,10 @@ import com.geojmodelbuilder.core.instance.impl.InputParameter;
 import com.geojmodelbuilder.core.instance.impl.OutputParameter;
 import com.geojmodelbuilder.core.instance.impl.WorkflowInstance;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
-import com.geojmodelbuilder.engine.impl.WorkflowExecutor;
 
 public class XML2Instance {
 
-	public WorkflowInstance Parse(String xmlFile) {
+	public WorkflowInstance parse(String xmlFile) {
 		WorkflowInstance workflowInstance = new WorkflowInstance();
 		
 		try {
@@ -218,15 +216,5 @@ public class XML2Instance {
 		
 		process.addInput(inputParam);
 		return true;
-	}
-	
-	public static void main(String[] args)
-	{
-		String xmlFile = "D:/test.xml";
-		 XML2Instance xml2Inst = new XML2Instance();
-		 WorkflowInstance workflowInstance = xml2Inst.Parse(xmlFile);
-		 
-		 WorkflowExecutor executor2 = new WorkflowExecutor(workflowInstance);
-		 executor2.run();
 	}
 }
