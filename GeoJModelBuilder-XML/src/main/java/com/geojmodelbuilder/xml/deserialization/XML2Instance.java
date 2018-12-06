@@ -1,5 +1,6 @@
 package com.geojmodelbuilder.xml.deserialization;
 
+import java.awt.image.TileObserver;
 import java.io.File;
 import java.io.IOException;
 
@@ -11,30 +12,59 @@ import net.opengis.wps.x20.ReferenceType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 
+import cn.edu.whu.geos.wls.x10.ExecEnvDocument;
 import cn.edu.whu.geos.wls.x10.ExecEnvType;
 import cn.edu.whu.geos.wls.x10.LinkType;
 import cn.edu.whu.geos.wls.x10.ProcessInstanceType;
 import cn.edu.whu.geos.wls.x10.ProcessInstanceType.ExecType;
+import cn.edu.whu.geos.wls.x10.WPSEnvDocument;
+import cn.edu.whu.geos.wls.x10.WPSEnvDocument.WPSEnv;
 import cn.edu.whu.geos.wls.x10.WorkflowInstanceDocument;
 import cn.edu.whu.geos.wls.x10.WorkflowInstanceType;
 
+import com.geojmodelbuilder.core.data.IData;
+import com.geojmodelbuilder.core.data.impl.ComplexData;
+import com.geojmodelbuilder.core.data.impl.LiteralData;
+import com.geojmodelbuilder.core.impl.DataFlowImpl;
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IOutputParameter;
+import com.geojmodelbuilder.core.instance.IProcessInstance;
+import com.geojmodelbuilder.core.instance.impl.InputParameter;
+import com.geojmodelbuilder.core.instance.impl.OutputParameter;
+import com.geojmodelbuilder.core.instance.impl.WorkflowInstance;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
+import com.geojmodelbuilder.engine.impl.WorkflowExecutor;
 
 public class XML2Instance {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		File xmlFile = new File("D:/test.xml");
-//		File xmlFile = new File("D:/workflow/example/water_extraction_instance.xml");
-
-		// Bind the instance to the generated XMLBeans types.
-		
+	public WorkflowInstance Parse(String xmlFile) {
+		WorkflowInstance workflowInstance = new WorkflowInstance();
 		
 		try {
-			//可以直接从XML流中读取
-			WorkflowInstanceDocument empDoc = WorkflowInstanceDocument.Factory.parse(xmlFile);
+			//read from xml file
+			File file = new File(xmlFile);
+			WorkflowInstanceDocument empDoc = null;
+			try {
+				empDoc = WorkflowInstanceDocument.Factory.parse(file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			WorkflowInstanceType wlstype= empDoc.getWorkflowInstance();
 			ProcessInstanceType[] processes = wlstype.getProcessInstanceArray();
+			
+			//reading the title, abstract, metadata
+			workflowInstance.setID(wlstype.getIdentifier().toString());
+			if(wlstype.getAbstractArray().length!=0){
+				String des = wlstype.getAbstractArray(0).getStringValue();
+				workflowInstance.setDescription(des);
+			}
+			if(wlstype.getTitleArray().length!=0){
+				String title = wlstype.getTitleArray(0).getStringValue();
+				workflowInstance.setName(title);
+			}
+			
+			//parse the Process, only support WPS for now.
 			for (ProcessInstanceType processInstanceType : processes) {
 				ExecType.Enum execType = processInstanceType.getExecType();
 				
@@ -42,71 +72,161 @@ public class XML2Instance {
 				if(!execType.equals(ExecType.Enum.forString("OGC_WPS")))
 					continue;
 				
-				parseWPSProcess(processInstanceType);
+				WPSProcess process = parseWPSProcess(processInstanceType);
+				workflowInstance.addProcess(process);
 			}
+			
+			//parse link
 			LinkType[] links =  wlstype.getLinkArray();
+			for(LinkType link:links)
+			{
+				parseLink(link, workflowInstance);
+			}
 			
-			
-//			ExecuteRequestType exeReqType = empDoc.getExecute();
-		} catch (XmlException | IOException e) {
+		} catch (XmlException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 
 		// Get and print pieces of the XML instance.
 		
-		
-		System.out.println("test");
+		return workflowInstance;
 	}
-	private static WPSProcess parseWPSProcess(ProcessInstanceType processInstanceType)
+	
+	private void parseLink(LinkType linkType,WorkflowInstance workflowInstance){
+		String srcProcessId = linkType.getSourceProcess();
+		String srcParamId = linkType.getSourceVariable();
+		String tarProcessId = linkType.getTargetProcess();
+		String tarParamId = linkType.getTargetVariable();
+		
+		IProcessInstance srcProcess = searchById(workflowInstance, srcProcessId);
+		IOutputParameter srcInput = srcProcess.getOutput(srcParamId);
+		
+		IProcessInstance tarProcess = searchById(workflowInstance, tarProcessId);
+		IInputParameter tarInput = tarProcess.getInput(tarParamId);
+		
+		DataFlowImpl dataFlow = new DataFlowImpl(srcProcess, srcInput, tarProcess, tarInput);
+		srcProcess.addLink(dataFlow);
+		tarProcess.addLink(dataFlow);
+	}
+	
+	private IProcessInstance searchById(WorkflowInstance workflowInstance,String id){
+		for(IProcessInstance process : workflowInstance.getProcesses()){
+			if(process.getID().equals(id))
+				return process;
+		}
+		return null;
+	}
+	private WPSProcess parseWPSProcess(ProcessInstanceType processInstanceType)
 	{
-		processInstanceType.getExecType();
+		//processInstanceType.getExecType();
 	    ExecEnvType envtype = processInstanceType.getExecEnv();
-
+	    ExecEnvDocument execDoc =ExecEnvDocument.Factory.newInstance();
+	    execDoc.setExecEnv(envtype);
+	    
+	    WPSEnvDocument envDoc = null;
+	    
+		try {
+			//System.out.println(execDoc.xmlText());
+			String xmlString = execDoc.xmlText();
+			xmlString = xmlString.replaceAll("ExecEnv", "WPSEnv");
+			envDoc = WPSEnvDocument.Factory.parse(xmlString);
+			
+		} catch (XmlException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	    WPSEnv wpsenv = envDoc.getWPSEnv();
 	    String name = processInstanceType.getName();
-	    System.out.println("name is "+ name);
+	    //System.out.println("name is "+ name);
 	    String identifier = processInstanceType.getIdentifier().getStringValue();
 	    
 	    WPSProcess wpsProcess = new WPSProcess(name);
-	    
+	    wpsProcess.setID(identifier);
 	    //the WPS address
 	   // String url = wpsEnv.getURL();
-	    wpsProcess.setWPSUrl("");
-	    
+	    wpsProcess.setWPSUrl(wpsenv.getURL());
 	   
 	    DataInputType[] inputs = processInstanceType.getInputArray();
-	    System.out.println("the count of inputs is " + inputs.length);
+	    //System.out.println("the count of inputs is " + inputs.length);
 	    for (DataInputType dataInputType : inputs) {
-			try {
-				parseInput(dataInputType);
-			} catch (XmlException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			parseInput(wpsProcess,dataInputType);
 		}
 	    
 	    OutputDefinitionType[] outputs = processInstanceType.getOutputArray();
-	    System.out.println(envtype);
+	    for(OutputDefinitionType outputType:outputs){
+	    	parseOutput(wpsProcess,outputType);
+	    }
+	    //System.out.println(envtype);
 		return wpsProcess;
 	}
 	
-	private static void parseInput(DataInputType inputType) throws XmlException
-	{
-		Data data = inputType.getData();
-		String value2;
-		if(data!=null)
-		{
-			value2 = data.xmlText();
-			XmlCursor xmlCursor = data.newCursor();
-			String value = xmlCursor.getTextValue();
-			
-			System.out.println(value2);
-			//String value = data.getDomNode().getNodeValue();
-		}
-		ReferenceType refType = inputType.getReference();
-		if(refType!=null){
-			String input = refType.getHref();
+	
+	/*
+	 * parse the output 
+	 */
+	private boolean parseOutput(WPSProcess process, OutputDefinitionType output){
+		String transmission = output.getTransmission().toString();
+		IOutputParameter outputParam = new OutputParameter(process);
+		outputParam.setName(output.getId());
+		IData data = null;
+		if (transmission.equalsIgnoreCase("value")) {
+			data = new LiteralData();
+		}else {
+			data = new ComplexData();
+			String mimeType = output.getMimeType();
+			if(mimeType!=null)
+				data.setType(mimeType);
 		}
 		
+		outputParam.setData(data);
+		process.addOutput(outputParam);
+		
+		return true;
+	}
+	
+	/*
+	 * parse the input
+	 */
+	private boolean parseInput(WPSProcess process,DataInputType inputType) 
+	{
+		ReferenceType refType = inputType.getReference();
+		IData data = null;
+		
+		IInputParameter inputParam = new InputParameter(process);
+		
+		//ComplexData
+		if(refType!=null){
+			data= new ComplexData();
+			data.setValue(refType.getHref());
+			data.setType(refType.getMimeType());
+		}
+		else {
+			Data literalData = inputType.getData();
+			
+			data = new LiteralData();
+			//String xmlValue = literalData.xmlText();
+			XmlCursor xmlCursor = literalData.newCursor();
+			String value = xmlCursor.getTextValue();
+			data.setValue(value);
+		}
+		
+		inputParam.setData(data);
+		inputParam.setName(inputType.getId());
+		
+		process.addInput(inputParam);
+		return true;
+	}
+	
+	public static void main(String[] args)
+	{
+		String xmlFile = "D:/test.xml";
+		 XML2Instance xml2Inst = new XML2Instance();
+		 WorkflowInstance workflowInstance = xml2Inst.Parse(xmlFile);
+		 
+		 WorkflowExecutor executor2 = new WorkflowExecutor(workflowInstance);
+		 executor2.run();
 	}
 }
