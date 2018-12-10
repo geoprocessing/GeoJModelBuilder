@@ -42,7 +42,9 @@ Bundle-ClassPath: .,
  lib/jena-iri-3.1.1.jar,
  lib/jena-shaded-guava-3.1.1.jar,
  lib/xercesImpl-2.11.0.jar,
- lib/xml-apis-1.4.01.jar
+ lib/xml-apis-1.4.01.jar,
+ lib/GeoJModelBuilder-XML-1.0.0-SNAPSHOT.jar,
+ lib/wls.jar
 Bundle-Activator: com.geojmodelbuilder.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

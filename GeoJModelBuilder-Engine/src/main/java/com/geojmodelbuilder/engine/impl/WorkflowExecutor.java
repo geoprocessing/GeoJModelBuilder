@@ -11,6 +11,9 @@
  */
 package com.geojmodelbuilder.engine.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +33,7 @@ public class WorkflowExecutor implements IListener {
 
 	private Logger logger;
 	private WorkflowEngine workflowEngine;
+	private ExecutorStatus status;
 	
 	public WorkflowExecutor(IWorkflowInstance workflowExec){
 		this.logger = LoggerFactory.getLogger(WorkflowExecutor.class);
@@ -40,6 +44,7 @@ public class WorkflowExecutor implements IListener {
 	
 	public void run(){
 		this.workflowEngine.execute();
+		status = ExecutorStatus.RUNNING;
 	}
 	public void onEvent(IProcessEvent event) {
 		IProcess source = event.getSource();
@@ -52,7 +57,44 @@ public class WorkflowExecutor implements IListener {
 			}
 		}else if (eventType == EventType.Stopped) {
 			logger.info("Workflow engine is stopped");
+			boolean engineStatus = this.workflowEngine.getWorkflowTrace().getStatus();
+			if(engineStatus)
+				this.status = ExecutorStatus.SUCCEEDED;
+			else 
+				this.status = ExecutorStatus.FAILED;
 		}
 	}
-
+	
+	public ExecutorStatus getStatus(){
+		return this.status;
+	}
+	
+	public List<IProcess> getFailedIProcess()
+	{
+		if(this.status==ExecutorStatus.RUNNING || this.status == ExecutorStatus.SUCCEEDED)
+			return null;
+		
+		List<IProcess> failedProcess = new ArrayList<IProcess>();
+		for(IProcessProv processProv:this.workflowEngine.getWorkflowTrace().getProcesses()){
+			if(!processProv.getStatus())
+				failedProcess.add(processProv.getProcess());
+		}
+		
+		return failedProcess;
+	}
+	
+	public List<IProcess> getExecutedProcess()
+	{
+		List<IProcess> executedProcess = new ArrayList<IProcess>();
+		for(IProcessProv processProv:this.workflowEngine.getWorkflowTrace().getProcesses()){
+			if(!processProv.getStatus())
+				executedProcess.add(processProv.getProcess());
+		}
+		
+		return executedProcess;
+	}
+	
+	public enum ExecutorStatus {  
+		  RUNNING, FAILED, SUCCEEDED  
+	}
 }

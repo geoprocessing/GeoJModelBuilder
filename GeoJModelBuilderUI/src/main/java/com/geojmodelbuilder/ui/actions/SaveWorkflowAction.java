@@ -32,6 +32,7 @@ import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.editors.ModelEditor;
 import com.geojmodelbuilder.ui.models.Workflow;
 import com.geojmodelbuilder.ui.run.UIModles2Instance;
+import com.geojmodelbuilder.xml.serialization.Instance2XML;
 
 /**
  * @author Mingda Zhang
@@ -89,6 +90,9 @@ public class SaveWorkflowAction extends Action{
 		for(IWorkflowInstance instance:workflowInstances){
 			numInstance ++;
 			String idlfile = parentFile + File.separator + "Idl" + numInstance + "_" + filename;
+			Instance2XML instance2xml = new Instance2XML(instance);
+			instance2xml.save(idlfile+".xml");
+			
 			Instance2RDF instance2rdf = new Instance2RDF(instance);
 			instance2rdf.save(idlfile);
 		}
@@ -99,6 +103,10 @@ public class SaveWorkflowAction extends Action{
 			if(workflowInstance != null){
 				numInstance ++;
 				String idlfile = parentFile + File.separator + "Instance_" + filename;
+				
+				Instance2XML instance2xml = new Instance2XML(workflowInstance);
+				instance2xml.save(idlfile+".xml");
+				
 				Instance2RDF instance2rdf = new Instance2RDF(workflowInstance);
 				instance2rdf.save(idlfile);
 			}

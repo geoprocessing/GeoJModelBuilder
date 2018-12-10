@@ -51,6 +51,8 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 	// Executed
 	private WorkflowProv workflowTrace;
 	
+	private List<IProcess> runningProcess = new ArrayList<IProcess>(3);
+	
 	private ThreadPoolExecutor executorPool;
 	private Logger logger;
 	private IRecorder recorder;
@@ -117,6 +119,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 				executorPool.execute(executor);
 				recordMsg("--- sumbit the " + executor.getProcess().getName()
 						+ " to execute.");
+				this.runningProcess.add(executor.getProcess());
 				}
 		}
 		return true;
@@ -131,6 +134,8 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 						+ " successfully.");
 				IProcess process = ((IProcessProv) source).getProcess();
 				printOutputs(process);
+				if(this.runningProcess.contains(process))
+					this.runningProcess.remove(process);
 				this.workflowTrace.addProcess((IProcessProv)source);
 				this.executors.remove(process);
 				this.sendEvent(new ProcessEvent(EventType.StepPerformed, source));
@@ -150,7 +155,10 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 					recordMsg("Error info:"
 							+ ((IProcessInstance) process).getErrInfo());
 				}
-				this.workflowTrace.addProcess((IProcessProv)source);
+				IProcessProv processProv = (IProcessProv)source;
+				if(this.runningProcess.contains(process))
+					this.runningProcess.remove(process);
+				this.workflowTrace.addProcess(processProv);
 				this.executors.remove(process);
 				
 			}
@@ -162,6 +170,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		} else if (eventType == EventType.Ready) {
 			ProcessExecutor executor = executors.getExecutor(source);
 			this.executorPool.execute(executor);
+			this.runningProcess.add(executor.getProcess());
 			recordMsg("--- sumbit the " + source.getName() + " to execute.");
 		}
 		
@@ -257,5 +266,9 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		for (IListener listener : listeners) {
 			listener.onEvent(event);
 		}
+	}
+	
+	public List<IProcess> getRunning(){
+		return this.runningProcess;
 	}
 }
