@@ -1,7 +1,6 @@
 package com.geojmodelbuilder.xml.deserialization;
 
 import java.io.File;
-import java.io.IOException;
 
 import net.opengis.wps.x20.DataDocument.Data;
 import net.opengis.wps.x20.DataInputType;

@@ -48,7 +48,7 @@ public class Instance2XML {
 	
 	//save the WPS execution environments, key is GetCapabilities url
 	private Map<String, WPSEnvDocument> envDocMap = new HashMap<String, WPSEnvDocument>();
-	
+	private WorkflowInstanceDocument document;
 	
 	@SuppressWarnings("rawtypes")
 	public Instance2XML(IWorkflowInstance workflowInstance){
@@ -139,10 +139,20 @@ public class Instance2XML {
 		linkType.setTargetVariable(tarExchange.getName());
 	}
 	
-	public boolean save(String filePath)
-	{
+	/**
+	 * save to text
+	 * @return
+	 */
+	public String xmlText(){
+		buildDoc();
+		return document.xmlText(xmlOptions);
+	}
+	
+	private boolean buildDoc(){
+		if(this.document !=null)
+			return true;
 		
-		WorkflowInstanceDocument document = WorkflowInstanceDocument.Factory.newInstance();
+		document = WorkflowInstanceDocument.Factory.newInstance();
 		WorkflowInstanceType workflowInstanceType = document.addNewWorkflowInstance();
 		
 		//set the title
@@ -184,6 +194,16 @@ public class Instance2XML {
 			}
 		}
 		
+		return true;
+	}
+	
+	/*
+	 * save to file 
+	 */
+	public boolean save(String filePath)
+	{
+		buildDoc();
+		
 		try {
 			document.save(new File(filePath),xmlOptions);
 			
@@ -194,6 +214,7 @@ public class Instance2XML {
 		
 		return true;
 	}
+	
 	
 	//only consider the WPS 1.0 version
 	private WPSEnvDocument getEnv(String url){

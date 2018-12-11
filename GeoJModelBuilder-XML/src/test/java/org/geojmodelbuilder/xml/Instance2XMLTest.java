@@ -26,6 +26,8 @@ public class Instance2XMLTest {
 		Instance2XML instance2xml = new Instance2XML(workflowPlan.getInstanceWorkflow());
 		
 		instance2xml.save("D:/Workspace/water_Extraction_workflow_instance.xml");
+		
+		System.out.println(instance2xml.xmlText());
 		System.out.println("success");
 	}
 }

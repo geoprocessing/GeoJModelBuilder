@@ -94,6 +94,15 @@ public class WorkflowExecutor implements IListener {
 		return executedProcess;
 	}
 	
+	public WorkflowEngine getEngine(){
+		return this.workflowEngine;
+	}
+	
+	/**
+	 * the status of the workflow executor
+	 * @author Mingda Zhang
+	 *
+	 */
 	public enum ExecutorStatus {  
 		  RUNNING, FAILED, SUCCEEDED  
 	}
