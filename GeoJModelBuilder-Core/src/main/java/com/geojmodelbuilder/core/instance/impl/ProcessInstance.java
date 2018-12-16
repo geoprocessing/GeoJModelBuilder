@@ -53,6 +53,7 @@ public class ProcessInstance extends AbstractProcessImpl<IInputParameter, IOutpu
 		return this.strBufErr;
 	}
 
+	@Override
 	public String getErrInfo() {
 		return this.strBufErr.toString();
 	}

@@ -18,6 +18,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlOptions;
 
 import cn.edu.whu.geos.wls.x10.ExtendedLinkType;
+import cn.edu.whu.geos.wls.x10.ProcessInstanceDocument;
 import cn.edu.whu.geos.wls.x10.ProcessInstanceType;
 import cn.edu.whu.geos.wls.x10.ProcessInstanceType.ExecType;
 import cn.edu.whu.geos.wls.x10.WPSEnvDocument;
@@ -49,6 +50,7 @@ public class Instance2XML {
 	//save the WPS execution environments, key is GetCapabilities url
 	private Map<String, WPSEnvDocument> envDocMap = new HashMap<String, WPSEnvDocument>();
 	private WorkflowInstanceDocument document;
+	private Map<String, ProcessInstanceDocument> processDocMap = new HashMap<String, ProcessInstanceDocument>();
 	
 	@SuppressWarnings("rawtypes")
 	public Instance2XML(IWorkflowInstance workflowInstance){
@@ -67,7 +69,7 @@ public class Instance2XML {
 	private void addProcess(WorkflowInstanceType workflowInstanceType,WPSProcess wpsProcess){
 		ProcessInstanceType processType = workflowInstanceType.addNewProcessInstance();
 		processType.setExecType(ExecType.Enum.forString("OGC_WPS"));
-		
+
 		String processid = wpsProcess.getID();
 		CodeType processIdType =  processType.addNewIdentifier();
 		if(ValidateUtil.isStrEmpty(processid))
@@ -86,6 +88,10 @@ public class Instance2XML {
         for(IOutputParameter outputParam:wpsProcess.getOutputs()){
         	this.addOutput(processType, outputParam);
         }
+        
+		ProcessInstanceDocument processDoc = ProcessInstanceDocument.Factory.newInstance();
+		processDoc.setProcessInstance(processType);
+		this.processDocMap.put(processid, processDoc);
 	}
 	
 	private void addOutput(ProcessInstanceType processType, IOutputParameter outputParam)
@@ -120,6 +126,16 @@ public class Instance2XML {
             XmlCursor xmlCursor = dataType.newCursor();
             xmlCursor.setTextValue(data.getValue().toString());
 		}
+	}
+	
+	public ProcessInstanceDocument getProcessDoc(String processId){
+		buildDoc();
+		return this.processDocMap.get(processId);
+	}
+	
+	
+	public XmlOptions getXmlOptions(){
+		return this.xmlOptions;
 	}
 	
 	private void addLink(ILink link, WorkflowInstanceType workflowInstance){

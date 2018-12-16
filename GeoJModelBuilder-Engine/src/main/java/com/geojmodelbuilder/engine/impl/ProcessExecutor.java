@@ -217,6 +217,7 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 		if (flag) {
 			sendEvent(new ProcessEvent(EventType.Succeeded,processTrace));
 		}else{
+			processTrace.setErrInfo(this.process.getErrInfo());
 			sendEvent(new ProcessEvent(EventType.Failed,processTrace));
 		}
 	}

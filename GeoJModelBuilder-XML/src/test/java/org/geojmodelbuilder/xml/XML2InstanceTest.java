@@ -32,7 +32,7 @@ public class XML2InstanceTest {
 		executor2.run();
 		
 		while (executor2.getStatus() == ExecutorStatus.RUNNING) {
-			System.err.println(executor2.getStatus());
+			//System.err.println(executor2.getStatus());
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

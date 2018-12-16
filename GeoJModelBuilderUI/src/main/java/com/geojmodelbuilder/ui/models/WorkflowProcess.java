@@ -293,4 +293,10 @@ public class WorkflowProcess extends WorkflowNode implements IProcessTemplate{
 		
 		return this.namespace;
 	}
+
+	@Override
+	public String getErrInfo() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 }

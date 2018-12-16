@@ -236,6 +236,9 @@ public class WPSProcess extends ProcessInstance {
 			return parseResponse((ExecuteResponseDocument) response);
 		} else if (response instanceof ExceptionReportDocument) {
 			appendErr("Exception occurred.");
+			appendErr(((ExceptionReportDocument) response).xmlText());
+		}else {
+			appendErr(response.toString());
 		}
 
 		return false;
