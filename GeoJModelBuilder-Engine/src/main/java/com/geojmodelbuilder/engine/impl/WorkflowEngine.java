@@ -176,7 +176,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		
 	}
 
-	private void dispose(){
+	public void dispose(){
 		this.workflowTrace.setEndTime(new Date());
 		
 		this.executorPool.shutdownNow();

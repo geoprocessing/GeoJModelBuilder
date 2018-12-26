@@ -122,7 +122,7 @@ public class XML2Instance {
 	private IProcessInstance searchById(WorkflowInstance workflowInstance,
 			String id) {
 		for (IProcessInstance process : workflowInstance.getProcesses()) {
-			if (process.getID().equals(id))
+			if (process.getID().trim().equals(id.trim()))
 				return process;
 		}
 		return null;
@@ -152,12 +152,14 @@ public class XML2Instance {
 		// System.out.println("name is "+ name);
 		String identifier = processInstanceType.getIdentifier()
 				.getStringValue();
+		if(identifier!=null)
+			identifier = identifier.trim();
 
 		WPSProcess wpsProcess = new WPSProcess(name);
 		wpsProcess.setID(identifier);
 		// the WPS address
 		// String url = wpsEnv.getURL();
-		wpsProcess.setWPSUrl(wpsenv.getURL());
+		wpsProcess.setWPSUrl(wpsenv.getURL().trim());
 
 		DataInputType[] inputs = processInstanceType.getInputArray();
 		// System.out.println("the count of inputs is " + inputs.length);
