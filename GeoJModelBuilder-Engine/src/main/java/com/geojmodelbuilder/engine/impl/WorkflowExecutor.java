@@ -11,7 +11,6 @@
  */
 package com.geojmodelbuilder.engine.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -71,27 +70,17 @@ public class WorkflowExecutor implements IListener {
 	
 	public List<IProcess> getFailedIProcess()
 	{
-		if(this.status==ExecutorStatus.RUNNING || this.status == ExecutorStatus.SUCCEEDED)
-			return null;
-		
-		List<IProcess> failedProcess = new ArrayList<IProcess>();
-		for(IProcessProv processProv:this.workflowEngine.getWorkflowTrace().getProcesses()){
-			if(!processProv.getStatus())
-				failedProcess.add(processProv.getProcess());
-		}
-		
-		return failedProcess;
+		return this.workflowEngine.getFailed();
 	}
 	
 	public List<IProcess> getExecutedProcess()
 	{
-		List<IProcess> executedProcess = new ArrayList<IProcess>();
-		for(IProcessProv processProv:this.workflowEngine.getWorkflowTrace().getProcesses()){
-			if(!processProv.getStatus())
-				executedProcess.add(processProv.getProcess());
-		}
 		
-		return executedProcess;
+		return this.workflowEngine.getSucceeded();
+	}
+	
+	public List<IProcess> getRunning(){
+		return this.workflowEngine.getRunning();
 	}
 	
 	public WorkflowEngine getEngine(){
