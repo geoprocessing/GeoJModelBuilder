@@ -120,16 +120,11 @@ public class WaterExtraction {
 		mapcalcExec1.addLink(mapcalcBinaryFlow_Exec1);
 		binaryExec1.addLink(mapcalcBinaryFlow_Exec1);
 		
-		
-		
-		
-		
 		workflowTemplate.setName("WaterExtractionWorkflowTemplate");
 		workflowTemplate.setID("WaterExtractionWorkflowTemplate");
 		workflowInstance.setID("WaterExtractionWorkflowInstance");
 		workflowInstance.setName("WaterExtractionWorkflowInstance");
 		workflowTemplate.addInstance(workflowInstance);
-		
 	
 	}
 	

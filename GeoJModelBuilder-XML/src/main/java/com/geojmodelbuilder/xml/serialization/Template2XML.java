@@ -8,21 +8,14 @@ import java.util.Map;
 
 import net.opengis.ows.x20.CodeType;
 import net.opengis.ows.x20.LanguageStringType;
-import net.opengis.wps.x20.DataTransmissionModeType;
 import net.opengis.wps.x20.GenericInputType;
 import net.opengis.wps.x20.GenericOutputType;
 import net.opengis.wps.x20.GenericProcessDocument;
 import net.opengis.wps.x20.GenericProcessType;
-import net.opengis.wps.x20.OutputDefinitionType;
 
 import org.apache.xmlbeans.XmlOptions;
 
 import cn.edu.whu.geos.wls.x10.LinkType;
-import cn.edu.whu.geos.wls.x10.ProcessInstanceDocument;
-import cn.edu.whu.geos.wls.x10.ProcessInstanceType;
-import cn.edu.whu.geos.wls.x10.WPSEnvDocument;
-import cn.edu.whu.geos.wls.x10.WPSEnvDocument.WPSEnv;
-import cn.edu.whu.geos.wls.x10.WPSEnvDocument.WPSEnv.Mode;
 import cn.edu.whu.geos.wls.x10.WorkflowTemplateDocument;
 import cn.edu.whu.geos.wls.x10.WorkflowTemplateType;
 
@@ -30,14 +23,10 @@ import com.geojmodelbuilder.core.IDataFlow;
 import com.geojmodelbuilder.core.IExchange;
 import com.geojmodelbuilder.core.ILink;
 import com.geojmodelbuilder.core.IProcess;
-import com.geojmodelbuilder.core.data.IData;
-import com.geojmodelbuilder.core.data.ILiteralData;
-import com.geojmodelbuilder.core.instance.IOutputParameter;
 import com.geojmodelbuilder.core.template.IInputPort;
 import com.geojmodelbuilder.core.template.IOutPutPort;
 import com.geojmodelbuilder.core.template.IProcessTemplate;
 import com.geojmodelbuilder.core.template.IWorkflowTemplate;
-import com.geojmodelbuilder.core.template.impl.ProcessTemplate;
 import com.geojmodelbuilder.core.utils.IDGenerator;
 import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.xml.util.NSFactory;
