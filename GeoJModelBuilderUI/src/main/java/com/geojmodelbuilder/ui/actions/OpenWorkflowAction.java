@@ -19,12 +19,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.geojmodelbuilder.semantic.deserialization.RDF2Instance;
-import org.geojmodelbuilder.semantic.deserialization.RDF2Template;
-import org.geojmodelbuilder.semantic.ont.WorkflowOntModel;
 
 import com.geojmodelbuilder.core.instance.IWorkflowInstance;
-import com.geojmodelbuilder.core.template.IWorkflowTemplate;
 import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.editors.ModelEditor;
 import com.geojmodelbuilder.ui.models.ModelFactory;
@@ -50,7 +46,8 @@ public class OpenWorkflowAction extends Action{
 		super.run();
 		
 		FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
-		dialog.setFilterExtensions(new String [] {"*.xml","*.rdf","*"});
+//		dialog.setFilterExtensions(new String [] {"*.xml","*.rdf","*"});
+		dialog.setFilterExtensions(new String [] {"*.xml"});
 		dialog.setFilterPath("c:/");
 		String filePath = dialog.open();
 		
@@ -67,6 +64,7 @@ public class OpenWorkflowAction extends Action{
 			IWorkflowInstance instance = xml2Instance.parse(new File(filePath));
 			workflow = ModelFactory.getInstance().createWorkflow(instance);
 		}
+		/*
 		else if (filePath.endsWith(".rdf")) {
 			boolean flagTemplate = WorkflowOntModel.getInstance().existWorkflowTemplate(filePath);
 			boolean flagInstance= WorkflowOntModel.getInstance().existWorkflowInstance(filePath);
@@ -84,10 +82,10 @@ public class OpenWorkflowAction extends Action{
 				workflow = ModelFactory.getInstance().createWorkflow(workflowInstance);
 			}
 		}
-		
+		*/
 		if (workflow == null) {
 			MessageBox mb = new MessageBox(window.getShell(), SWT.OK);
-			mb.setMessage("There is no workflow templates or instances.");
+			mb.setMessage("There is no workflow .");
 			mb.setText("Warning");
 			mb.open();
 			return;

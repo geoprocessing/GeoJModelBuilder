@@ -50,7 +50,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 	private ProcessExecutors executors;
 	// Executed
 	private WorkflowProv workflowTrace;
-	
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss.SSSZ");
 	private List<IProcess> runningProcess = new ArrayList<IProcess>(3);
 	private List<IProcess> executedProcess = new ArrayList<IProcess>();
 	private List<IProcess> failedProcess = new ArrayList<IProcess>();
@@ -124,7 +124,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		}
 
 		this.workflowTrace.setStartTime(new Date());
-		
+		recordMsg("start...");
 		for (ProcessExecutor executor : this.executors) {
 			if (executor.canExecute()) {
 				executorPool.execute(executor);
@@ -143,6 +143,12 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 			if (source instanceof IProcessProv) {
 				recordMsg("Execute the " + source.getName()
 						+ " successfully.");
+				Date startdate = ((IProcessProv)source).getStartTime();
+				Date enddate = ((IProcessProv)source).getEndTime();
+				
+				recordMsg("Execute the " + source.getName()
+						+ " from " + dateFormat.format(startdate) + " to " + dateFormat.format(enddate));
+				
 				IProcess process = ((IProcessProv) source).getProcess();
 				printOutputs(process);
 				this.executedProcess.add(process);
@@ -194,8 +200,6 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		
 		this.executorPool.shutdownNow();
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss.SSSZ");
-		
 		recordMsg("----------------The execution infomation of the workflow----------------");
 		if(this.workflowTrace.getStatus()){
 			recordMsg("The workflow was executed successfully.");
@@ -217,7 +221,8 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 			else {
 				status = "Failed: ";
 			}
-			logger.info(status+trace.getName()+" executed from "+startTime+" to "+endTime);
+			//logger.info(status+trace.getName()+" executed from "+startTime+" to "+endTime);
+			recordMsg(status+trace.getName()+" executed from "+startTime+" to "+endTime);
 		}
 		
 		this.sendEvent(new ProcessEvent(EventType.Stopped, null));

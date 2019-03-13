@@ -49,7 +49,7 @@ public class ServiceAddDialog extends Dialog {
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText("Add Service Dialog");
-		newShell.setSize(400, 230);
+		newShell.setSize(500, 400);
 	}
 	
 	@Override
