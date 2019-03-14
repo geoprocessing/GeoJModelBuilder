@@ -17,35 +17,49 @@
 	
 	<import namespace="http://www.w3.org/ns/prov#" schemaLocation="https://www.w3.org/ns/prov-core.xsd"/>
 
-	<element name="processExec" type="wls:ProcessExec" substitutionGroup="prov:activity"/>
-	<element name="workflowExec" type="wls:WorkflowExec" substitutionGroup="prov:activity"/>
-	<element name="workflowExecInfo" type="wls:WorkflowExecInfo" substitutionGroup="prov:bundle"/>
+	<element name="ProcessExec" type="wls:ProcessExecType" substitutionGroup="prov:activity"/>
+	<element name="WorkflowExec" type="wls:WorkflowExecType" substitutionGroup="prov:activity"/>
+	<element name="WorkflowExecInfo" type="wls:WorkflowExecInfoType"/>
 	<element name="accordingTo" type="wls:Accordance" substitutionGroup="prov:wasAssociatedWith"/>
-	<element name="plan" type="wls:Plan" substitutionGroup="prov:plan"/>
-	<element name="dataset" type="wls:Dataset" substitutionGroup="prov:collection"/>
-	<element name="dataItem" type="wls:DataItem" substitutionGroup="prov:entity"/>
+	<element name="Plan" type="wls:PlanType" substitutionGroup="prov:plan"/>
+	<element name="Dataset" type="wls:DatasetType" substitutionGroup="prov:collection"/>
+	<element name="DataItem" type="wls:DataItemType" substitutionGroup="prov:entity"/>
 	<element name="used" type="wls:Usage" substitutionGroup="prov:used"/>
 	<element name="wasGeneratedBy" type="wls:Generation" substitutionGroup="prov:wasGeneratedBy"/>
 	
-	<complexType name="ProcessExec">
+	<complexType name="ProcessExecType">
 		<complexContent>
 			<extension base="prov:Activity"/>
 		</complexContent>
 	</complexType>
 
-	<complexType name="WorkflowExec">
+	<complexType name="WorkflowExecType">
 		<complexContent>
 			<extension base="prov:Activity"/>
 		</complexContent>
 	</complexType>
 
-	<complexType name="WorkflowExecInfo">
-		<complexContent>
-			<extension base="prov:Bundle"/>
-		</complexContent>
+	<!-- There is ##any in Entity, add a ProvDoc to refer the provenance infomation-->
+	<complexType name="WorkflowExecInfoType">
+		<annotation>
+			<documentation>
+				Describe the whole workflow
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="ProvDoc" type="prov:Entity" minOccurs="1" maxOccurs="1"/>
+			<element ref="wls:WorkflowExec" minOccurs="1" maxOccurs="1"/>
+			<element ref="wls:ProcessExec" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:Dataset" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:Plan" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:accordingTo" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:used" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:wasGeneratedBy" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="prov:wasDerivedFrom" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>	
 	</complexType>
 	
-	<complexType name="Plan">
+	<complexType name="PlanType">
 		<complexContent>
 			<extension base="prov:Plan">
 				<sequence>
@@ -59,13 +73,13 @@
 		</complexContent>
 	</complexType>	
 	
-	<complexType name="Dataset">
+	<complexType name="DatasetType">
 		<complexContent>
 			<extension base="prov:Collection"/>
 		</complexContent>
 	</complexType>
 
-	<complexType name="DataItem">
+	<complexType name="DataItemType">
 		<complexContent>
 			<extension base="prov:Entity"/>
 		</complexContent>
