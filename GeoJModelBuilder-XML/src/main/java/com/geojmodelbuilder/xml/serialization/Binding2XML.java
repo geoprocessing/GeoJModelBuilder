@@ -18,7 +18,7 @@ import com.geojmodelbuilder.core.template.IInputPort;
 import com.geojmodelbuilder.core.template.IOutPutPort;
 import com.geojmodelbuilder.core.template.IProcessTemplate;
 import com.geojmodelbuilder.core.template.IWorkflowTemplate;
-import com.geojmodelbuilder.xml.util.NSFactory;
+import com.geojmodelbuilder.xml.util.UtilFactory;
 
 public class Binding2XML {
 	private XmlOptions xmlOptions = new XmlOptions();
@@ -29,7 +29,7 @@ public class Binding2XML {
 	public Binding2XML(IWorkflowTemplate workflowTemplate){
 		this.workflowTemplate = workflowTemplate;
 		xmlOptions.setUseDefaultNamespace();
-		xmlOptions.setSaveSuggestedPrefixes(NSFactory.NSMap());
+		xmlOptions.setSaveSuggestedPrefixes(UtilFactory.NSMap());
 		xmlOptions.setSavePrettyPrint();
 		xmlOptions.setSaveAggressiveNamespaces();
 	}

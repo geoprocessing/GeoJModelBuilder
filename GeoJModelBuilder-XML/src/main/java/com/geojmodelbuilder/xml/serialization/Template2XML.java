@@ -29,7 +29,7 @@ import com.geojmodelbuilder.core.template.IProcessTemplate;
 import com.geojmodelbuilder.core.template.IWorkflowTemplate;
 import com.geojmodelbuilder.core.utils.IDGenerator;
 import com.geojmodelbuilder.core.utils.ValidateUtil;
-import com.geojmodelbuilder.xml.util.NSFactory;
+import com.geojmodelbuilder.xml.util.UtilFactory;
 
 public class Template2XML {
 
@@ -44,7 +44,7 @@ public class Template2XML {
 	public Template2XML(IWorkflowTemplate workflowTemplate){
 		this.workflowTemplate = workflowTemplate;
 		xmlOptions.setUseDefaultNamespace();
-		xmlOptions.setSaveSuggestedPrefixes(NSFactory.NSMap());
+		xmlOptions.setSaveSuggestedPrefixes(UtilFactory.NSMap());
 		xmlOptions.setSavePrettyPrint();
 		xmlOptions.setSaveAggressiveNamespaces();
 	}
