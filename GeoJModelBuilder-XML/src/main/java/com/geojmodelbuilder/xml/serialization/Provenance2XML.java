@@ -3,24 +3,21 @@ package com.geojmodelbuilder.xml.serialization;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.XmlAnySimpleType;
 import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
-import org.w3.ns.prov.Entity;
+import org.w3.ns.prov.Association;
+import org.w3.ns.prov.Derivation;
+import org.w3.ns.prov.Generation;
 import org.w3.ns.prov.IDRef;
 import org.w3.ns.prov.Plan;
+import org.w3.ns.prov.Usage;
 
-import cn.edu.whu.geos.wls.x10.Accordance;
 import cn.edu.whu.geos.wls.x10.DatasetType;
-import cn.edu.whu.geos.wls.x10.Generation;
-import cn.edu.whu.geos.wls.x10.ProcessBindingType;
 import cn.edu.whu.geos.wls.x10.ProcessExecType;
-import cn.edu.whu.geos.wls.x10.ResourceBindingType;
-import cn.edu.whu.geos.wls.x10.Usage;
-import cn.edu.whu.geos.wls.x10.WorkflowBindingType;
 import cn.edu.whu.geos.wls.x10.WorkflowExecInfoDocument;
 import cn.edu.whu.geos.wls.x10.WorkflowExecInfoType;
 import cn.edu.whu.geos.wls.x10.WorkflowExecType;
@@ -30,13 +27,9 @@ import com.geojmodelbuilder.core.IProcess;
 import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.instance.IInputParameter;
 import com.geojmodelbuilder.core.instance.IOutputParameter;
-import com.geojmodelbuilder.core.instance.IProcessInstance;
 import com.geojmodelbuilder.core.instance.IWorkflowInstance;
 import com.geojmodelbuilder.core.provenance.IProcessProv;
 import com.geojmodelbuilder.core.provenance.IWorkflowProv;
-import com.geojmodelbuilder.core.template.IInputPort;
-import com.geojmodelbuilder.core.template.IOutPutPort;
-import com.geojmodelbuilder.core.template.IProcessTemplate;
 import com.geojmodelbuilder.xml.util.UtilFactory;
 
 public class Provenance2XML {
@@ -45,7 +38,6 @@ public class Provenance2XML {
 	private WorkflowExecInfoDocument document;
 	private IWorkflowInstance workflowInst;
 	
-	@SuppressWarnings("rawtypes")
 	public Provenance2XML(IWorkflowProv workflowProv, IWorkflowInstance workflowInst){
 		this.workflowProv = workflowProv;
 		this.workflowInst = workflowInst;
@@ -65,39 +57,6 @@ public class Provenance2XML {
 		return document.xmlText(xmlOptions);
 	}
 	
-	private boolean processBinding(IProcessTemplate processTemplate,WorkflowBindingType workflowbinding,int order){
-		
-		ProcessBindingType processBindingType = workflowbinding.addNewProcessBinding();
-		if(processTemplate.getInstances().size() <= order)
-			return false;
-		
-		IProcessInstance processInstance = processTemplate.getInstances().get(order);
-		processBindingType.setFrom(processTemplate.getID());
-		processBindingType.setTo(processInstance.getID());
-		
-		for(IInputPort inputPort : processTemplate.getInputs()){
-			if(inputPort.getInstances().size()<=order)
-				return false;
-			
-			IInputParameter inputParameter = inputPort.getInstances().get(order);
-			ResourceBindingType variableBindingType = processBindingType.addNewVariableBinding();
-			variableBindingType.setFrom(inputPort.getName());
-			variableBindingType.setTo(inputParameter.getName());
-		}
-		
-		for(IOutPutPort outPutPort:processTemplate.getOutputs()){
-			if(outPutPort.getInstances().size()<=order)
-				return false;
-			
-			IOutputParameter outputParameter = outPutPort.getInstances().get(order);
-			ResourceBindingType variableBindingType = processBindingType.addNewVariableBinding();
-			variableBindingType.setFrom(outPutPort.getName());
-			variableBindingType.setTo(outputParameter.getName());
-		}
-		
-		return true;
-	}
-	
 	private boolean buildDoc(){
 		if(this.document !=null)
 			return true;
@@ -105,9 +64,9 @@ public class Provenance2XML {
 		document = WorkflowExecInfoDocument.Factory.newInstance();
 		WorkflowExecInfoType execInfoType = document.addNewWorkflowExecInfo();
 		
+		String workflowProvId = this.workflowProv.getID();
 		//set the id of this provenance
-		Entity provMeta = execInfoType.addNewProvDoc();
-		provMeta.setId(new QName(this.workflowProv.getID()));
+		execInfoType.setId(new QName(workflowProvId));
 		
 		WorkflowExecType workflowExecType = execInfoType.addNewWorkflowExec();
 		//start time
@@ -122,6 +81,9 @@ public class Provenance2XML {
 		
 		//whether success
 		workflowExecType.setSuccessed(this.workflowProv.getStatus());
+		
+		String workflowExecId = UUID.randomUUID().toString();
+		workflowExecType.setId(new QName(workflowExecId));
 		
 		for(IProcessProv processProv:this.workflowProv.getProcesses()){
 			ProcessExecType processExecType = execInfoType.addNewProcessExec();
@@ -138,7 +100,10 @@ public class Provenance2XML {
 			String processId = processProv.getID();
 			processExecType.setId(new QName(processId));
 			
-			
+			if(!processProv.getStatus()){
+				String errInfo = processProv.getErrInfo();
+				processExecType.addNewLabel().setStringValue(errInfo);
+			}
 			
 			for(IInputParameter input:processProv.getInputs()){
 				IData data = input.getData();
@@ -201,26 +166,31 @@ public class Provenance2XML {
 			}
 		}
 		
+		
+
+		Derivation derivation = execInfoType.addNewWasDerivedFrom();
+		derivation.addNewActivity().setRef(new QName(workflowExecId));
+		derivation.addNewGeneratedEntity().setRef(new QName(workflowProvId));
+		
 		//record the workflow plan.
 		if(this.workflowInst!=null){
+		
+			
 			Instance2XML instance2xml = new Instance2XML(this.workflowInst);
 			WorkflowInstanceDocument workflowInstDoc = instance2xml.getWorkflowInstanceDocument();
 			execInfoType.setWorkflowInstance(workflowInstDoc.getWorkflowInstance());
 			
 			String workflowInstId = this.workflowInst.getID();
-			String workflowProvId = this.workflowProv.getID();
-
+			derivation.addNewUsedEntity().setRef(new QName(workflowInstId));
 			//the workflow plan
-			
-			Plan workflowPlan = execInfoType.addNewPlan();
+						Plan workflowPlan = execInfoType.addNewPlan();
 			workflowPlan.setId(new QName(workflowInstId));
 			XmlAnySimpleType workflowLoc = workflowPlan.addNewLocation();
 			workflowLoc.setStringValue(workflowInstId);
 
-			Accordance accordance = execInfoType.addNewAccordingTo();
+			Association accordance = execInfoType.addNewWasAssociatedWith();
 			accordance.addNewActivity().setRef(new QName(workflowInstId));
 			accordance.addNewPlan().setRef(new QName(workflowProvId));
-			
 			
 			for(IProcessProv processProv : this.workflowProv.getProcesses()){
 				IProcess processInst = processProv.getProcess();
@@ -232,7 +202,7 @@ public class Provenance2XML {
 				XmlAnySimpleType processLoc = processPlan.addNewLocation();
 				processLoc.setStringValue(workflowInstId+"/"+processInstId);
 				
-				Accordance procAccordance = execInfoType.addNewAccordingTo();
+				Association procAccordance = execInfoType.addNewWasAssociatedWith();
 				procAccordance.addNewActivity().setRef(new QName(processProvId));
 				procAccordance.addNewPlan().setRef(new QName(processInstId));
 			}
