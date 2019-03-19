@@ -16,12 +16,15 @@
 	</annotation>
 	
 	<import namespace="http://www.w3.org/ns/prov#" schemaLocation="https://www.w3.org/ns/prov-core.xsd"/>
+	<include schemaLocation="workflow_instance.xsd"/>
 
 	<element name="ProcessExec" type="wls:ProcessExecType" substitutionGroup="prov:activity"/>
 	<element name="WorkflowExec" type="wls:WorkflowExecType" substitutionGroup="prov:activity"/>
 	<element name="WorkflowExecInfo" type="wls:WorkflowExecInfoType"/>
 	<element name="accordingTo" type="wls:Accordance" substitutionGroup="prov:wasAssociatedWith"/>
+	<!--
 	<element name="Plan" type="wls:PlanType" substitutionGroup="prov:plan"/>
+	-->
 	<element name="Dataset" type="wls:DatasetType" substitutionGroup="prov:collection"/>
 	<element name="DataItem" type="wls:DataItemType" substitutionGroup="prov:entity"/>
 	<element name="used" type="wls:Usage" substitutionGroup="prov:used"/>
@@ -29,13 +32,21 @@
 	
 	<complexType name="ProcessExecType">
 		<complexContent>
-			<extension base="prov:Activity"/>
+			<extension base="prov:Activity">
+				<sequence>
+					<element name="Successed">
+						<simpleType>
+							<restriction base="xs:boolean"/>
+					</simpleType>
+			</element>
+					</sequence>
+			</extension>
 		</complexContent>
 	</complexType>
 
 	<complexType name="WorkflowExecType">
 		<complexContent>
-			<extension base="prov:Activity"/>
+			<extension base="wls:ProcessExecType"/>
 		</complexContent>
 	</complexType>
 
@@ -51,14 +62,16 @@
 			<element ref="wls:WorkflowExec" minOccurs="1" maxOccurs="1"/>
 			<element ref="wls:ProcessExec" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="wls:Dataset" minOccurs="0" maxOccurs="unbounded"/>
-			<element ref="wls:Plan" minOccurs="0" maxOccurs="unbounded"/>
-			<element ref="wls:accordingTo" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="wls:used" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="wls:wasGeneratedBy" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="prov:plan" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:accordingTo" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="prov:wasDerivedFrom" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="wls:WorkflowInstance" minOccurs="0" maxOccurs="1"/>
 		</sequence>	
 	</complexType>
 	
+	<!--
 	<complexType name="PlanType">
 		<complexContent>
 			<extension base="prov:Plan">
@@ -68,11 +81,12 @@
 							<restriction base="xs:string"/>
 						</simpleType>
 					</element>
+					<element ref="wls:WorkflowInstance" minOccurs="0" maxOccurs="1"/>
 				</sequence>				
 			</extension>
 		</complexContent>
 	</complexType>	
-	
+	-->
 	<complexType name="DatasetType">
 		<complexContent>
 			<extension base="prov:Collection"/>
@@ -96,9 +110,10 @@
 			<extension base="prov:Usage">
 				<sequence>
 					<element name="asVariable">
-						<simpleType>
-							<restriction base="xs:string"/>
-						</simpleType>
+						<complexType>
+							<xs:attribute name="DataID"  type="xs:string"  use="optional" />
+							<xs:attribute name="ParamID"  type="xs:string"  use="optional" />
+						</complexType>
 					</element>
 				</sequence>				
 			</extension>
@@ -110,11 +125,12 @@
 			<extension base="prov:Generation">
 				<sequence>
 					<element name="asVariable">
-						<simpleType>
-							<restriction base="xs:string"/>
-						</simpleType>
+						<complexType>
+							<xs:attribute name="DataID"  type="xs:string"  use="optional" />
+							<xs:attribute name="ParamID"  type="xs:string"  use="optional" />
+						</complexType>
 					</element>
-				</sequence>	
+				</sequence>				
 			</extension>
 		</complexContent>
 	</complexType>	

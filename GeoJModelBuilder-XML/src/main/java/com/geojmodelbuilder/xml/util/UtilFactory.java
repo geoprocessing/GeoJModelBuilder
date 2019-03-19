@@ -15,6 +15,7 @@ public class UtilFactory {
 		nsMap.put("http://www.opengis.net/wps/2.0","wps");
 		nsMap.put( "http://www.opengis.net/ows/2.0","ows");
 		nsMap.put("http://www.w3.org/1999/xlink","xlink");
+		nsMap.put("http://www.w3.org/ns/prov#","prov");
 		return nsMap;
 	}
 	

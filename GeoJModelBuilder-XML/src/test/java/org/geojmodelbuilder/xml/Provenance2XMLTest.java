@@ -38,7 +38,7 @@ public class Provenance2XMLTest {
 				e.printStackTrace();
 			}
 		}
-		Provenance2XML instance2xml = new Provenance2XML(executor2.getEngine().getWorkflowTrace());
+		Provenance2XML instance2xml = new Provenance2XML(executor2.getEngine().getWorkflowTrace(),workflowPlan.getInstanceWorkflow());
 		
 		instance2xml.save("D:/Workspace/water_Extraction_workflow_provenance.xml");
 		
