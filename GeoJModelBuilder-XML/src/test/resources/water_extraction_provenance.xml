@@ -1,77 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<prov:document
-	xmlns:ows="http://www.opengis.net/ows/2.0"
-	xmlns:prov="http://www.w3.org/ns/prov#"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:wls="http://geos.whu.edu.cn/wls/1.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-	<wls:workflowExec prov:id="wls:water_extraction">
-		<prov:startTime>2017-05-24T10:00:01</prov:startTime>
-		<prov:endTime>2017-05-24T10:00:57</prov:endTime>
-		<prov:type xsi:type="xsd:QName">prov:activity</prov:type>
-	</wls:workflowExec>
-
-	<wls:plan prov:id="wls:water_extraction_plan">
-		<prov:location>c:/example/water_extraction_instance.xml</prov:location>
-		<wls:IDRef>http://geos.whu.edu.cn/workflow/instance/water_extraction</wls:IDRef>
-	</wls:plan>
-	
-	<wls:accordingTo prov:id="water_extraction_accordance_with_plan">
-		<wls:workflowExec prov:ref="wls:water_extraction"/>
-		<wls:plan prov:ref="wls:water_extraction_plan"/>
-	</wls:accordingTo>
-	
-	<wls:workflowExecInfo prov:id="wls:water_extraction_provenance">
-		<prov:type xsi:type="xsd:QName">prov:bundle</prov:type>
-	</wls:workflowExecInfo>	
-	
-	<prov:wasDerivedFrom>
-      <prov:generatedEntity prov:ref="wls:water_extraction_provenance"/>
-      <prov:usedEntity prov:ref="wls:water_extraction_plan"/>
-	  <prov:activity prov:ref="wls:water_extraction"/>
-    </prov:wasDerivedFrom>
-	
-	<prov:bundleContent prov:id="wls:water_extraction_provenance">	
-		<wls:processExec prov:id="image_ndvi_calculation">
-			<prov:startTime>2017-05-24T10:00:01</prov:startTime>
-			<prov:endTime>2017-05-24T10:00:34</prov:endTime>
-			<prov:type xsi:type="xsd:QName">prov:activity</prov:type>
-		</wls:processExec>
-
-		<wls:processExec prov:id="wls:image_binazation_calculation">
-			<prov:startTime>2017-05-24T10:00:35</prov:startTime>
-			<prov:endTime>2017-05-24T10:00:57</prov:endTime>
-			<prov:type xsi:type="xsd:QName">prov:activity</prov:type>
-		</wls:processExec>
-		
-		<wls:dataset prov:id="wls:image_1">
-			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image1.tif</prov:location>
-		</wls:dataset>
-		
-		<wls:dataset prov:id="wls:image_2">
-			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image2.tif</prov:location>
-		</wls:dataset>
-
-		<wls:dataset prov:id="wls:image_ndvi">
-			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image_ndvi.tif</prov:location>
-		</wls:dataset>
-
-		<wls:dataset prov:id="wls:image_binaried">
-			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image_binaried.tif</prov:location>
-		</wls:dataset>		
-		
-		<wls:wasGeneratedBy prov:id="wls:ndvi_output">
-			<wls:processExec prov:ref="wls:image_ndvi_calculation"/>
-			<wls:dataset prov:ref="wls:image_ndvi"/>
-			<wls:asVariable>OutputData</wls:asVariable>
-		</wls:wasGeneratedBy>
-		
-		<wls:used prov:id="wls:binaization_input">
-			<wls:processExec prov:ref="wls:image_binazation_calculation"/>
-			<wls:dataset prov:ref="wls:image_ndvi"/>
-			<wls:asVariable>InputData</wls:asVariable>
-		</wls:used>
-	</prov:bundleContent>
-	
-</prov:document>
+<wls:WorkflowExecInfo prov:id="Workflow_09c2281c303f46058efe30563c9d886e" xmlns:wls="http://geos.whu.edu.cn/wls/1.0" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <wls:WorkflowExec prov:id="d379568f-bf2f-4e28-92af-3e67f1abd4ed">
+    <prov:startTime>2019-03-19T11:45:04.039+08:00</prov:startTime>
+    <prov:endTime>2019-03-19T11:45:04.987+08:00</prov:endTime>
+    <Successed>true</Successed>
+  </wls:WorkflowExec>
+  <wls:ProcessExec prov:id="RasterMapcalcProcessTrace20190319114504042">
+    <prov:startTime>2019-03-19T11:45:04.041+08:00</prov:startTime>
+    <prov:endTime>2019-03-19T11:45:04.654+08:00</prov:endTime>
+    <Successed>true</Successed>
+  </wls:ProcessExec>
+  <wls:ProcessExec prov:id="RasterBinaryProcessTrace20190319114504658">
+    <prov:startTime>2019-03-19T11:45:04.657+08:00</prov:startTime>
+    <prov:endTime>2019-03-19T11:45:04.987+08:00</prov:endTime>
+    <Successed>true</Successed>
+  </wls:ProcessExec>
+  <wls:Dataset prov:id="RasterMapcalcProcessTrace20190319114504042#FirstInputData">
+    <prov:value>http://geos.whu.edu.cn:8080/datas/MOD09A1_20100619_band1.tif</prov:value>
+  </wls:Dataset>
+  <wls:Dataset prov:id="RasterMapcalcProcessTrace20190319114504042#SecondInputData">
+    <prov:value>http://geos.whu.edu.cn:8080/datas/MOD09A1_20100619_band2.tif</prov:value>
+  </wls:Dataset>
+  <wls:Dataset prov:id="RasterMapcalcProcessTrace20190319114504042#OutputData">
+    <prov:value>http://202.114.118.181:8080/wps10/temp/ac7d1b89-2f5b-40d7-b430-7f07a6db4ebd/MOD09A1_20100619_band1_out.tif</prov:value>
+  </wls:Dataset>
+  <wls:Dataset prov:id="RasterBinaryProcessTrace20190319114504658#InputData">
+    <prov:value>http://202.114.118.181:8080/wps10/temp/ac7d1b89-2f5b-40d7-b430-7f07a6db4ebd/MOD09A1_20100619_band1_out.tif</prov:value>
+  </wls:Dataset>
+  <wls:Dataset prov:id="RasterBinaryProcessTrace20190319114504658#OutputData">
+    <prov:value>http://202.114.118.181:8080/wps10/temp/c23f3f5f-1ccf-49e2-8a35-12461c164dab/MOD09A1_20100619_band1_out_out.tif</prov:value>
+  </wls:Dataset>
+  <prov:used>
+    <prov:activity prov:ref="RasterMapcalcProcessTrace20190319114504042"/>
+    <prov:entity prov:ref="RasterMapcalcProcessTrace20190319114504042#FirstInputData"/>
+    <prov:role>FirstInputData</prov:role>
+  </prov:used>
+  <prov:used>
+    <prov:activity prov:ref="RasterMapcalcProcessTrace20190319114504042"/>
+    <prov:entity prov:ref="RasterMapcalcProcessTrace20190319114504042#SecondInputData"/>
+    <prov:role>SecondInputData</prov:role>
+  </prov:used>
+  <prov:used>
+    <prov:activity prov:ref="RasterBinaryProcessTrace20190319114504658"/>
+    <prov:entity prov:ref="RasterBinaryProcessTrace20190319114504658#InputData"/>
+    <prov:role>InputData</prov:role>
+  </prov:used>
+  <prov:wasGeneratedBy>
+    <prov:entity prov:ref="RasterMapcalcProcessTrace20190319114504042#OutputData"/>
+    <prov:activity prov:ref="RasterMapcalcProcessTrace20190319114504042"/>
+    <prov:role>OutputData</prov:role>
+  </prov:wasGeneratedBy>
+  <prov:wasGeneratedBy>
+    <prov:entity prov:ref="RasterBinaryProcessTrace20190319114504658#OutputData"/>
+    <prov:activity prov:ref="RasterBinaryProcessTrace20190319114504658"/>
+    <prov:role>OutputData</prov:role>
+  </prov:wasGeneratedBy>
+  <prov:plan prov:id="WaterExtractionWorkflowInstance">
+    <prov:location>WaterExtractionWorkflowInstance</prov:location>
+  </prov:plan>
+  <prov:plan prov:id="RasterMapcalcProcess20190319114503592">
+    <prov:location>WaterExtractionWorkflowInstance/RasterMapcalcProcess20190319114503592</prov:location>
+  </prov:plan>
+  <prov:plan prov:id="RasterBinaryProcess20190319114504031">
+    <prov:location>WaterExtractionWorkflowInstance/RasterBinaryProcess20190319114504031</prov:location>
+  </prov:plan>
+  <prov:wasAssociatedWith>
+    <prov:activity prov:ref="WaterExtractionWorkflowInstance"/>
+    <prov:plan prov:ref="Workflow_09c2281c303f46058efe30563c9d886e"/>
+  </prov:wasAssociatedWith>
+  <prov:wasAssociatedWith>
+    <prov:activity prov:ref="RasterMapcalcProcessTrace20190319114504042"/>
+    <prov:plan prov:ref="RasterMapcalcProcess20190319114503592"/>
+  </prov:wasAssociatedWith>
+  <prov:wasAssociatedWith>
+    <prov:activity prov:ref="RasterBinaryProcessTrace20190319114504658"/>
+    <prov:plan prov:ref="RasterBinaryProcess20190319114504031"/>
+  </prov:wasAssociatedWith>
+  <prov:wasDerivedFrom>
+    <prov:generatedEntity prov:ref="Workflow_09c2281c303f46058efe30563c9d886e"/>
+    <prov:usedEntity prov:ref="WaterExtractionWorkflowInstance"/>
+    <prov:activity prov:ref="d379568f-bf2f-4e28-92af-3e67f1abd4ed"/>
+  </prov:wasDerivedFrom>
+  <wls:WorkflowInstance>
+    <ows:Title>WaterExtractionWorkflowInstance</ows:Title>
+    <ows:Identifier>WaterExtractionWorkflowInstance</ows:Identifier>
+    <wls:ProcessInstance execType="OGC_WPS">
+      <ows:Identifier>RasterMapcalcProcess20190319114503592</ows:Identifier>
+      <Name>RasterMapcalcProcess</Name>
+      <Input id="FirstInputData">
+        <wps:Reference mimeType="application/geotiff" xlink:href="http://geos.whu.edu.cn:8080/datas/MOD09A1_20100619_band1.tif"/>
+      </Input>
+      <Input id="SecondInputData">
+        <wps:Reference mimeType="application/geotiff" xlink:href="http://geos.whu.edu.cn:8080/datas/MOD09A1_20100619_band2.tif"/>
+      </Input>
+      <Output id="OutputData" transmission="reference"/>
+      <wls:ExecEnv id="" version="1.0.0" mode="sync">
+        <URL>http://geos.whu.edu.cn:8080/wps10/WebProcessingService</URL>
+      </wls:ExecEnv>
+    </wls:ProcessInstance>
+    <wls:ProcessInstance execType="OGC_WPS">
+      <ows:Identifier>RasterBinaryProcess20190319114504031</ows:Identifier>
+      <Name>RasterBinaryProcess</Name>
+      <Input id="InputData">
+        <wps:Reference mimeType="application/geotiff" xlink:href="http://202.114.118.181:8080/wps10/temp/ac7d1b89-2f5b-40d7-b430-7f07a6db4ebd/MOD09A1_20100619_band1_out.tif"/>
+      </Input>
+      <Output id="OutputData" transmission="reference"/>
+      <wls:ExecEnv id="" version="1.0.0" mode="sync">
+        <URL>http://geos.whu.edu.cn:8080/wps10/WebProcessingService</URL>
+      </wls:ExecEnv>
+    </wls:ProcessInstance>
+    <Link sourceProcess="RasterMapcalcProcess20190319114503592" targetProcess="RasterBinaryProcess20190319114504031" sourceVariable="OutputData" targetVariable="InputData"/>
+  </wls:WorkflowInstance>
+</wls:WorkflowExecInfo>
