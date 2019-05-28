@@ -50,9 +50,10 @@
 	</dependencyManagement>
 
 	<modules>
-		<!--<module>GeoJModelBuilderUI</module>-->
+		<module>GeoJModelBuilderUI</module>
 		<module>GeoJModelBuilder-Core</module>
 		<module>GeoJModelBuilder-Engine</module>
 		<module>GeoJModelBuilder-Semantic</module>
+		<module>GeoJModelBuilder-XML</module>
 	</modules>
 </project>

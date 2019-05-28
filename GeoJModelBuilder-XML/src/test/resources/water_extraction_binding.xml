@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:WorkflowBinding
+	xmlns:ows="http://www.opengis.net/ows/2.0"
+	xmlns:wls="http://geos.whu.edu.cn/wls/1.0">
+	
+	<ows:Title>Binding infomation for water extraction workflow</ows:Title>
+	<ows:Identifier>http://geos.whu.edu.cn/workflow/binding/water_extraction</ows:Identifier>
+	
+	<wls:From>http://geos.whu.edu.cn/workflow/template/water_extraction</wls:From>
+	<wls:To>http://geos.whu.edu.cn/workflow/instance/water_extraction</wls:To>
+	
+	<wls:ProcessBinding>
+		<wls:From>http://geos.whu.edu.cn/process/template/NDVI</wls:From>
+		<wls:To>http://geos.whu.edu.cn/wps10/RasterMapcalcProcess/843f0661-3661-11e7-b6bc-3417ebce41fe</wls:To>
+		<wls:VariableBinding>
+			<wls:From>Band_1</wls:From>
+			<wls:To>FirstInputData</wls:To>
+		</wls:VariableBinding>
+		<wls:VariableBinding>
+			<wls:From>Band_2</wls:From>
+			<wls:To></wls:To>
+		</wls:VariableBinding>
+		<wls:VariableBinding>
+			<wls:From>NDVIProduct</wls:From>
+			<wls:To>OutputData</wls:To>
+		</wls:VariableBinding>
+	</wls:ProcessBinding>
+	
+	<wls:ProcessBinding>
+		<wls:From>http://geos.whu.edu.cn/process/template/binarization</wls:From>
+		<wls:To>http://geos.whu.edu.cn/wps10/RasterBinaryProcess/3995f2c0-3663-11e7-9d44-3417ebce41fe</wls:To>
+		<wls:VariableBinding>
+			<wls:From>image</wls:From>
+			<wls:To>InputData</wls:To>
+		</wls:VariableBinding>
+		<wls:VariableBinding>
+			<wls:From>binariedImage</wls:From>
+			<wls:To>OutputData</wls:To>
+		</wls:VariableBinding>
+	</wls:ProcessBinding>
+</wls:WorkflowBinding>
+	

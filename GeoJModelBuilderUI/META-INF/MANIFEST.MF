@@ -3,13 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: GeoJModelBuilderUI
 Bundle-SymbolicName: GeoJModelBuilderUI;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.geojmodelbuilder.ui.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.gef;bundle-version="3.11.0",
- org.eclipse.ui.views;bundle-version="3.7.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/52n-wps-client-lib-3.6.1.jar,
  lib/52n-wps-commons-3.6.1.jar,
@@ -49,4 +42,33 @@ Bundle-ClassPath: .,
  lib/jena-iri-3.1.1.jar,
  lib/jena-shaded-guava-3.1.1.jar,
  lib/xercesImpl-2.11.0.jar,
- lib/xml-apis-1.4.01.jar
+ lib/xml-apis-1.4.01.jar,
+ lib/GeoJModelBuilder-XML-1.0.0-SNAPSHOT.jar,
+ lib/wls.jar
+Bundle-Activator: com.geojmodelbuilder.ui.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gef;bundle-version="3.11.0",
+ org.eclipse.ui.views;bundle-version="3.7.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: com.geojmodelbuilder.ui,
+ com.geojmodelbuilder.ui.actions,
+ com.geojmodelbuilder.ui.commands,
+ com.geojmodelbuilder.ui.dialogs,
+ com.geojmodelbuilder.ui.dnd,
+ com.geojmodelbuilder.ui.editors,
+ com.geojmodelbuilder.ui.editparts,
+ com.geojmodelbuilder.ui.editparts.links,
+ com.geojmodelbuilder.ui.editpolicies,
+ com.geojmodelbuilder.ui.figures,
+ com.geojmodelbuilder.ui.models,
+ com.geojmodelbuilder.ui.models.links,
+ com.geojmodelbuilder.ui.properties,
+ com.geojmodelbuilder.ui.requests,
+ com.geojmodelbuilder.ui.run,
+ com.geojmodelbuilder.ui.utils,
+ com.geojmodelbuilder.ui.views.tree,
+ com.geojmodelbuilder.ui.views.workflow,
+ com.geojmodelbuilder.ui.views.wps,
+ com.geojmodelbuilder.ui.workspace

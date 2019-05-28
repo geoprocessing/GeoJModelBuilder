@@ -11,6 +11,8 @@
  */
 package com.geojmodelbuilder.engine.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,7 @@ public class WorkflowExecutor implements IListener {
 
 	private Logger logger;
 	private WorkflowEngine workflowEngine;
+	private ExecutorStatus status;
 	
 	public WorkflowExecutor(IWorkflowInstance workflowExec){
 		this.logger = LoggerFactory.getLogger(WorkflowExecutor.class);
@@ -40,6 +43,7 @@ public class WorkflowExecutor implements IListener {
 	
 	public void run(){
 		this.workflowEngine.execute();
+		status = ExecutorStatus.RUNNING;
 	}
 	public void onEvent(IProcessEvent event) {
 		IProcess source = event.getSource();
@@ -52,7 +56,43 @@ public class WorkflowExecutor implements IListener {
 			}
 		}else if (eventType == EventType.Stopped) {
 			logger.info("Workflow engine is stopped");
+			boolean engineStatus = this.workflowEngine.getWorkflowTrace().getStatus();
+			if(engineStatus)
+				this.status = ExecutorStatus.SUCCEEDED;
+			else 
+				this.status = ExecutorStatus.FAILED;
 		}
 	}
-
+	
+	public ExecutorStatus getStatus(){
+		return this.status;
+	}
+	
+	public List<IProcess> getFailedIProcess()
+	{
+		return this.workflowEngine.getFailed();
+	}
+	
+	public List<IProcess> getExecutedProcess()
+	{
+		
+		return this.workflowEngine.getSucceeded();
+	}
+	
+	public List<IProcess> getRunning(){
+		return this.workflowEngine.getRunning();
+	}
+	
+	public WorkflowEngine getEngine(){
+		return this.workflowEngine;
+	}
+	
+	/**
+	 * the status of the workflow executor
+	 * @author Mingda Zhang
+	 *
+	 */
+	public enum ExecutorStatus {  
+		  RUNNING, FAILED, SUCCEEDED  
+	}
 }

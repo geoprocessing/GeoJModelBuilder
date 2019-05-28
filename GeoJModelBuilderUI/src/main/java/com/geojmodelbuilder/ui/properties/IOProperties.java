@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.geojmodelbuilder.ui.Activator;
 
@@ -51,10 +53,15 @@ public class IOProperties {
 			return mimeTypes;
 		
 		mimeTypes = new ArrayList<String>();
+		SortedMap sortedMap = new TreeMap(properties);
+		for(Object obj:sortedMap.keySet()){
+			mimeTypes.add(obj.toString());
+		}
+		/*
 		for(Object obj:this.properties.keySet()){
 			mimeTypes.add(obj.toString());
 		}
-		
+		*/
 		return mimeTypes;
 	}
 }

@@ -29,6 +29,7 @@ public class ProcessProv extends ProcessInstance implements IProcessProv {
 	private Date endTime;
 	private boolean status;
 	private IProcess process;
+	private String errInfo;
 	
 	public ProcessProv(IProcess process){
 		super();
@@ -84,5 +85,13 @@ public class ProcessProv extends ProcessInstance implements IProcessProv {
 			this.namespace = INamespaceDefault.EXECUTION_PROCESS;
 		
 		return this.namespace;
+	}
+	
+	@Override
+	public String getErrInfo() {
+		return errInfo;
+	}
+	public void setErrInfo(String errInfo) {
+		this.errInfo = errInfo;
 	}
 }

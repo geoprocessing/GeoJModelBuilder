@@ -51,6 +51,10 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 	// Executed
 	private WorkflowProv workflowTrace;
 	
+	private List<IProcess> runningProcess = new ArrayList<IProcess>(3);
+	private List<IProcess> executedProcess = new ArrayList<IProcess>();
+	private List<IProcess> failedProcess = new ArrayList<IProcess>();
+	
 	private ThreadPoolExecutor executorPool;
 	private Logger logger;
 	private IRecorder recorder;
@@ -75,12 +79,21 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 	private List<ILink> getInLinks(IProcess process) {
 		List<ILink> links = new ArrayList<ILink>();
 		for (ILink link : process.getLinks()) {
-			if (link.getTargetProcess() == process)
-				links.add(link);
+			if (link.getTargetProcess() == process){
+				if(!containsLink(links, link))
+				   links.add(link);
+			}
 		}
 		return links;
 	}
 
+	private boolean containsLink(List<ILink> links,ILink link){
+		for(ILink tarLink :links){
+			if(tarLink.getSourceProcess() == link.getSourceProcess() && tarLink.getTargetProcess() == link.getTargetProcess())
+				return true;
+		}
+		return false;
+	}
 	public IWorkflowInstance getWorkflow() {
 		return this.workflowExec;
 	}
@@ -117,6 +130,7 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 				executorPool.execute(executor);
 				recordMsg("--- sumbit the " + executor.getProcess().getName()
 						+ " to execute.");
+				this.runningProcess.add(executor.getProcess());
 				}
 		}
 		return true;
@@ -131,6 +145,9 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 						+ " successfully.");
 				IProcess process = ((IProcessProv) source).getProcess();
 				printOutputs(process);
+				this.executedProcess.add(process);
+				if(this.runningProcess.contains(process))
+					this.runningProcess.remove(process);
 				this.workflowTrace.addProcess((IProcessProv)source);
 				this.executors.remove(process);
 				this.sendEvent(new ProcessEvent(EventType.StepPerformed, source));
@@ -150,7 +167,11 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 					recordMsg("Error info:"
 							+ ((IProcessInstance) process).getErrInfo());
 				}
-				this.workflowTrace.addProcess((IProcessProv)source);
+				this.failedProcess.add(process);
+				IProcessProv processProv = (IProcessProv)source;
+				if(this.runningProcess.contains(process))
+					this.runningProcess.remove(process);
+				this.workflowTrace.addProcess(processProv);
 				this.executors.remove(process);
 				
 			}
@@ -162,12 +183,13 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		} else if (eventType == EventType.Ready) {
 			ProcessExecutor executor = executors.getExecutor(source);
 			this.executorPool.execute(executor);
+			this.runningProcess.add(executor.getProcess());
 			recordMsg("--- sumbit the " + source.getName() + " to execute.");
 		}
 		
 	}
 
-	private void dispose(){
+	public void dispose(){
 		this.workflowTrace.setEndTime(new Date());
 		
 		this.executorPool.shutdownNow();
@@ -257,5 +279,17 @@ public class WorkflowEngine implements IEngine, IListener,IPublisher {
 		for (IListener listener : listeners) {
 			listener.onEvent(event);
 		}
+	}
+	
+	public List<IProcess> getRunning(){
+		return this.runningProcess;
+	}
+	
+	public List<IProcess> getSucceeded(){
+		return this.executedProcess;
+	}
+	
+	public List<IProcess> getFailed(){
+		return this.failedProcess;
 	}
 }

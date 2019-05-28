@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prov:document
+	xmlns:ows="http://www.opengis.net/ows/2.0"
+	xmlns:prov="http://www.w3.org/ns/prov#"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:wls="http://geos.whu.edu.cn/wls/1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<wls:workflowExec prov:id="wls:water_extraction">
+		<prov:startTime>2017-05-24T10:00:01</prov:startTime>
+		<prov:endTime>2017-05-24T10:00:57</prov:endTime>
+		<prov:type xsi:type="xsd:QName">prov:activity</prov:type>
+	</wls:workflowExec>
+
+	<wls:plan prov:id="wls:water_extraction_plan">
+		<prov:location>c:/example/water_extraction_instance.xml</prov:location>
+		<wls:IDRef>http://geos.whu.edu.cn/workflow/instance/water_extraction</wls:IDRef>
+	</wls:plan>
+	
+	<wls:accordingTo prov:id="water_extraction_accordance_with_plan">
+		<wls:workflowExec prov:ref="wls:water_extraction"/>
+		<wls:plan prov:ref="wls:water_extraction_plan"/>
+	</wls:accordingTo>
+	
+	<wls:workflowExecInfo prov:id="wls:water_extraction_provenance">
+		<prov:type xsi:type="xsd:QName">prov:bundle</prov:type>
+	</wls:workflowExecInfo>	
+	
+	<prov:wasDerivedFrom>
+      <prov:generatedEntity prov:ref="wls:water_extraction_provenance"/>
+      <prov:usedEntity prov:ref="wls:water_extraction_plan"/>
+	  <prov:activity prov:ref="wls:water_extraction"/>
+    </prov:wasDerivedFrom>
+	
+	<prov:bundleContent prov:id="wls:water_extraction_provenance">	
+		<wls:processExec prov:id="image_ndvi_calculation">
+			<prov:startTime>2017-05-24T10:00:01</prov:startTime>
+			<prov:endTime>2017-05-24T10:00:34</prov:endTime>
+			<prov:type xsi:type="xsd:QName">prov:activity</prov:type>
+		</wls:processExec>
+
+		<wls:processExec prov:id="wls:image_binazation_calculation">
+			<prov:startTime>2017-05-24T10:00:35</prov:startTime>
+			<prov:endTime>2017-05-24T10:00:57</prov:endTime>
+			<prov:type xsi:type="xsd:QName">prov:activity</prov:type>
+		</wls:processExec>
+		
+		<wls:dataset prov:id="wls:image_1">
+			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image1.tif</prov:location>
+		</wls:dataset>
+		
+		<wls:dataset prov:id="wls:image_2">
+			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image2.tif</prov:location>
+		</wls:dataset>
+
+		<wls:dataset prov:id="wls:image_ndvi">
+			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image_ndvi.tif</prov:location>
+		</wls:dataset>
+
+		<wls:dataset prov:id="wls:image_binaried">
+			<prov:location xsi:type="xsd:anyURI">http://202.114.118.181:8080/wps10/datas/image_binaried.tif</prov:location>
+		</wls:dataset>		
+		
+		<wls:wasGeneratedBy prov:id="wls:ndvi_output">
+			<wls:processExec prov:ref="wls:image_ndvi_calculation"/>
+			<wls:dataset prov:ref="wls:image_ndvi"/>
+			<wls:asVariable>OutputData</wls:asVariable>
+		</wls:wasGeneratedBy>
+		
+		<wls:used prov:id="wls:binaization_input">
+			<wls:processExec prov:ref="wls:image_binazation_calculation"/>
+			<wls:dataset prov:ref="wls:image_ndvi"/>
+			<wls:asVariable>InputData</wls:asVariable>
+		</wls:used>
+	</prov:bundleContent>
+	
+</prov:document>

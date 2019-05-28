@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:ows="http://www.opengis.net/ows/2.0"
+	xmlns:wps="http://www.opengis.net/wps/2.0"
+	xmlns:wls="http://geos.whu.edu.cn/wls/1.0"
+	targetNamespace="http://geos.whu.edu.cn/wls/1.0"
+	xml:lang="en"
+	version="1.0.0">
+
+	<annotation>
+		<documentation>
+			Binding information between workflow templates and instances.
+		</documentation>
+	</annotation>
+	<import namespace="http://www.opengis.net/wps/2.0" schemaLocation="http://schemas.opengis.net/wps/2.0/wps.xsd"/>
+
+	<element name="WorkflowBinding" type="wls:WorkflowBindingType"/>
+	<element name="ProcessBinding" type="wls:ProcessBindingType"/>
+	
+	<complexType name="ResourceBindingType">
+		<annotation>
+			<documentation>
+				Resource binding information.
+			</documentation>
+		</annotation>
+		
+		<complexContent>
+			<extension base="wps:DescriptionType">
+				<sequence>
+					<element name="From" minOccurs="1" maxOccurs="1">
+						<simpleType>
+							<restriction base="string"/>
+						</simpleType>
+					</element>	
+					<element name="To" minOccurs="1" maxOccurs="1">
+						<simpleType>
+							<restriction base="string"/>
+						</simpleType>
+					</element>			
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="ProcessBindingType">
+		<annotation>
+			<documentation>
+				Process binding information.
+			</documentation>
+		</annotation>
+		
+		<complexContent>
+			<extension base="wls:ResourceBindingType">
+				<sequence>
+					<element name="VariableBinding" type="wls:ResourceBindingType" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="WorkflowBindingType">
+		<annotation>
+			<documentation>
+				Workflow binding information.
+			</documentation>
+		</annotation>
+		
+		<complexContent>
+			<extension base="wls:ResourceBindingType">
+				<sequence>
+					<element ref="wls:ProcessBinding" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	
+</schema>

@@ -13,6 +13,7 @@ package com.geojmodelbuilder.ui.dialogs;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -63,6 +64,11 @@ public class TreeNodeSearchDialog extends Dialog {
 		return true;
 	}
 	
+	@Override
+	protected Point getInitialSize() {
+		return new Point(450, 150);
+	}
+
 	public String getPattern(){
 		return this.pattern;
 	}

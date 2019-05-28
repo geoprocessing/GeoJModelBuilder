@@ -69,4 +69,6 @@ public interface IProcess extends IIdentifiable{
 	void addLink(ILink link);
 	
 	void removeLink(ILink link);
+	
+	String getErrInfo();
 }

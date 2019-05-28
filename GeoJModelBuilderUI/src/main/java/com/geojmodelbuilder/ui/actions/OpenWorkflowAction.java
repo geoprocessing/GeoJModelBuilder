@@ -11,6 +11,8 @@
  */
 package com.geojmodelbuilder.ui.actions;
 
+import java.io.File;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -27,6 +29,7 @@ import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.editors.ModelEditor;
 import com.geojmodelbuilder.ui.models.ModelFactory;
 import com.geojmodelbuilder.ui.models.Workflow;
+import com.geojmodelbuilder.xml.deserialization.XML2Instance;
 
 /**
  * @author Mingda Zhang
@@ -47,7 +50,7 @@ public class OpenWorkflowAction extends Action{
 		super.run();
 		
 		FileDialog dialog = new FileDialog(window.getShell(), SWT.OPEN);
-		dialog.setFilterExtensions(new String [] {"*.rdf"});
+		dialog.setFilterExtensions(new String [] {"*.xml","*.rdf","*"});
 		dialog.setFilterPath("c:/");
 		String filePath = dialog.open();
 		
@@ -58,20 +61,28 @@ public class OpenWorkflowAction extends Action{
 		if(!(editorPart instanceof ModelEditor))
 			return;
 		
-		boolean flagTemplate = WorkflowOntModel.getInstance().existWorkflowTemplate(filePath);
-		boolean flagInstance= WorkflowOntModel.getInstance().existWorkflowInstance(filePath);
-		
 		Workflow workflow = null;
-		if(flagTemplate){
-			RDF2Template rdf2Template = new RDF2Template(filePath);
-			IWorkflowTemplate workflowTemplate = rdf2Template.parse();
-			workflow = ModelFactory.getInstance().createWorkflow(workflowTemplate);
+		if (filePath.endsWith(".xml")) {
+			XML2Instance xml2Instance = new XML2Instance();
+			IWorkflowInstance instance = xml2Instance.parse(new File(filePath));
+			workflow = ModelFactory.getInstance().createWorkflow(instance);
 		}
-		
-		if(!flagTemplate && flagInstance){
-			RDF2Instance rdf2Instance = new RDF2Instance();
-			IWorkflowInstance workflowInstance = rdf2Instance.parse(filePath);
-			workflow = ModelFactory.getInstance().createWorkflow(workflowInstance);
+		else if (filePath.endsWith(".rdf")) {
+			boolean flagTemplate = WorkflowOntModel.getInstance().existWorkflowTemplate(filePath);
+			boolean flagInstance= WorkflowOntModel.getInstance().existWorkflowInstance(filePath);
+			
+			
+			if(flagTemplate){
+				RDF2Template rdf2Template = new RDF2Template(filePath);
+				IWorkflowTemplate workflowTemplate = rdf2Template.parse();
+				workflow = ModelFactory.getInstance().createWorkflow(workflowTemplate);
+			}
+			
+			if(!flagTemplate && flagInstance){
+				RDF2Instance rdf2Instance = new RDF2Instance();
+				IWorkflowInstance workflowInstance = rdf2Instance.parse(filePath);
+				workflow = ModelFactory.getInstance().createWorkflow(workflowInstance);
+			}
 		}
 		
 		if (workflow == null) {

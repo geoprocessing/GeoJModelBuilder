@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:WorkflowTemplate
+	xmlns:ows="http://www.opengis.net/ows/2.0"
+	xmlns:wps="http://www.opengis.net/wps/2.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:wls="http://geos.whu.edu.cn/wls/1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/wps/2.0 ../../wps.xsd">
+	
+	<ows:Title>Water Extraction Workflow</ows:Title>
+	<ows:Identifier>http://geos.whu.edu.cn/workflow/template/water_extraction</ows:Identifier>
+	<!-- document -->
+	<ows:Metadata xlink:role="http://geos.whu.edu.cn/workflow/description/documentation" xlink:href="http://geos.whu.edu.cn/workflow/description/water_extraction.html"/>
+	
+	<wls:ProcessTemplate>
+		<ows:Title>Normalized Difference Vegetation Index (NDVI) calculation</ows:Title>
+		<ows:Identifier>http://geos.whu.edu.cn/process/template/NDVI</ows:Identifier>	
+		<!-- RNDVI calculation -->
+		<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/ndvi.html"/>
+	
+		<wps:Input>
+			<ows:Title>First Band</ows:Title>
+			<ows:Identifier>Band_1</ows:Identifier>
+			<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/ndvi.html#band_1"/>
+		</wps:Input>
+		<wps:Input>
+			<ows:Title>Second Band</ows:Title>
+			<ows:Identifier>Band_2</ows:Identifier>
+			<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/ndvi.html#band_2"/>
+		</wps:Input>
+		
+		<wps:Output>
+			<ows:Title>Image after NDVI calculation</ows:Title>
+			<ows:Identifier>NDVIProduct</ows:Identifier>
+			<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/ndvi.html#product"/>
+		</wps:Output>
+	</wls:ProcessTemplate>
+	
+	<wls:ProcessTemplate>
+		<ows:Title>Binarization</ows:Title>
+		<ows:Identifier>http://geos.whu.edu.cn/process/template/binarization</ows:Identifier>	
+		<!-- RNDVI calculation -->
+		<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/binarization.html"/>
+	
+		<wps:Input>
+			<ows:Title>Image</ows:Title>
+			<ows:Identifier>image</ows:Identifier>
+			<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/binarization.html#image"/>
+		</wps:Input>
+		
+		<wps:Output>
+			<ows:Title>Binaried image</ows:Title>
+			<ows:Identifier>binariedImage</ows:Identifier>
+			<ows:Metadata xlink:role="http://geos.whu.edu.cn/process/description/documentation" xlink:href="http://geos.whu.edu.cn/process/description/binarization.html#product"/>
+		</wps:Output>
+		
+		<wls:ProcessInstance ref=""/>
+	</wls:ProcessTemplate>
+	
+	<wls:Link sourceProcess ="http://geos.whu.edu.cn/workflow/template/water_extraction" 
+			  sourceVariable="NDVIProduct"
+			  targetProcess="http://geos.whu.edu.cn/process/template/binarization"
+			  targetVariable="image"/>
+			  
+	<wls:WorkflowInstance ref=""/>
+	
+</wls:WorkflowTemplate>

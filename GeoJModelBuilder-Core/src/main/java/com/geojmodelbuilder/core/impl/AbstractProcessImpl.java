@@ -130,4 +130,8 @@ public abstract class AbstractProcessImpl<I extends IExchange,O extends IExchang
 		
 		return null;
 	}
+	
+	public String getErrInfo(){
+		return "";
+	}
 }
