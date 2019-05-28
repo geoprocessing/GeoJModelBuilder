@@ -12,7 +12,9 @@
  */
 package org.geojmodelbuilder.xml;
 
-import com.geojmodelbuilder.core.template.examples.WaterExtraction;
+import com.geojmodelbuilder.core.template.examples.WaterExtractionAOI;
+import com.geojmodelbuilder.core.template.examples.WaterExtractionToVector;
+import com.geojmodelbuilder.core.template.impl.WorkflowTemplate;
 import com.geojmodelbuilder.xml.serialization.Template2XML;
 
 
@@ -22,9 +24,22 @@ import com.geojmodelbuilder.xml.serialization.Template2XML;
  */
 public class Template2XMLTest {
 	public static void main(String[] args){
-		WaterExtraction workflowPlan = new WaterExtraction();
+		/*WaterExtraction workflowPlan = new WaterExtraction();
 		Template2XML template2xml = new Template2XML(workflowPlan.getTemplateWorkflow());
 		template2xml.save("D:/Workspace/water_Extraction_workflow_template.xml");
+		
+		System.out.println(template2xml.xmlText());
+		System.out.println("success");*/
+		Template2XMLTest.run();
+	}
+	
+	
+	public static void run(){
+		//WorkflowTemplate template = WaterExtractionAOI.Template();
+		WorkflowTemplate template = WaterExtractionToVector.Template();
+		Template2XML template2xml = new Template2XML(template);
+//		template2xml.save("D:/Workspace/water_extraction_workflow_template_aoi.xml");
+		template2xml.save("D:/Workspace/water_extraction_workflow_vector.xml");
 		
 		System.out.println(template2xml.xmlText());
 		System.out.println("success");
