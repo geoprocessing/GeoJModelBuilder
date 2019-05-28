@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.LanguageStringType;
 import net.opengis.wps.x100.DataType;
 import net.opengis.wps.x100.ExecuteDocument;
 import net.opengis.wps.x100.ExecuteResponseDocument;
@@ -60,6 +61,7 @@ public class WPSProcess extends ProcessInstance {
 	 * The GetCapabilities request URL.
 	 */
 	private String wpsUrl;
+	private String title;
 	private ProcessDescriptionType processDescription;
 	private WPSClientSession wpsClient;
 
@@ -102,12 +104,26 @@ public class WPSProcess extends ProcessInstance {
 		getInputs().clear();
 		getOutputs().clear();
 		
+	     LanguageStringType strType = this.processDescription.getAbstract();
+	     if(strType!=null)
+	    	 this.setDescription(strType.getStringValue());
+	     
+	     strType = this.processDescription.getTitle();
+	     if(strType!=null)
+	    	 this.title = strType.getStringValue();
+		
 		DataInputs dataInputs = this.processDescription.getDataInputs();
 		InputDescriptionType[] inputDescriptionTypes = dataInputs
 				.getInputArray();
+		
+		
 		for (InputDescriptionType input : inputDescriptionTypes) {
 			InputParameter inputParameter = new InputParameter(this);
 			inputParameter.setName(input.getIdentifier().getStringValue().trim());
+			
+			LanguageStringType titleType = input.getTitle();
+			if(title !=null)
+				inputParameter.setDescription(titleType.getStringValue());
 			
 			Node node = input.getDomNode();
 			IData dataType;
@@ -161,6 +177,10 @@ public class WPSProcess extends ProcessInstance {
 		this.wpsUrl = url;
 	}
 
+     public String getTitle() {
+		return title;
+	}
+	
 	@Override
 	public boolean canExecute() {
 		if (this.wpsUrl == null || this.wpsUrl.equals("")) {
@@ -383,4 +403,5 @@ public class WPSProcess extends ProcessInstance {
 	public String getWPSUrl(){
 		return this.wpsUrl;
 	}
+	
 }

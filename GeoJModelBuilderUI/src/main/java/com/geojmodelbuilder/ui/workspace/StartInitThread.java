@@ -12,7 +12,6 @@
  */
 package com.geojmodelbuilder.ui.workspace;
 
-import org.geojmodelbuilder.semantic.ont.WorkflowOntModel;
 
 /**
  * @author Mingda Zhang
@@ -24,6 +23,6 @@ public class StartInitThread extends Thread {
 	@Override
 	public void run() {
 		super.run();
-		WorkflowOntModel.getInstance();
+		//WorkflowOntModel.getInstance();
 	}
 }

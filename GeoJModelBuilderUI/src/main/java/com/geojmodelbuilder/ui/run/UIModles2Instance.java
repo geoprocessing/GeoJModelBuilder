@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.geojmodelbuilder.core.ILink;
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
 import com.geojmodelbuilder.core.instance.IParameter;
 import com.geojmodelbuilder.core.instance.IProcessInstance;
@@ -159,8 +160,11 @@ public class UIModles2Instance {
 					IParameter  targetParameter = temporalParameterMap.get(dataFlow.getTargetExchange());
 					
 					DataFlowImpl newDataflow = new DataFlowImpl(sourceExec, sourceParameter,targetExec,targetParameter );
-					sourceExec.addLink(newDataflow);
-					targetExec.addLink(newDataflow);
+					if(!this.containDataflow(sourceExec.getLinks(),newDataflow))
+							sourceExec.addLink(newDataflow);
+					
+					if(!this.containDataflow(targetExec.getLinks(),newDataflow))
+							targetExec.addLink(newDataflow);
 				}
 			}
 			
@@ -169,6 +173,22 @@ public class UIModles2Instance {
 		return true;
 	}
 
+	public boolean containDataflow(List<ILink> links, DataFlowImpl dataflow ){
+		
+		for(ILink link :links){
+			if(!(link instanceof DataFlowImpl))
+				continue;
+			
+			DataFlowImpl existLink = (DataFlowImpl)link;
+			if(existLink.getSourceProcess() == dataflow.getSourceProcess() && 
+					existLink.getTargetProcess() == dataflow.getTargetProcess() && 
+					existLink.getTargetExchange() == dataflow.getTargetExchange() &&
+					existLink.getSourceExchange() == dataflow.getSourceExchange())
+				return true;
+		}
+		
+		return false;
+	}
 	public WorkflowInstance getExecutableWorkflow(){
 		if(this.workflowPlan == null)
 			transfer();

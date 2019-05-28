@@ -15,18 +15,21 @@ package org.geojmodelbuilder.xml;
 import java.io.File;
 
 import com.geojmodelbuilder.core.instance.IWorkflowInstance;
+import com.geojmodelbuilder.core.template.examples.WaterExtraction;
 import com.geojmodelbuilder.engine.impl.WorkflowExecutor;
 import com.geojmodelbuilder.engine.impl.WorkflowExecutor.ExecutorStatus;
 import com.geojmodelbuilder.xml.deserialization.XML2Instance;
+import com.geojmodelbuilder.xml.serialization.Provenance2XML;
+
 
 /**
  * @author Mingda Zhang
  *
  */
-public class XML2InstanceTest {
+public class Provenance2XMLTest2 {
 	public static void main(String[] args){
-		String path = "D:/Workspace/download.xml";
-//		String path = "D:/Workspace/water_Extraction_workflow_instance.xml";
+		//WaterExtraction workflowPlan = new WaterExtraction();
+		String path = "D:/Workspace/water_extraction_vector_instance.xml";
 		XML2Instance xml2Instance = new XML2Instance();
 		IWorkflowInstance workflowInstance = xml2Instance.parse(new File(path));
 		WorkflowExecutor executor2 = new WorkflowExecutor(workflowInstance);
@@ -35,15 +38,18 @@ public class XML2InstanceTest {
 		while (executor2.getStatus() == ExecutorStatus.RUNNING) {
 			//System.err.println(executor2.getStatus());
 			try {
+				System.out.println("running");
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 		}
+		Provenance2XML instance2xml = new Provenance2XML(executor2.getEngine().getWorkflowTrace(),workflowInstance);
 		
+		instance2xml.save("D:/Workspace/water_extraction_vector_provenance.xml");
 		
+		System.out.println(instance2xml.xmlText());
+		System.out.println("success");
 	}
 }

@@ -164,6 +164,11 @@ public class Instance2XML {
 		return document.xmlText(xmlOptions);
 	}
 	
+	public WorkflowInstanceDocument getWorkflowInstanceDocument(){
+		buildDoc();
+		return this.document;
+	}
+	
 	private boolean buildDoc(){
 		if(this.document !=null)
 			return true;

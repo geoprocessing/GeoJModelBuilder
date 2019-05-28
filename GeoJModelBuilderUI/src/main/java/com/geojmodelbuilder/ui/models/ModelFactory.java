@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geojmodelbuilder.semantic.deserialization.RDF2Template;
-
 import com.geojmodelbuilder.core.IDataFlow;
 import com.geojmodelbuilder.core.IExchange;
 import com.geojmodelbuilder.core.ILink;
@@ -368,6 +366,7 @@ public class ModelFactory {
 		metadataTar.setMimeType(metadataSrc.getMimeType());
 	}
 	
+	/*
 	public static void main(String[] args){
 		String templatePath = "E:/Workspace/opmw-g-v5/FloodAnalysisWorkflowTemplate.rdf";
 		List<String> instanceList = new ArrayList<String>();
@@ -378,4 +377,5 @@ public class ModelFactory {
 		Workflow workflow= ModelFactory.getInstance().createWorkflow(workflowTemplate);
 		System.out.println(workflow.getName());
 	}
+	*/
 }

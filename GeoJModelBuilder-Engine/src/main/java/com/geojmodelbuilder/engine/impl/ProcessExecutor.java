@@ -24,7 +24,10 @@ import com.geojmodelbuilder.core.IProcess;
 import com.geojmodelbuilder.core.data.IComplexData;
 import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.impl.Links;
+import com.geojmodelbuilder.core.instance.IInputParameter;
+import com.geojmodelbuilder.core.instance.IOutputParameter;
 import com.geojmodelbuilder.core.instance.IParameter;
+import com.geojmodelbuilder.core.instance.IProcessInstance;
 import com.geojmodelbuilder.core.provenance.IProcessProv;
 import com.geojmodelbuilder.core.provenance.impl.ProcessProv;
 import com.geojmodelbuilder.engine.IProcessEvent;
@@ -213,6 +216,17 @@ public class ProcessExecutor implements IListener, IPublisher,Runnable {
 		processTrace.setEndTime(endTime);
 		processTrace.setStatus(flag);
 		
+		//record the inputs and outputa
+		if(process instanceof IProcessInstance){
+			IProcessInstance processInstance = (IProcessInstance)process;
+			for(IInputParameter input:processInstance.getInputs()){
+				processTrace.addInput(input);
+			}
+			
+			for(IOutputParameter output:processInstance.getOutputs()){
+				processTrace.addOutput(output);
+			}
+		}
 		
 		if (flag) {
 			sendEvent(new ProcessEvent(EventType.Succeeded,processTrace));

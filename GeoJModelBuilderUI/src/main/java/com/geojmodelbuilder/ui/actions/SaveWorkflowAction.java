@@ -12,9 +12,6 @@
  */
 package com.geojmodelbuilder.ui.actions;
 
-import java.io.File;
-import java.util.List;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -22,12 +19,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.geojmodelbuilder.semantic.serialization.Instance2RDF;
-import org.geojmodelbuilder.semantic.serialization.Provenance2RDF;
-import org.geojmodelbuilder.semantic.serialization.Template2RDF;
 
 import com.geojmodelbuilder.core.instance.IWorkflowInstance;
-import com.geojmodelbuilder.core.provenance.IWorkflowProv;
 import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.ui.editors.ModelEditor;
 import com.geojmodelbuilder.ui.models.Workflow;
@@ -53,7 +46,8 @@ public class SaveWorkflowAction extends Action{
 		super.run();
 		
 		FileDialog dialog = new FileDialog(window.getShell(), SWT.SAVE);
-		dialog.setFilterExtensions(new String [] {"*.rdf"});
+//		dialog.setFilterExtensions(new String [] {"*.rdf"});
+		dialog.setFilterExtensions(new String [] {"*.xml"});
 		dialog.setFilterPath("c:/");
 		String filePath = dialog.open();
 		
@@ -74,10 +68,24 @@ public class SaveWorkflowAction extends Action{
 			mb.open();
 			return;
 		}
-		if (!filePath.endsWith(".rdf")) {
-			filePath += ".rdf";
+		if (!filePath.endsWith(".xml")) {
+			filePath += ".xml";
 		}
 		
+		UIModles2Instance uiModles2Instance = new UIModles2Instance(workflow);
+		IWorkflowInstance workflowInstance = uiModles2Instance.getExecutableWorkflow();
+		
+		if (workflowInstance==null) {
+			MessageBox mb = new MessageBox(window.getShell(), SWT.OK);
+			mb.setMessage("There is no workflow instance.");
+			mb.setText("Warning");
+			mb.open();
+			return;
+		}
+		
+		Instance2XML instance2xml = new Instance2XML(workflowInstance);
+		boolean flag = instance2xml.save(filePath);
+		/*
 		Template2RDF template2rdf = new Template2RDF(workflow, true);
 		boolean flag = template2rdf.save(filePath);
 		
@@ -119,9 +127,9 @@ public class SaveWorkflowAction extends Action{
 			String proFile = parentFile + File.separator + "Pro" + numExecution + "_" + filename;
 			provenance2rdf.save(proFile);
 		}
-		
+		*/
 		if(flag){
-			MessageDialog.openInformation(window.getShell(), "Successfully", "Saved 1 template, "+ numInstance +" instance, " + numExecution + " execution.");
+			MessageDialog.openInformation(window.getShell(), "Successfully", "Saved one instance.");
 		}else {
 			MessageDialog.openError(window.getShell(), "Message", "Failed to save the workflow.");
 		}

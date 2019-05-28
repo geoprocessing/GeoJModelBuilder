@@ -93,7 +93,7 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 	
 	@Override
 	protected Point getInitialSize() {
-		return new Point(400, 300);
+		return new Point(600, 500);
 	}
 	
 	@Override
@@ -173,6 +173,7 @@ public class WorkflowExecutionMonitorDialog extends Dialog implements IListener,
 		}
 	}
 	
+	@Override
 	protected boolean isResizable() {
 		return true;
 	}

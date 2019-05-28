@@ -27,6 +27,7 @@ public abstract class Parameter implements IParameter {
 	private IProcessInstance owner;
 	private String id;
 	private String namespace;
+	private String description;
 	
 	public Parameter(IProcessInstance owner){
 		this.owner = owner;
@@ -73,5 +74,11 @@ public abstract class Parameter implements IParameter {
 			this.namespace = INamespaceDefault.INSTANCE_ARTIFACT;
 		
 		return this.namespace;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

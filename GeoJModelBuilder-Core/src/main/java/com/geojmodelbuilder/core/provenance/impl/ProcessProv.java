@@ -34,9 +34,14 @@ public class ProcessProv extends ProcessInstance implements IProcessProv {
 	public ProcessProv(IProcess process){
 		super();
 		this.process = process;
-		this.setID(process.getName()+"Trace"+IDGenerator.dateID());
-		
+		if(this.id==null || this.id.equals(""))
+			this.setID(process.getName()+"Trace"+IDGenerator.dateID());
 	}
+	
+	public ProcessProv(){
+		super();
+	}
+	
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
@@ -61,6 +66,10 @@ public class ProcessProv extends ProcessInstance implements IProcessProv {
 		return this.status;
 	}
 	
+	public void setProcess(IProcess process){
+		this.process = process;
+	}
+	
 	public IProcess getProcess(){
 		return this.process;
 	}
@@ -79,6 +88,10 @@ public class ProcessProv extends ProcessInstance implements IProcessProv {
 		return this.id;
 	}
 	
+	public void setID(String id){
+		this.id = id;
+	}
+
 	@Override
 	public String getNamespace() {
 		if(ValidateUtil.isStrEmpty(this.namespace))
