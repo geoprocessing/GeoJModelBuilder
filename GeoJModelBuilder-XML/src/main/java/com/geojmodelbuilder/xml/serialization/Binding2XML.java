@@ -5,10 +5,10 @@ import java.io.IOException;
 
 import org.apache.xmlbeans.XmlOptions;
 
-import cn.edu.whu.geos.wls.x10.ProcessBindingType;
-import cn.edu.whu.geos.wls.x10.ResourceBindingType;
-import cn.edu.whu.geos.wls.x10.WorkflowBindingDocument;
-import cn.edu.whu.geos.wls.x10.WorkflowBindingType;
+import cn.edu.whu.geos.xpso.x10.ProcessBindingType;
+import cn.edu.whu.geos.xpso.x10.ResourceBindingType;
+import cn.edu.whu.geos.xpso.x10.WorkflowBindingDocument;
+import cn.edu.whu.geos.xpso.x10.WorkflowBindingType;
 
 import com.geojmodelbuilder.core.instance.IInputParameter;
 import com.geojmodelbuilder.core.instance.IOutputParameter;

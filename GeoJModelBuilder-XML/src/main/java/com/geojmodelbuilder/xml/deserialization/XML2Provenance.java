@@ -7,10 +7,10 @@ import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.XmlException;
 
-import cn.edu.whu.geos.wls.x10.ProcessExecType;
-import cn.edu.whu.geos.wls.x10.WorkflowExecInfoDocument;
-import cn.edu.whu.geos.wls.x10.WorkflowExecInfoType;
-import cn.edu.whu.geos.wls.x10.WorkflowExecType;
+import cn.edu.whu.geos.xpso.x10.ProcessExecType;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecInfoDocument;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecInfoType;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecType;
 
 import com.geojmodelbuilder.core.instance.impl.WorkflowInstance;
 import com.geojmodelbuilder.core.provenance.IWorkflowProv;

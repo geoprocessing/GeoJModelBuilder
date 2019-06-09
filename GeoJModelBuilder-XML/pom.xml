@@ -18,10 +18,10 @@
 		</dependency>
 		<dependency>
 			<groupId>geoprocessing</groupId>
-			<artifactId>wls</artifactId>
+			<artifactId>xpso</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/wls.jar</systemPath>
+			<systemPath>${project.basedir}/lib/xpso.jar</systemPath>
 		</dependency>
 		<dependency>
     		<groupId>org.apache.xmlbeans</groupId>

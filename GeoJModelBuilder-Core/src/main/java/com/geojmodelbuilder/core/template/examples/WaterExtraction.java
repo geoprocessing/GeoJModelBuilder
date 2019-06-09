@@ -35,12 +35,13 @@ public class WaterExtraction {
 	
 	private WorkflowTemplate workflowTemplate;
 	private WorkflowInstance workflowInstance;
+	private String base_url = "http://127.0.0.1:8080/";
 
 	private IProcessTemplate mapcalcProcess(String input1,String input2){
 		
 		//one candidate
 		WPSProcess mapcalcProcess = new WPSProcess("RasterMapcalcProcess");
-		mapcalcProcess.setWPSUrl("http://geos.whu.edu.cn:8080/wps10/WebProcessingService");
+		mapcalcProcess.setWPSUrl(base_url+"wps10/WebProcessingService");
 		
 		IInputParameter firstInput = mapcalcProcess.getInput("FirstInputData");
 		ReferenceData referenceData = new ReferenceData();
@@ -94,7 +95,7 @@ public class WaterExtraction {
 	
 	private void construct(){
 		//There are eight processes.
-		IProcessTemplate mapcalcProcess1 = mapcalcProcess("http://geos.whu.edu.cn:8080/datas/MOD09A1_20100619_band1.tif", "http://geos.whu.edu.cn:8080/datas/MOD09A1_20100619_band2.tif");
+		IProcessTemplate mapcalcProcess1 = mapcalcProcess(base_url+"datas/MOD09A1_20100619_band1.tif", base_url+"/datas/MOD09A1_20100619_band2.tif");
 		IProcessInstance mapcalcExec1 = mapcalcProcess1.getInstances().get(0);
 		
 		
@@ -132,7 +133,7 @@ public class WaterExtraction {
 		
 		//binary process instance
 		WPSProcess binaryProcess = new WPSProcess("RasterBinaryProcess");
-		binaryProcess.setWPSUrl("http://geos.whu.edu.cn:8080/wps10/WebProcessingService");
+		binaryProcess.setWPSUrl(base_url+"wps10/WebProcessingService");
 		
 		IInputParameter firstInput = binaryProcess.getInput("InputData");
 		ReferenceData referenceData = new ReferenceData();

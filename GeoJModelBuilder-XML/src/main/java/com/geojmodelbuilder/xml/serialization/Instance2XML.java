@@ -17,15 +17,14 @@ import net.opengis.wps.x20.ReferenceType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlOptions;
 
-import cn.edu.whu.geos.wls.x10.ExtendedLinkType;
-import cn.edu.whu.geos.wls.x10.ProcessInstanceDocument;
-import cn.edu.whu.geos.wls.x10.ProcessInstanceType;
-import cn.edu.whu.geos.wls.x10.ProcessInstanceType.ExecType;
-import cn.edu.whu.geos.wls.x10.WPSEnvDocument;
-import cn.edu.whu.geos.wls.x10.WPSEnvDocument.WPSEnv;
-import cn.edu.whu.geos.wls.x10.WPSEnvDocument.WPSEnv.Mode;
-import cn.edu.whu.geos.wls.x10.WorkflowInstanceDocument;
-import cn.edu.whu.geos.wls.x10.WorkflowInstanceType;
+import cn.edu.whu.geos.xpso.x10.FunctionLinkType;
+import cn.edu.whu.geos.xpso.x10.ProcessExecutionDocument;
+import cn.edu.whu.geos.xpso.x10.ProcessExecutionType;
+import cn.edu.whu.geos.xpso.x10.WPSEnvDocument;
+import cn.edu.whu.geos.xpso.x10.WPSEnvDocument.WPSEnv;
+import cn.edu.whu.geos.xpso.x10.WPSEnvDocument.WPSEnv.Mode;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecutionDocument;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecutionType;
 
 import com.geojmodelbuilder.core.IDataFlow;
 import com.geojmodelbuilder.core.IExchange;
@@ -49,15 +48,15 @@ public class Instance2XML {
 	
 	//save the WPS execution environments, key is GetCapabilities url
 	private Map<String, WPSEnvDocument> envDocMap = new HashMap<String, WPSEnvDocument>();
-	private WorkflowInstanceDocument document;
-	private Map<String, ProcessInstanceDocument> processDocMap = new HashMap<String, ProcessInstanceDocument>();
+	private WorkflowExecutionDocument document;
+	private Map<String, ProcessExecutionDocument> processDocMap = new HashMap<String, ProcessExecutionDocument>();
 	
 	@SuppressWarnings("rawtypes")
 	public Instance2XML(IWorkflowInstance workflowInstance){
 		this.workflowInstance = workflowInstance;
 		xmlOptions.setUseDefaultNamespace();
 		Map nsMap = new HashMap(); 
-		nsMap.put("http://geos.whu.edu.cn/wls/1.0","wls");
+		nsMap.put("http://geos.whu.edu.cn/xpso/1.0","xpso");
 		nsMap.put("http://www.opengis.net/wps/2.0","wps");
 		nsMap.put( "http://www.opengis.net/ows/2.0","ows");
 		nsMap.put("http://www.w3.org/1999/xlink","xlink");
@@ -66,20 +65,25 @@ public class Instance2XML {
 		xmlOptions.setSaveAggressiveNamespaces();
 	}
 	
-	private void addProcess(WorkflowInstanceType workflowInstanceType,WPSProcess wpsProcess){
-		ProcessInstanceType processType = workflowInstanceType.addNewProcessInstance();
-		processType.setExecType(ExecType.Enum.forString("OGC_WPS"));
+	private void addProcess(WorkflowExecutionType workflowInstanceType,WPSProcess wpsProcess){
+		ProcessExecutionType processType = workflowInstanceType.addNewProcessExecution();
 
 		String processid = wpsProcess.getID();
+		String processName = wpsProcess.getName();
+		
 		CodeType processIdType =  processType.addNewIdentifier();
 		if(ValidateUtil.isStrEmpty(processid))
 			processid = IDGenerator.uuid();
 			
-		processIdType.setStringValue(processid);
-		processType.setName(wpsProcess.getName());
+		processIdType.setStringValue(processName);
+		//processType.setIdentifier(wpsProcess.getName());
+		//rocessType.set
+		//ProcessExecutionDocument execDoc = ProcessExecutionDocument.Factory.newInstance();
+		processType.setId(processid);
 		
 		WPSEnvDocument wpsEnvDoc = this.getEnv(wpsProcess.getWPSUrl());
         processType.setExecEnv(wpsEnvDoc.getWPSEnv());
+        //wpsEnvDoc.getWPSEnv().setExecType("OGC_WPS");
         
         for(IInputParameter inputParam:wpsProcess.getInputs()){
         	this.addInput(processType, inputParam);
@@ -89,12 +93,12 @@ public class Instance2XML {
         	this.addOutput(processType, outputParam);
         }
         
-		ProcessInstanceDocument processDoc = ProcessInstanceDocument.Factory.newInstance();
-		processDoc.setProcessInstance(processType);
+		ProcessExecutionDocument processDoc = ProcessExecutionDocument.Factory.newInstance();
+		processDoc.setProcessExecution(processType);
 		this.processDocMap.put(processid, processDoc);
 	}
 	
-	private void addOutput(ProcessInstanceType processType, IOutputParameter outputParam)
+	private void addOutput(ProcessExecutionType processType, IOutputParameter outputParam)
 	{
 		OutputDefinitionType output = processType.addNewOutput();
         output.setId(outputParam.getName());
@@ -107,7 +111,7 @@ public class Instance2XML {
         	trass = "value";
         output.setTransmission(DataTransmissionModeType.Enum.forString(trass));
 	}
-	private void addInput(ProcessInstanceType processType, IInputParameter inputParam){
+	private void addInput(ProcessExecutionType processType, IInputParameter inputParam){
 		//ComplexData
         DataInputType input = processType.addNewInput();
         input.setId(inputParam.getName());
@@ -128,7 +132,7 @@ public class Instance2XML {
 		}
 	}
 	
-	public ProcessInstanceDocument getProcessDoc(String processId){
+	public ProcessExecutionDocument getProcessDoc(String processId){
 		buildDoc();
 		return this.processDocMap.get(processId);
 	}
@@ -138,11 +142,11 @@ public class Instance2XML {
 		return this.xmlOptions;
 	}
 	
-	private void addLink(ILink link, WorkflowInstanceType workflowInstance){
+	private void addLink(ILink link, WorkflowExecutionType workflowInstance){
 		if(!(link instanceof IDataFlow))
 			return;
 		
-		ExtendedLinkType linkType = workflowInstance.addNewLink();
+		FunctionLinkType linkType = workflowInstance.addNewLink();
 		IProcess srcProcess = link.getSourceProcess();
 		IProcess tarProcess = link.getTargetProcess();
 		IDataFlow dataflow = (IDataFlow)link;
@@ -164,7 +168,7 @@ public class Instance2XML {
 		return document.xmlText(xmlOptions);
 	}
 	
-	public WorkflowInstanceDocument getWorkflowInstanceDocument(){
+	public WorkflowExecutionDocument getWorkflowInstanceDocument(){
 		buildDoc();
 		return this.document;
 	}
@@ -173,8 +177,8 @@ public class Instance2XML {
 		if(this.document !=null)
 			return true;
 		
-		document = WorkflowInstanceDocument.Factory.newInstance();
-		WorkflowInstanceType workflowInstanceType = document.addNewWorkflowInstance();
+		document = WorkflowExecutionDocument.Factory.newInstance();
+		WorkflowExecutionType workflowInstanceType = document.addNewWorkflowExecution();
 		
 		//set the title
 		String title = this.workflowInstance.getName();
@@ -251,6 +255,7 @@ public class Instance2XML {
         wpsenv.setVersion("1.0.0");
         wpsenv.setMode(Mode.Enum.forString("sync"));
         wpsenv.setURL(url);
+        wpsenv.setExecType("OGC_WPS");
         
         this.envDocMap.put(url, wpsEnvDoc);
         

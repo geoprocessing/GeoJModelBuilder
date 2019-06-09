@@ -8,9 +8,9 @@ import net.opengis.wps.x20.GenericProcessType;
 
 import org.apache.xmlbeans.XmlException;
 
-import cn.edu.whu.geos.wls.x10.LinkType;
-import cn.edu.whu.geos.wls.x10.WorkflowTemplateDocument;
-import cn.edu.whu.geos.wls.x10.WorkflowTemplateType;
+import cn.edu.whu.geos.xpso.x10.LinkType;
+import cn.edu.whu.geos.xpso.x10.WorkflowTemplateDocument;
+import cn.edu.whu.geos.xpso.x10.WorkflowTemplateType;
 
 import com.geojmodelbuilder.core.impl.DataFlowImpl;
 import com.geojmodelbuilder.core.template.IInputPort;

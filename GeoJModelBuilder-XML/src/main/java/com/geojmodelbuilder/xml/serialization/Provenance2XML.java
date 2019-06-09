@@ -16,12 +16,12 @@ import org.w3.ns.prov.IDRef;
 import org.w3.ns.prov.Plan;
 import org.w3.ns.prov.Usage;
 
-import cn.edu.whu.geos.wls.x10.DatasetType;
-import cn.edu.whu.geos.wls.x10.ProcessExecType;
-import cn.edu.whu.geos.wls.x10.WorkflowExecInfoDocument;
-import cn.edu.whu.geos.wls.x10.WorkflowExecInfoType;
-import cn.edu.whu.geos.wls.x10.WorkflowExecType;
-import cn.edu.whu.geos.wls.x10.WorkflowInstanceDocument;
+import cn.edu.whu.geos.xpso.x10.DatasetType;
+import cn.edu.whu.geos.xpso.x10.ProcessExecType;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecInfoDocument;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecInfoType;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecType;
+import cn.edu.whu.geos.xpso.x10.WorkflowExecutionDocument;
 
 import com.geojmodelbuilder.core.IProcess;
 import com.geojmodelbuilder.core.data.IData;
@@ -177,8 +177,12 @@ public class Provenance2XML {
 		
 			
 			Instance2XML instance2xml = new Instance2XML(this.workflowInst);
-			WorkflowInstanceDocument workflowInstDoc = instance2xml.getWorkflowInstanceDocument();
-			execInfoType.setWorkflowInstance(workflowInstDoc.getWorkflowInstance());
+			WorkflowExecutionDocument workflowInstDoc = instance2xml.getWorkflowInstanceDocument();
+			instance2xml.getWorkflowInstanceDocument();
+			
+			// need to be modified
+			execInfoType.setWorkflowInstance(null);
+//			execInfoType.setworkf
 			
 			String workflowInstId = this.workflowInst.getID();
 			derivation.addNewUsedEntity().setRef(new QName(workflowInstId));

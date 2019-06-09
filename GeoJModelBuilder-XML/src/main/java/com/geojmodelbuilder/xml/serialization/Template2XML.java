@@ -15,9 +15,9 @@ import net.opengis.wps.x20.GenericProcessType;
 
 import org.apache.xmlbeans.XmlOptions;
 
-import cn.edu.whu.geos.wls.x10.LinkType;
-import cn.edu.whu.geos.wls.x10.WorkflowTemplateDocument;
-import cn.edu.whu.geos.wls.x10.WorkflowTemplateType;
+import cn.edu.whu.geos.xpso.x10.LinkType;
+import cn.edu.whu.geos.xpso.x10.WorkflowTemplateDocument;
+import cn.edu.whu.geos.xpso.x10.WorkflowTemplateType;
 
 import com.geojmodelbuilder.core.IDataFlow;
 import com.geojmodelbuilder.core.IExchange;

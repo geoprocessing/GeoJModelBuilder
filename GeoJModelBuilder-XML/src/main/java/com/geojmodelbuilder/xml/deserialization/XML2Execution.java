@@ -14,12 +14,10 @@ import cn.edu.whu.geos.xpso.x10.ExecEnvDocument;
 import cn.edu.whu.geos.xpso.x10.ExecEnvType;
 import cn.edu.whu.geos.xpso.x10.LinkType;
 import cn.edu.whu.geos.xpso.x10.ProcessExecutionType;
-import cn.edu.whu.geos.xpso.x10.ProcessInstanceType;
 import cn.edu.whu.geos.xpso.x10.WPSEnvDocument;
 import cn.edu.whu.geos.xpso.x10.WPSEnvDocument.WPSEnv;
 import cn.edu.whu.geos.xpso.x10.WorkflowExecutionDocument;
 import cn.edu.whu.geos.xpso.x10.WorkflowExecutionType;
-import cn.edu.whu.geos.xpso.x10.WorkflowInstanceDocument;
 
 import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.data.impl.ComplexData;
@@ -33,7 +31,7 @@ import com.geojmodelbuilder.core.instance.impl.OutputParameter;
 import com.geojmodelbuilder.core.instance.impl.WorkflowInstance;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 
-public class XML2Instance {
+public class XML2Execution {
 
 	private StringBuffer errInfo = new StringBuffer();
 
@@ -87,10 +85,7 @@ public class XML2Instance {
 
 			ExecEnvType execType = processInstanceType.getExecEnv();
 			// only support WPS
-			String execTypeStr = execType.getExecType();
-			if(execTypeStr==null || execTypeStr.equals(""))
-				continue;
-			if (!execTypeStr.equalsIgnoreCase("OGC_WPS"))
+			if (!execType.equals(execType.getExecType().equalsIgnoreCase("OGC_WPS")))
 				continue;
 
 			WPSProcess process = parseWPSProcess(processInstanceType);
@@ -153,16 +148,15 @@ public class XML2Instance {
 			return null;
 		}
 		WPSEnv wpsenv = envDoc.getWPSEnv();
-		//String name = processInstanceType.getIdentifier().getStringValue();
+		String name = processInstanceType.getTitleArray().toString();
 		// System.out.println("name is "+ name);
 		String identifier = processInstanceType.getIdentifier()
 				.getStringValue();
 		if(identifier!=null)
 			identifier = identifier.trim();
 
-		String id = processInstanceType.getId();
-		WPSProcess wpsProcess = new WPSProcess(identifier);
-		wpsProcess.setID(id);
+		WPSProcess wpsProcess = new WPSProcess(name);
+		wpsProcess.setID(identifier);
 		// the WPS address
 		// String url = wpsEnv.getURL();
 		wpsProcess.setWPSUrl(wpsenv.getURL().trim());
