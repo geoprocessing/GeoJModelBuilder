@@ -7,7 +7,16 @@ import java.util.UUID;
 
 import javax.xml.namespace.QName;
 
+
+
+
+
+
+import net.opengis.wps.x20.DataDocument.Data;
+import net.opengis.wps.x20.ReferenceType;
+
 import org.apache.xmlbeans.XmlAnySimpleType;
+import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.w3.ns.prov.Association;
 import org.w3.ns.prov.Derivation;
@@ -25,11 +34,13 @@ import cn.edu.whu.geos.xpso.x10.WorkflowExecutionDocument;
 
 import com.geojmodelbuilder.core.IProcess;
 import com.geojmodelbuilder.core.data.IData;
+import com.geojmodelbuilder.core.data.IReferenceData;
 import com.geojmodelbuilder.core.instance.IInputParameter;
 import com.geojmodelbuilder.core.instance.IOutputParameter;
 import com.geojmodelbuilder.core.instance.IWorkflowInstance;
 import com.geojmodelbuilder.core.provenance.IProcessProv;
 import com.geojmodelbuilder.core.provenance.IWorkflowProv;
+import com.geojmodelbuilder.core.utils.ValidateUtil;
 import com.geojmodelbuilder.xml.util.UtilFactory;
 
 public class Provenance2XML {
@@ -120,10 +131,27 @@ public class Provenance2XML {
 				String dataid = processId+"#"+inputName;
 				
 				DatasetType datasetType = execInfoType.addNewDataset();
-				XmlAnySimpleType simpleType = datasetType.addNewValue();
+				
+				//XmlAnySimpleType simpleType = datasetType.addNewValue();
 				datasetType.setId(new QName(dataid));
 				
-				simpleType.setStringValue(value.toString());
+				//simpleType.setStringValue(value.toString());
+				//add spatial data
+				if(data instanceof IReferenceData)
+				{
+					IReferenceData refData = (IReferenceData)data;
+					ReferenceType referenceType = datasetType.addNewReference();
+					referenceType.setHref(value.toString());
+					referenceType.setMimeType(refData.getMimeType());
+					referenceType.setEncoding(refData.getEncoding());
+				}else {
+				    Data newData = datasetType.addNewData();
+				    //newData.set
+				    XmlObject dataObj = XmlObject.Factory.newValue(value.toString());
+				    newData.set(dataObj);
+				}
+				
+				
 				IDRef entityRef = usage.addNewEntity();
 				entityRef.setRef(new QName(dataid));
 				usage.addNewRole().setStringValue(inputName);
@@ -148,9 +176,29 @@ public class Provenance2XML {
 				String dataid = processId+"#"+outputName;
 				
 				DatasetType datasetType = execInfoType.addNewDataset();
-				XmlAnySimpleType simpleType = datasetType.addNewValue();
+				//XmlAnySimpleType simpleType = datasetType.addNewValue();
 				datasetType.setId(new QName(dataid));
-				simpleType.setStringValue(value.toString());
+				//simpleType.setStringValue(value.toString());
+				
+				
+				if(data instanceof IReferenceData)
+				{
+					IReferenceData refData = (IReferenceData)data;
+					ReferenceType referenceType = datasetType.addNewReference();
+					referenceType.setHref(value.toString());
+					String tmpValue = refData.getMimeType();
+					if(!ValidateUtil.isStrEmpty(tmpValue))
+						referenceType.setMimeType(tmpValue);
+					tmpValue = refData.getEncoding();
+					if(!ValidateUtil.isStrEmpty(tmpValue))
+						referenceType.setEncoding(tmpValue);
+				}else {
+				    Data newData = datasetType.addNewData();
+				    //newData.set
+				    XmlObject dataObj = XmlObject.Factory.newValue(value.toString());
+				    newData.set(dataObj);
+				}
+				
 				
 				IDRef activityRef = generation.addNewActivity();
 				activityRef.setRef(new QName(processId));

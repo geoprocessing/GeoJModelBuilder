@@ -25,7 +25,7 @@ import com.geojmodelbuilder.core.utils.ValidateUtil;
  *
  */
 public abstract class AbstractProcessImpl<I extends IExchange,O extends IExchange> implements IProcess{
-	protected String id,name,namespace,description;
+	protected String id,name,namespace,description,title;
 	private List<I> inputs;
 	private List<O> outputs;
 	private List<ILink> links;

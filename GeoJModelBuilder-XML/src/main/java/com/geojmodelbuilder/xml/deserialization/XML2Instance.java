@@ -14,12 +14,10 @@ import cn.edu.whu.geos.xpso.x10.ExecEnvDocument;
 import cn.edu.whu.geos.xpso.x10.ExecEnvType;
 import cn.edu.whu.geos.xpso.x10.LinkType;
 import cn.edu.whu.geos.xpso.x10.ProcessExecutionType;
-import cn.edu.whu.geos.xpso.x10.ProcessInstanceType;
 import cn.edu.whu.geos.xpso.x10.WPSEnvDocument;
 import cn.edu.whu.geos.xpso.x10.WPSEnvDocument.WPSEnv;
 import cn.edu.whu.geos.xpso.x10.WorkflowExecutionDocument;
 import cn.edu.whu.geos.xpso.x10.WorkflowExecutionType;
-import cn.edu.whu.geos.xpso.x10.WorkflowInstanceDocument;
 
 import com.geojmodelbuilder.core.data.IData;
 import com.geojmodelbuilder.core.data.impl.ComplexData;

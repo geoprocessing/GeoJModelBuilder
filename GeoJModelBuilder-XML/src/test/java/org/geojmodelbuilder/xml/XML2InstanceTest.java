@@ -26,7 +26,8 @@ import com.geojmodelbuilder.xml.deserialization.XML2Instance;
 public class XML2InstanceTest {
 	public static void main(String[] args){
 //		String path = "D:/Workspace/download.xml";
-		String path = "D:/Workspace/water_Extraction_workflow_instance.xml";
+		String path = "D:/Workspace/water_extraction_vector_instance.xml";
+//		String path = "D:/Workspace/water_Extraction_workflow_instance.xml";
 		XML2Instance xml2Instance = new XML2Instance();
 		IWorkflowInstance workflowInstance = xml2Instance.parse(new File(path));
 		WorkflowExecutor executor2 = new WorkflowExecutor(workflowInstance);

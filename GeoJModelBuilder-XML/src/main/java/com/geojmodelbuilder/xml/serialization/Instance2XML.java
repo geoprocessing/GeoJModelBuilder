@@ -40,6 +40,7 @@ import com.geojmodelbuilder.core.instance.IWorkflowInstance;
 import com.geojmodelbuilder.core.resource.ogc.wps.WPSProcess;
 import com.geojmodelbuilder.core.utils.IDGenerator;
 import com.geojmodelbuilder.core.utils.ValidateUtil;
+import com.geojmodelbuilder.xml.util.UtilFactory;
 
 public class Instance2XML {
 	
@@ -51,16 +52,15 @@ public class Instance2XML {
 	private WorkflowExecutionDocument document;
 	private Map<String, ProcessExecutionDocument> processDocMap = new HashMap<String, ProcessExecutionDocument>();
 	
-	@SuppressWarnings("rawtypes")
 	public Instance2XML(IWorkflowInstance workflowInstance){
 		this.workflowInstance = workflowInstance;
 		xmlOptions.setUseDefaultNamespace();
-		Map nsMap = new HashMap(); 
+		/*Map nsMap = new HashMap(); 
 		nsMap.put("http://geos.whu.edu.cn/xpso/1.0","xpso");
 		nsMap.put("http://www.opengis.net/wps/2.0","wps");
 		nsMap.put( "http://www.opengis.net/ows/2.0","ows");
-		nsMap.put("http://www.w3.org/1999/xlink","xlink");
-		xmlOptions.setSaveSuggestedPrefixes(nsMap);
+		nsMap.put("http://www.w3.org/1999/xlink","xlink");*/
+		xmlOptions.setSaveSuggestedPrefixes(UtilFactory.NSMap());
 		xmlOptions.setSavePrettyPrint();
 		xmlOptions.setSaveAggressiveNamespaces();
 	}
